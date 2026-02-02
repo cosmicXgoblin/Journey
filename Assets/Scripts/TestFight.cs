@@ -59,8 +59,11 @@ public class TestFight : MonoBehaviour
         playerAttackButton.SetActive(false);
         currentGameState = GameState.noFight;
     }
-    private void Update()
+
+    void Update()
     {
+        Debug.Log("Update");
+
         if (currentGameState == GameState.fight)
         {
             CheckTurn(playerTurn, round);
@@ -149,8 +152,12 @@ public class TestFight : MonoBehaviour
 
     public void OnClickStartFight()
     {
+        Debug.Log("Fight started");
+
         currentGameState = GameState.fight;
         round = 0;
+
+        Debug.Log(currentGameState.ToString());
 
         coinflipNumber1 = Random.Range(0, 100);
         oddOrEvenNumber = coinflipNumber1 % 2;
@@ -174,13 +181,15 @@ public class TestFight : MonoBehaviour
 
         whichRoundText.text = round.ToString();
     }
-   
+
     private void OddOrEven(int oddOrEvenNumber)
     {
         if (oddOrEvenNumber == 0)
         {
             playerTurn = true;
             playerTurnDone = false;
+
+            Debug.Log("The coinflip was odd.");
         }
 
         else
@@ -188,6 +197,8 @@ public class TestFight : MonoBehaviour
             playerTurn = false;
             playerTurnDone = true;
             playerFirst = false;
+
+            Debug.Log("The coinflip was even.");
         }
     }
 
