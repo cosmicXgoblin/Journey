@@ -33,46 +33,6 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    //public void GetMovementDirection()
-    //{
-    //    if (movementInput.x < 0)
-    //    {
-    //        if (movementInput.y > 0)
-    //        {
-    //            direction = new Vector3(-0.5f, 0.5f);
-    //        }
-    //        else if (movementInput.y < 0)
-    //        {
-    //            direction = new Vector3(-0.5f, -0.5f);
-    //        }
-    //        else
-    //        {
-    //            direction = new Vector3(-1, 0, 0);
-    //        }
-
-    //        transform.position += direction;
-    //        //UpdateFogOfWar();
-    //    }
-    //    else if (movementInput.x > 0)
-    //    {
-    //        if (movementInput.y > 0)
-    //        {
-    //            direction = new Vector3(0.5f, 0.5f);
-    //        }
-    //        else if (movementInput.y < 0)
-    //        {
-    //            direction = new Vector3(0.5f, -0.5f);
-    //        }
-    //        else
-    //        {
-    //            direction = new Vector3(1, 0, 0);
-    //        }
-
-    //        transform.position += direction;
-    //        //UpdateFogOfWar(); 
-    //    }
-    //}
-
     public void GetMovementDirection()
     {
         // input y == -1 && x == 0

@@ -7,6 +7,9 @@ using System.Security.Cryptography;
 
 public class TestFight : MonoBehaviour
 {
+    [Header("Manager")]
+    [SerializeField] GameObject UiManager;
+
     [Header("Enemy")]
     public ScriptableObject currentEnemy;
     public TextMeshProUGUI enemyName;
@@ -62,10 +65,9 @@ public class TestFight : MonoBehaviour
         {
             CheckTurn(playerTurn, round);
             UpdateUI();
+
+            Debug.Log(currentGameState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
         }
-
-
-        Debug.Log(currentGameState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
     }
     #endregion
 
@@ -138,6 +140,11 @@ public class TestFight : MonoBehaviour
     public void OnClickRestart()
     {
         Restart();
+    }
+
+    public void OnClickBackToMap()
+    {
+        UiManager.GetComponent<TestUiManager>().CallBackToMap();
     }
 
     public void OnClickStartFight()
