@@ -6,7 +6,7 @@ public class Map_EnemyEvent : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("OnCollisionEnter2D");
+        Debug.Log("OnTriggerEnter2D");
 
         if (col.gameObject.tag == "Player")
         {
