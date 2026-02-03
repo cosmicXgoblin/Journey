@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class Map_EnemyEvent : MonoBehaviour
 {
-    [SerializeField] private GameObject UiManager;
+    [SerializeField] private GameObject uiManager;
+    [SerializeField] private GameObject gameManager;
+
+    [Header("Database")]
+    public Enemy enemy;
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("OnTriggerEnter2D");
-
         if (col.gameObject.tag == "Player")
         {
-            //If the GameObject has the same tag as specified, output this message in the console
-            Debug.Log("Do something else here");
-
-            UiManager.GetComponent<TestUiManager>().Fight();
+            uiManager.GetComponent<TestUiManager>().Fight();
+            gameManager.GetComponent<TestFight>().OnClickStartFight(enemy);
         }
     }
 }

@@ -1,10 +1,21 @@
 using UnityEngine;
+using UnityEngine.U2D.Animation;
+using UnityEngine.UI;
 
 public class TestUiManager : MonoBehaviour
 {
     [SerializeField] private GameObject testFight;
     [SerializeField] private GameObject testChooseCharacter;
     [SerializeField] private GameObject testMap;
+
+    [SerializeField] private GameObject gameManager;
+
+    [Header("Characterselection")]
+    [SerializeField] private Button Fighter;
+    [SerializeField] private Button Thief;
+    [SerializeField] private Button Sorcerer;
+
+
 
     void Start()
     {

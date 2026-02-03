@@ -5,6 +5,7 @@ public class Enemy : ScriptableObject
 {
     public int id = -1;
     public string enemyName;
+    public Sprite enemySprite;
 
     [Range(0, 10)]
     public int fight;

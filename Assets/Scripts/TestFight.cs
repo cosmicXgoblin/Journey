@@ -12,6 +12,7 @@ public class TestFight : MonoBehaviour
 
     [Header("Enemy")]
     public ScriptableObject currentEnemy;
+    public Image enemyImage;
     public TextMeshProUGUI enemyName;
     public TextMeshProUGUI enemyAttackText;
     private int enemyAttack;
@@ -20,6 +21,7 @@ public class TestFight : MonoBehaviour
 
     [Header("Player")]
     public ScriptableObject currentClass;
+    public Image classImage;
     public TextMeshProUGUI className;
     public TextMeshProUGUI classAttackText;
     private int classAttack;
@@ -42,9 +44,8 @@ public class TestFight : MonoBehaviour
     public GameObject playerAttackButton;
 
     [Header("Fight")]
-    GameState gameState;
     GameState currentGameState;
-    int round;
+    [SerializeField] private int round = -1;
     int coinflipNumber1;
     int oddOrEvenNumber;
     bool playerTurn;
@@ -58,16 +59,15 @@ public class TestFight : MonoBehaviour
     {
         playerAttackButton.SetActive(false);
         currentGameState = GameState.noFight;
+        OnClickUpdate();
     }
 
     void Update()
     {
-        Debug.Log("Update");
-
         if (currentGameState == GameState.fight)
         {
-            CheckTurn(playerTurn, round);
-            UpdateUI();
+            CheckTurn(playerTurn);
+            //UpdateUI();
 
             Debug.Log(currentGameState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
         }
@@ -81,12 +81,14 @@ public class TestFight : MonoBehaviour
 
         className.text = currentClass.name;
         enemyName.text = currentEnemy.name;
+        
 
         if (currentEnemy != null)
         {
             if (currentEnemy == rat)
             {
                 enemyAttackText.text = rat.attack.ToString();
+                enemyImage.sprite = rat.enemySprite;
                 enemyAttack = rat.attack;
                 enemyHitPointsText.text = rat.hitPoints.ToString();
                 enemyHitPoints = rat.hitPoints;
@@ -95,6 +97,7 @@ public class TestFight : MonoBehaviour
             if (currentEnemy == rat1)
             {
                 enemyAttackText.text = rat1.attack.ToString();
+                enemyImage.sprite = rat1.enemySprite;
                 enemyAttack = rat1.attack;
                 enemyHitPointsText.text = rat1.hitPoints.ToString();
                 enemyHitPoints = rat1.hitPoints;
@@ -103,6 +106,7 @@ public class TestFight : MonoBehaviour
             if (currentEnemy == rat2)
             {
                 enemyAttackText.text = rat2.attack.ToString();
+                enemyImage.sprite = rat2.enemySprite;
                 enemyAttack = rat2.attack;
                 enemyHitPointsText.text = rat2.hitPoints.ToString();
                 enemyHitPoints = rat2.hitPoints;
@@ -114,6 +118,7 @@ public class TestFight : MonoBehaviour
             if (currentClass == fighter)
             {
                 classAttackText.text = fighter.attack.ToString();
+                classImage.sprite = fighter.classSprite;
                 classAttack = fighter.attack;
                 classHitPointsText.text = fighter.hitPoints.ToString();
                 classHitPoints = fighter.hitPoints;
@@ -122,6 +127,7 @@ public class TestFight : MonoBehaviour
             if (currentClass == thief)
             {
                 classAttackText.text = thief.attack.ToString();
+                classImage.sprite = thief.classSprite;
                 classAttack = thief.attack;
                 classHitPointsText.text = thief.hitPoints.ToString();
                 classHitPoints = thief.hitPoints;
@@ -130,6 +136,7 @@ public class TestFight : MonoBehaviour
             if (currentClass == sorcerer)
             {
                 classAttackText.text = sorcerer.attack.ToString();
+                classImage.sprite = thief.classSprite;
                 classAttack = sorcerer.attack;
                 classHitPointsText.text = sorcerer.hitPoints.ToString();
                 classHitPoints = sorcerer.hitPoints;
@@ -150,12 +157,15 @@ public class TestFight : MonoBehaviour
         UiManager.GetComponent<TestUiManager>().CallBackToMap();
     }
 
-    public void OnClickStartFight()
+    // also not onClick anymore. #to-do
+    public void OnClickStartFight(ScriptableObject enemy)
     {
         Debug.Log("Fight started");
 
         currentGameState = GameState.fight;
-        round = 0;
+
+        currentEnemy = enemy;
+        OnClickUpdate();
 
         Debug.Log(currentGameState.ToString());
 
@@ -202,10 +212,8 @@ public class TestFight : MonoBehaviour
         }
     }
 
-    private void CheckTurn(bool playerTurn, int round)
+    private void CheckTurn(bool playerTurn)
     {
-        //if (!playerFirst && enemyTurnDone && )
-
         if (playerTurn & !playerTurnDone)
         {
             playerAttackButton.SetActive(true);
@@ -226,8 +234,7 @@ public class TestFight : MonoBehaviour
 
             if (playerFirst) playerTurn = true;
             else playerTurn = false;
-        }      
-
+        }     
     }
     
     private void RollTheDice()
@@ -272,7 +279,6 @@ public class TestFight : MonoBehaviour
 
         if (diceroll + classAttackModifier >= enemyAttack)
         {
-
             enemyHitPoints = enemyHitPoints - 1;
             Debug.Log("enemyHitPoints " + enemyHitPoints);
             fightText.text = "You hit the enemy with " + diceroll + " " + classAttackModifier + ".";
