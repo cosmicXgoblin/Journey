@@ -15,6 +15,9 @@ MonoBehaviour:
   id: -1
   className: Thief
   classSprite: {fileID: 21300000, guid: 73c172b115e0dec49a9de8dc1a4355fd, type: 3}
+  classSpriteRound: {fileID: -3731558670861287178, guid: 0bd470ad181110d42ab648c906643376, type: 3}
+  classMapfigure_Base: {fileID: 21300000, guid: 3dab145944d14d54e8458a6083f993b6, type: 3}
+  classMapfigure_noBase: {fileID: 21300000, guid: 5185624fdcb850e48ad795fb036a55a2, type: 3}
   fight: 0
   thinking: 0
   speed: 1

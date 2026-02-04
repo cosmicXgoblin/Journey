@@ -12,6 +12,8 @@ public class TestChooseCharacter : MonoBehaviour
     private ScriptableObject currentClass;
     private ScriptableObject currentEnemy;
 
+    [SerializeField] private GameObject uiManager;
+
     private void Awake()
     {
         //fighterSelected = false;
@@ -20,20 +22,25 @@ public class TestChooseCharacter : MonoBehaviour
 
         //currentClass = GetComponent<TestFight>().currentClass;
         //currentEnemy = GetComponent<TestFight>().currentEnemy;
+
     }
 
+    // make this one
     public void OnClickFighterChosen()
     {
         GetComponent<TestFight>().currentClass = GetComponent<TestFight>().fighter;
+        uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("fighter");
     }
 
     public void OnClickThiefChosen()
     {
         GetComponent<TestFight>().currentClass = GetComponent<TestFight>().thief;
+        uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("thief");
     }
 
     public void OnClickSorcererChosen()
     {
         GetComponent<TestFight>().currentClass = GetComponent<TestFight>().sorcerer;
+        uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("sorcerer");
     }
 }

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 public class TestFight : MonoBehaviour
 {
     [Header("Manager")]
-    [SerializeField] GameObject UiManager;
+    [SerializeField] GameObject uiManager;
 
     [Header("Enemy")]
     public ScriptableObject currentEnemy;
@@ -54,12 +54,15 @@ public class TestFight : MonoBehaviour
     bool enemyTurnDone;
     bool playerFirst;
 
+    //[SerializeField] private Slider healthBar;
+    //[SerializeField] private Slider manaBar;
+
     #region init
     private void Awake()
     {
         playerAttackButton.SetActive(false);
         currentGameState = GameState.noFight;
-        OnClickUpdate();
+        InitFightUpdate();
     }
 
     void Update()
@@ -71,17 +74,62 @@ public class TestFight : MonoBehaviour
 
             Debug.Log(currentGameState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
         }
+
+        uiManager.GetComponent<TestUiManager>().UpdateUI();
     }
     #endregion
 
     #region OnClick
-    public void OnClickUpdate()
+    public void OnClickRestart()
+    {
+        Restart();
+    }
+
+    public void OnClickBackToMap()
+    {
+        uiManager.GetComponent<TestUiManager>().CallBackToMap();
+    }
+
+    public void OnClickPlayerAttack()
+    {
+        PlayerAttack();
+    }
+
+    #endregion
+
+    #region Fight
+
+    public void InitStartFight(ScriptableObject enemy)
+    {
+        Debug.Log("Fight started");
+
+        currentGameState = GameState.fight;
+
+        currentEnemy = enemy;
+        InitFightUpdate();
+
+        Debug.Log(currentGameState.ToString());
+
+        coinflipNumber1 = Random.Range(0, 100);
+        oddOrEvenNumber = coinflipNumber1 % 2;
+
+        OddOrEven(oddOrEvenNumber);
+    }
+    
+    private void UpdateUI()
+    {
+        enemyHitPointsText.text = enemyHitPoints.ToString();
+        classHitPointsText.text = classHitPoints.ToString();
+
+        whichRoundText.text = round.ToString();
+    }
+
+    public void InitFightUpdate()
     {
         if (currentEnemy == null || currentClass == null) return;
 
         className.text = currentClass.name;
         enemyName.text = currentEnemy.name;
-        
 
         if (currentEnemy != null)
         {
@@ -93,7 +141,6 @@ public class TestFight : MonoBehaviour
                 enemyHitPointsText.text = rat.hitPoints.ToString();
                 enemyHitPoints = rat.hitPoints;
             }
-
             if (currentEnemy == rat1)
             {
                 enemyAttackText.text = rat1.attack.ToString();
@@ -102,7 +149,6 @@ public class TestFight : MonoBehaviour
                 enemyHitPointsText.text = rat1.hitPoints.ToString();
                 enemyHitPoints = rat1.hitPoints;
             }
-
             if (currentEnemy == rat2)
             {
                 enemyAttackText.text = rat2.attack.ToString();
@@ -145,51 +191,6 @@ public class TestFight : MonoBehaviour
 
             classAttackModifierText.text = classAttackModifier.ToString();
         }
-    }
-    
-    public void OnClickRestart()
-    {
-        Restart();
-    }
-
-    public void OnClickBackToMap()
-    {
-        UiManager.GetComponent<TestUiManager>().CallBackToMap();
-    }
-
-    // also not onClick anymore. #to-do
-    public void OnClickStartFight(ScriptableObject enemy)
-    {
-        Debug.Log("Fight started");
-
-        currentGameState = GameState.fight;
-
-        currentEnemy = enemy;
-        OnClickUpdate();
-
-        Debug.Log(currentGameState.ToString());
-
-        coinflipNumber1 = Random.Range(0, 100);
-        oddOrEvenNumber = coinflipNumber1 % 2;
-
-        OddOrEven(oddOrEvenNumber);
-    }
-
-    public void OnClickPlayerAttack()
-    {
-        PlayerAttack();
-    }
-
-    #endregion
-
-    #region Fight
-     
-    private void UpdateUI()
-    {
-        enemyHitPointsText.text = enemyHitPoints.ToString();
-        classHitPointsText.text = classHitPoints.ToString();
-
-        whichRoundText.text = round.ToString();
     }
 
     private void OddOrEven(int oddOrEvenNumber)
@@ -298,18 +299,6 @@ public class TestFight : MonoBehaviour
         playerTurnDone = true;
     }
 
-    private IEnumerator WaitEnemy(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        EnemyAttackPart2();
-    }
-
-    private IEnumerator WaitRestart(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Restart();
-    }
-
     private void CheckConditions()
     {
         UpdateUI();
@@ -320,7 +309,7 @@ public class TestFight : MonoBehaviour
             whichRoundText.text = "-";
 
             fightText.text = "You killed the enemy. Good for you.";
-            StartCoroutine(WaitRestart(5f));
+            StartCoroutine(WaitAdventure(5f));
         }
         if (classHitPoints <= 0)
         {
@@ -328,7 +317,7 @@ public class TestFight : MonoBehaviour
             whichRoundText.text = "-";
 
             fightText.text = "The enemy wounded you badly. Are you dying?";
-            StartCoroutine(WaitRestart(3f));
+            StartCoroutine(WaitAdventure(0.5f));
         }
     }
 
@@ -354,8 +343,25 @@ public class TestFight : MonoBehaviour
 
         //UpdateUI();
     }
+    private IEnumerator WaitEnemy(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        EnemyAttackPart2();
+    }
+
+    private IEnumerator WaitAdventure(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Waiting for adventure");
+        uiManager.GetComponent<TestUiManager>().CallBackToMap();
+    }
 
     #endregion
+
+    public void Heal()
+    {
+        Debug.Log("Your soul is healed. Your body not. Maybe the first one was a lie, sorry.");
+    }
 }
 
 enum GameState

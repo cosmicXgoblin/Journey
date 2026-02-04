@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5672b9fa295f534418659e27ff789907
+guid: dbc841b4f6737684e978dda9b7ed90ed
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6314677961967649708
-    second: Mapfigure_Fighter_withoutBase_0
+      213: -5249165419803310916
+    second: Mapfigure_Sorcerer_withoutBase_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mapfigure_Fighter_withoutBase_0
+      name: Mapfigure_Sorcerer_withoutBase_0
       rect:
         serializedVersion: 2
-        x: 281
-        y: 65
-        width: 1015
-        height: 1148
+        x: 218
+        y: 300
+        width: 861
+        height: 817
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 45c3ee5a9d1cd58a0800000000000000
-      internalID: -6314677961967649708
+      spriteID: cb40c59acd73727b0800000000000000
+      internalID: -5249165419803310916
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mapfigure_Fighter_withoutBase_0: -6314677961967649708
+      Mapfigure_Sorcerer_withoutBase_0: -5249165419803310916
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

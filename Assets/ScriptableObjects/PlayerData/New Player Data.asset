@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c7452ddb632b4942838bc14e428672d, type: 3}
-  m_Name: Fighter
+  m_Script: {fileID: 11500000, guid: a90e8097eb595df4c85af36e8b970de0, type: 3}
+  m_Name: New Player Data
   m_EditorClassIdentifier: 
   id: -1
-  className: Fighter
+  className: Fighter (1)
   classSprite: {fileID: 21300000, guid: 5af87cb3a09905445948fa3b1bfaab83, type: 3}
   classSpriteRound: {fileID: 6632194667769921426, guid: 83daac5c8299d22438b9f8e5db028214, type: 3}
-  classMapfigure_Base: {fileID: 21300000, guid: c51577ac1241f5a45814d529272a60a5, type: 3}
-  classMapfigure_noBase: {fileID: 21300000, guid: 5672b9fa295f534418659e27ff789907, type: 3}
+  mapFigure: {fileID: 21300000, guid: c51577ac1241f5a45814d529272a60a5, type: 3}
   fight: 4
   thinking: 0
   speed: 2
@@ -26,3 +25,10 @@ MonoBehaviour:
   charme: 0
   attack: 8
   hitPoints: 5
+  currenthitPoints: 0
+  Item1: {fileID: 0}
+  Item2: {fileID: 0}
+  Item3: {fileID: 0}
+  Item4: {fileID: 0}
+  Item5: {fileID: 0}
+  lastLocation: {fileID: 0}

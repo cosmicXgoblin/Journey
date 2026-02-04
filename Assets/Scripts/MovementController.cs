@@ -13,7 +13,7 @@ public class MovementController : MonoBehaviour
     //[SerializeField] private float halfTileWidth;
     //[SerializeField] private float halfTileLength;
 
-    public Tilemap fogOfWar;
+    //public Tilemap fogOfWar;
 
     [SerializeField] bool hasMoved;
 
@@ -98,5 +98,4 @@ public class MovementController : MonoBehaviour
     //        }
     //    }
     //}
-
 }

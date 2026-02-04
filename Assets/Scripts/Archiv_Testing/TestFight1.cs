@@ -70,7 +70,7 @@
 //    #endregion
 
 //    #region OnClick
-//    public void OnClickUpdate()
+//    public void InitFightUpdate()
 //    {
 //        if (currentEnemy == null || currentClass == null) return;
 
@@ -140,7 +140,7 @@
 //        Restart();
 //    }
 
-//    public void OnClickStartFight()
+//    public void InitStartFight()
 //    {
 //        currentGameState = GameState.fight;
 //        round = 0;
