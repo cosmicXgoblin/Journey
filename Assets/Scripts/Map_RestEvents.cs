@@ -9,7 +9,7 @@ public class Map_RestEvents : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            Debug.Log("You arrived at a rest point.");
+            gameManager.GetComponent<GameManager>().Heal();
         }
     }
 }

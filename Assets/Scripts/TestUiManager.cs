@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Device;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class TestUiManager : MonoBehaviour
     [SerializeField] private GameObject testFight;
     [SerializeField] private GameObject testChooseCharacter;
     [SerializeField] private GameObject testMap;
+    [SerializeField] private GameObject screenUi;
 
     [SerializeField] private GameObject gameManager;
 
@@ -23,6 +25,7 @@ public class TestUiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI className;
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider manaBar;
+    [SerializeField] private GameObject manaBarObject;
 
     [SerializeField] private Sprite classMapfigur;
 
@@ -30,6 +33,7 @@ public class TestUiManager : MonoBehaviour
     {
         testFight.SetActive(false);
         testMap.SetActive(false);
+        screenUi.SetActive(true);                       // ScreenUi and characterPanel need to be in this order!
         characterPanel.SetActive(false);
         testChooseCharacter.SetActive(true);
     }
@@ -52,39 +56,37 @@ public class TestUiManager : MonoBehaviour
     {
         if (selectedClass == "fighter")
         {
-            classImage.sprite = gameManager.GetComponent<TestFight>().fighter.classSpriteRound;
-            classMapfigur = gameManager.GetComponent<TestFight>().fighter.classMapfigure_Base;
-            className.text = gameManager.GetComponent<TestFight>().fighter.className;
-            healthBar.value = gameManager.GetComponent<TestFight>().fighter.hitPoints;
-            manaBar.value = 0;
-
-            playerMapfigure.GetComponent<SpriteRenderer>().sprite = classMapfigur;
-        }
-
-        if (selectedClass == "sorcerer")
-        {
-            classImage.sprite = gameManager.GetComponent<TestFight>().sorcerer.classSpriteRound;
-            classMapfigur = gameManager.GetComponent<TestFight>().sorcerer.classMapfigure_Base;
-            className.text = gameManager.GetComponent<TestFight>().sorcerer.className;
-            healthBar.value = gameManager.GetComponent<TestFight>().sorcerer.hitPoints;
-            manaBar.value = 100;
+            classImage.sprite = gameManager.GetComponent<GameManager>().fighter.classSpriteRound;
+            classMapfigur = gameManager.GetComponent<GameManager>().fighter.classMapfigure_Base;
+            className.text = gameManager.GetComponent<GameManager>().fighter.className;
+            healthBar.value = gameManager.GetComponent<GameManager>().fighter.hitPoints;
+            manaBarObject.SetActive(false);
 
             playerMapfigure.GetComponent<SpriteRenderer>().sprite = classMapfigur;
         }
 
         if (selectedClass == "thief")
         {
-            classImage.sprite = gameManager.GetComponent<TestFight>().thief.classSpriteRound;
-            classMapfigur = gameManager.GetComponent<TestFight>().thief.classMapfigure_Base;
-            className.text = gameManager.GetComponent<TestFight>().thief.className;
-            healthBar.value = gameManager.GetComponent<TestFight>().thief.hitPoints;
-            manaBar.value = 0;
+            classImage.sprite = gameManager.GetComponent<GameManager>().thief.classSpriteRound;
+            classMapfigur = gameManager.GetComponent<GameManager>().thief.classMapfigure_Base;
+            className.text = gameManager.GetComponent<GameManager>().thief.className;
+            healthBar.value = gameManager.GetComponent<GameManager>().thief.hitPoints;
+            manaBarObject.SetActive(false);
 
             playerMapfigure.GetComponent<SpriteRenderer>().sprite = classMapfigur;
         }
 
-    }
+        if (selectedClass == "sorcerer")
+        {
+            classImage.sprite = gameManager.GetComponent<GameManager>().sorcerer.classSpriteRound;
+            classMapfigur = gameManager.GetComponent<GameManager>().sorcerer.classMapfigure_Base;
+            className.text = gameManager.GetComponent<GameManager>().sorcerer.className;
+            healthBar.value = gameManager.GetComponent<GameManager>().sorcerer.hitPoints;
+            manaBar.value = 100;
 
+            playerMapfigure.GetComponent<SpriteRenderer>().sprite = classMapfigur;
+        }
+    }
 
     public void Fight()
     {
@@ -102,7 +104,6 @@ public class TestUiManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        //healthBar.value = 0;
-        //manaBar.value = 0;
+       // gameManager.GetComponent<GameManger>().playerData
     }
 }

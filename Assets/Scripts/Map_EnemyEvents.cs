@@ -13,7 +13,7 @@ public class Map_EnemyEvent : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             uiManager.GetComponent<TestUiManager>().Fight();
-            gameManager.GetComponent<TestFight>().InitStartFight(enemy);
+            gameManager.GetComponent<GameManager>().InitStartFight(enemy);
             Destroy(this.gameObject);
         }
     }

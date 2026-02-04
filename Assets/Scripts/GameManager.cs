@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using System.Security.Cryptography;
 
-public class TestFight : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [Header("Manager")]
     [SerializeField] GameObject uiManager;
@@ -20,7 +20,7 @@ public class TestFight : MonoBehaviour
     private int enemyHitPoints;
 
     [Header("Player")]
-    public ScriptableObject currentClass;
+    public Class currentClass;
     public Image classImage;
     public TextMeshProUGUI className;
     public TextMeshProUGUI classAttackText;
@@ -53,6 +53,11 @@ public class TestFight : MonoBehaviour
     bool playerTurnDone;
     bool enemyTurnDone;
     bool playerFirst;
+
+    [Header("PlayerData")]
+    [SerializeField] private PlayerData _playerData;
+
+     public PlayerData playerData => _playerData;
 
     //[SerializeField] private Slider healthBar;
     //[SerializeField] private Slider manaBar;
@@ -95,6 +100,45 @@ public class TestFight : MonoBehaviour
         PlayerAttack();
     }
 
+
+    public void SetCurrentClass(string selectedClass)
+    {
+        if (selectedClass == "fighter") currentClass = fighter;
+        if (selectedClass == "thief") currentClass = thief;
+        if (selectedClass == "sorcerer") currentClass = sorcerer;
+    }
+        //{
+        //    //GetComponent<GameManager>().currentClass = GetComponent<GameManager>().fighter;
+        //    //uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("fighter");
+        //    CallSetPlayerData("fighter"); ;
+        
+
+    public void SetPlayerData()
+    {
+        // var currentPlayerData = Instantiate(_playerData);
+        _playerData.className = currentClass.className;
+        _playerData.classSprite = currentClass.classSprite;
+        _playerData.classSpriteRound = currentClass.classSpriteRound;
+        _playerData.mapFigure_Base = currentClass.classMapfigure_Base;
+        _playerData.mapFigure_noBase = currentClass.classMapfigure_noBase;
+        _playerData.fight = currentClass.fight;
+        _playerData.thinking = currentClass.thinking;
+        _playerData.speed = currentClass.speed;
+        _playerData.observing = currentClass.observing;
+        _playerData.dexterity = currentClass.dexterity;
+        _playerData.charme = currentClass.charme;
+        _playerData.attack = currentClass.attack;
+        _playerData.hitPoints = currentClass.hitPoints;
+        _playerData.currenthitPoints = _playerData.hitPoints;
+      //this are later for loading / saving, just as a reminder
+        // currentPlayerData.currenthitPoints;
+        // currentPlayerData.Item1
+        // currentPlayerData.Item2
+        // currentPlayerData.Item3
+        // currentPlayerData.Item4
+        // currentPlayerData.Item5
+        // currentPlayerData.lastLocation
+    }
     #endregion
 
     #region Fight
