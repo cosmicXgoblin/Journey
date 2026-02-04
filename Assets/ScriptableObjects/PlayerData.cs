@@ -1,14 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Create new Class")]
-public class Class : ScriptableObject
+[CreateAssetMenu(menuName = "Create new PlayerData")]
+public class PlayerData : ScriptableObject
 {
+    // wip
+
     public int id = -1;
     public string className;
     public Sprite classSprite;
     public Sprite classSpriteRound;
-    public Sprite classMapfigure_Base;
-    public Sprite classMapfigure_noBase;
+    public Sprite mapFigure_Base;
+    public Sprite mapFigure_noBase;
 
     [Range(0, 10)]
     public int fight;
@@ -30,4 +32,19 @@ public class Class : ScriptableObject
 
     public int attack;
     public int hitPoints;
+    public int currenthitPoints;
+
+    public Item Item1;
+    public Item Item2;
+    public Item Item3;
+    public Item Item4;
+    public Item Item5;
+
+    public Transform lastLocation;
+
+    /* 
+     public GameObject lastCamp;
+     
+    */
+
 }

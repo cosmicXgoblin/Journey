@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Potion of Strength
   m_EditorClassIdentifier: 
   id: -1
-  itemName: Potion of Healing
+  itemName: Potion of Strength
+  itemSprite: {fileID: 0}
   type: 2
   rarity: 2
   description: You're now the strongest strong ever stronged.

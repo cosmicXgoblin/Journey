@@ -5,13 +5,14 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using System.Security.Cryptography;
 
-public class TestFight : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [Header("Manager")]
-    [SerializeField] GameObject UiManager;
+    [SerializeField] GameObject uiManager;
 
     [Header("Enemy")]
     public ScriptableObject currentEnemy;
+    public Image enemyImage;
     public TextMeshProUGUI enemyName;
     public TextMeshProUGUI enemyAttackText;
     private int enemyAttack;
@@ -19,7 +20,8 @@ public class TestFight : MonoBehaviour
     private int enemyHitPoints;
 
     [Header("Player")]
-    public ScriptableObject currentClass;
+    public Class currentClass;
+    public Image classImage;
     public TextMeshProUGUI className;
     public TextMeshProUGUI classAttackText;
     private int classAttack;
@@ -42,9 +44,8 @@ public class TestFight : MonoBehaviour
     public GameObject playerAttackButton;
 
     [Header("Fight")]
-    GameState gameState;
     GameState currentGameState;
-    int round;
+    [SerializeField] private int round = -1;
     int coinflipNumber1;
     int oddOrEvenNumber;
     bool playerTurn;
@@ -53,26 +54,121 @@ public class TestFight : MonoBehaviour
     bool enemyTurnDone;
     bool playerFirst;
 
+    [Header("PlayerData")]
+    [SerializeField] private PlayerData _playerData;
+
+     public PlayerData playerData => _playerData;
+
+    //[SerializeField] private Slider healthBar;
+    //[SerializeField] private Slider manaBar;
+
     #region init
     private void Awake()
     {
         playerAttackButton.SetActive(false);
         currentGameState = GameState.noFight;
+        InitFightUpdate();
     }
-    private void Update()
+
+    void Update()
     {
         if (currentGameState == GameState.fight)
         {
-            CheckTurn(playerTurn, round);
-            UpdateUI();
+            CheckTurn(playerTurn);
+            //UpdateUI();
 
             Debug.Log(currentGameState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
         }
+
+        uiManager.GetComponent<TestUiManager>().UpdateUI();
     }
     #endregion
 
     #region OnClick
-    public void OnClickUpdate()
+    public void OnClickRestart()
+    {
+        Restart();
+    }
+
+    public void OnClickBackToMap()
+    {
+        uiManager.GetComponent<TestUiManager>().CallBackToMap();
+    }
+
+    public void OnClickPlayerAttack()
+    {
+        PlayerAttack();
+    }
+
+
+    public void SetCurrentClass(string selectedClass)
+    {
+        if (selectedClass == "fighter") currentClass = fighter;
+        if (selectedClass == "thief") currentClass = thief;
+        if (selectedClass == "sorcerer") currentClass = sorcerer;
+    }
+        //{
+        //    //GetComponent<GameManager>().currentClass = GetComponent<GameManager>().fighter;
+        //    //uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("fighter");
+        //    CallSetPlayerData("fighter"); ;
+        
+
+    public void SetPlayerData()
+    {
+        // var currentPlayerData = Instantiate(_playerData);
+        _playerData.className = currentClass.className;
+        _playerData.classSprite = currentClass.classSprite;
+        _playerData.classSpriteRound = currentClass.classSpriteRound;
+        _playerData.mapFigure_Base = currentClass.classMapfigure_Base;
+        _playerData.mapFigure_noBase = currentClass.classMapfigure_noBase;
+        _playerData.fight = currentClass.fight;
+        _playerData.thinking = currentClass.thinking;
+        _playerData.speed = currentClass.speed;
+        _playerData.observing = currentClass.observing;
+        _playerData.dexterity = currentClass.dexterity;
+        _playerData.charme = currentClass.charme;
+        _playerData.attack = currentClass.attack;
+        _playerData.hitPoints = currentClass.hitPoints;
+        _playerData.currenthitPoints = _playerData.hitPoints;
+      //this are later for loading / saving, just as a reminder
+        // currentPlayerData.currenthitPoints;
+        // currentPlayerData.Item1
+        // currentPlayerData.Item2
+        // currentPlayerData.Item3
+        // currentPlayerData.Item4
+        // currentPlayerData.Item5
+        // currentPlayerData.lastLocation
+    }
+    #endregion
+
+    #region Fight
+
+    public void InitStartFight(ScriptableObject enemy)
+    {
+        Debug.Log("Fight started");
+
+        currentGameState = GameState.fight;
+
+        currentEnemy = enemy;
+        InitFightUpdate();
+
+        Debug.Log(currentGameState.ToString());
+
+        coinflipNumber1 = Random.Range(0, 100);
+        oddOrEvenNumber = coinflipNumber1 % 2;
+
+        OddOrEven(oddOrEvenNumber);
+    }
+    
+    private void UpdateUI()
+    {
+        enemyHitPointsText.text = enemyHitPoints.ToString();
+        classHitPointsText.text = classHitPoints.ToString();
+
+        whichRoundText.text = round.ToString();
+    }
+
+    public void InitFightUpdate()
     {
         if (currentEnemy == null || currentClass == null) return;
 
@@ -84,22 +180,23 @@ public class TestFight : MonoBehaviour
             if (currentEnemy == rat)
             {
                 enemyAttackText.text = rat.attack.ToString();
+                enemyImage.sprite = rat.enemySprite;
                 enemyAttack = rat.attack;
                 enemyHitPointsText.text = rat.hitPoints.ToString();
                 enemyHitPoints = rat.hitPoints;
             }
-
             if (currentEnemy == rat1)
             {
                 enemyAttackText.text = rat1.attack.ToString();
+                enemyImage.sprite = rat1.enemySprite;
                 enemyAttack = rat1.attack;
                 enemyHitPointsText.text = rat1.hitPoints.ToString();
                 enemyHitPoints = rat1.hitPoints;
             }
-
             if (currentEnemy == rat2)
             {
                 enemyAttackText.text = rat2.attack.ToString();
+                enemyImage.sprite = rat2.enemySprite;
                 enemyAttack = rat2.attack;
                 enemyHitPointsText.text = rat2.hitPoints.ToString();
                 enemyHitPoints = rat2.hitPoints;
@@ -111,6 +208,7 @@ public class TestFight : MonoBehaviour
             if (currentClass == fighter)
             {
                 classAttackText.text = fighter.attack.ToString();
+                classImage.sprite = fighter.classSprite;
                 classAttack = fighter.attack;
                 classHitPointsText.text = fighter.hitPoints.ToString();
                 classHitPoints = fighter.hitPoints;
@@ -119,6 +217,7 @@ public class TestFight : MonoBehaviour
             if (currentClass == thief)
             {
                 classAttackText.text = thief.attack.ToString();
+                classImage.sprite = thief.classSprite;
                 classAttack = thief.attack;
                 classHitPointsText.text = thief.hitPoints.ToString();
                 classHitPoints = thief.hitPoints;
@@ -127,6 +226,7 @@ public class TestFight : MonoBehaviour
             if (currentClass == sorcerer)
             {
                 classAttackText.text = sorcerer.attack.ToString();
+                classImage.sprite = thief.classSprite;
                 classAttack = sorcerer.attack;
                 classHitPointsText.text = sorcerer.hitPoints.ToString();
                 classHitPoints = sorcerer.hitPoints;
@@ -136,51 +236,15 @@ public class TestFight : MonoBehaviour
             classAttackModifierText.text = classAttackModifier.ToString();
         }
     }
-    
-    public void OnClickRestart()
-    {
-        Restart();
-    }
 
-    public void OnClickBackToMap()
-    {
-        UiManager.GetComponent<TestUiManager>().CallBackToMap();
-    }
-
-    public void OnClickStartFight()
-    {
-        currentGameState = GameState.fight;
-        round = 0;
-
-        coinflipNumber1 = Random.Range(0, 100);
-        oddOrEvenNumber = coinflipNumber1 % 2;
-
-        OddOrEven(oddOrEvenNumber);
-    }
-
-    public void OnClickPlayerAttack()
-    {
-        PlayerAttack();
-    }
-
-    #endregion
-
-    #region Fight
-     
-    private void UpdateUI()
-    {
-        enemyHitPointsText.text = enemyHitPoints.ToString();
-        classHitPointsText.text = classHitPoints.ToString();
-
-        whichRoundText.text = round.ToString();
-    }
-   
     private void OddOrEven(int oddOrEvenNumber)
     {
         if (oddOrEvenNumber == 0)
         {
             playerTurn = true;
             playerTurnDone = false;
+
+            Debug.Log("The coinflip was odd.");
         }
 
         else
@@ -188,13 +252,13 @@ public class TestFight : MonoBehaviour
             playerTurn = false;
             playerTurnDone = true;
             playerFirst = false;
+
+            Debug.Log("The coinflip was even.");
         }
     }
 
-    private void CheckTurn(bool playerTurn, int round)
+    private void CheckTurn(bool playerTurn)
     {
-        //if (!playerFirst && enemyTurnDone && )
-
         if (playerTurn & !playerTurnDone)
         {
             playerAttackButton.SetActive(true);
@@ -215,8 +279,7 @@ public class TestFight : MonoBehaviour
 
             if (playerFirst) playerTurn = true;
             else playerTurn = false;
-        }      
-
+        }     
     }
     
     private void RollTheDice()
@@ -261,7 +324,6 @@ public class TestFight : MonoBehaviour
 
         if (diceroll + classAttackModifier >= enemyAttack)
         {
-
             enemyHitPoints = enemyHitPoints - 1;
             Debug.Log("enemyHitPoints " + enemyHitPoints);
             fightText.text = "You hit the enemy with " + diceroll + " " + classAttackModifier + ".";
@@ -281,18 +343,6 @@ public class TestFight : MonoBehaviour
         playerTurnDone = true;
     }
 
-    private IEnumerator WaitEnemy(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        EnemyAttackPart2();
-    }
-
-    private IEnumerator WaitRestart(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Restart();
-    }
-
     private void CheckConditions()
     {
         UpdateUI();
@@ -303,7 +353,7 @@ public class TestFight : MonoBehaviour
             whichRoundText.text = "-";
 
             fightText.text = "You killed the enemy. Good for you.";
-            StartCoroutine(WaitRestart(5f));
+            StartCoroutine(WaitAdventure(5f));
         }
         if (classHitPoints <= 0)
         {
@@ -311,7 +361,7 @@ public class TestFight : MonoBehaviour
             whichRoundText.text = "-";
 
             fightText.text = "The enemy wounded you badly. Are you dying?";
-            StartCoroutine(WaitRestart(3f));
+            StartCoroutine(WaitAdventure(0.5f));
         }
     }
 
@@ -337,8 +387,25 @@ public class TestFight : MonoBehaviour
 
         //UpdateUI();
     }
+    private IEnumerator WaitEnemy(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        EnemyAttackPart2();
+    }
+
+    private IEnumerator WaitAdventure(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Waiting for adventure");
+        uiManager.GetComponent<TestUiManager>().CallBackToMap();
+    }
 
     #endregion
+
+    public void Heal()
+    {
+        Debug.Log("Your soul is healed. Your body not. Maybe the first one was a lie, sorry.");
+    }
 }
 
 enum GameState

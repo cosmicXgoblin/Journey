@@ -13,7 +13,7 @@ public class MovementController : MonoBehaviour
     //[SerializeField] private float halfTileWidth;
     //[SerializeField] private float halfTileLength;
 
-    public Tilemap fogOfWar;
+    //public Tilemap fogOfWar;
 
     [SerializeField] bool hasMoved;
 
@@ -35,15 +35,6 @@ public class MovementController : MonoBehaviour
 
     public void GetMovementDirection()
     {
-        // input y == -1 && x == 0
-        // runter
-
-        // input y == -1 && x == 1
-        // schräg rechts runter
-
-        // input y == -1 && x == -1
-        // schräg links runter
-
         if (movementInput.y < 0)
         {
             if (movementInput.x > 0)
@@ -62,14 +53,6 @@ public class MovementController : MonoBehaviour
             transform.position += direction;
             //UpdateFogOfWar();
         }
-        // input y == 1 && x == 0
-        // hoch
-
-        // input y == 1 && x == -1
-        // schräg rechts hoch
-
-        // input y == 1 && x == 1
-        // schräg links hoch
         else if (movementInput.y > 0)
         {
             if (movementInput.x > 0)
@@ -102,18 +85,17 @@ public class MovementController : MonoBehaviour
 
     public int vision = 1;
 
-    void UpdateFogOfWar()
-    {
-        Vector3Int currentPlayerTile = fogOfWar.WorldToCell(transform.position);
+    //void UpdateFogOfWar()
+    //{
+    //    Vector3Int currentPlayerTile = fogOfWar.WorldToCell(transform.position);
 
-        //clear the surrounding tiles
-        for(int x=-vision; x<= vision; x++)
-        {
-            for(int y=-vision; y<= vision; y++)
-            {
-                fogOfWar.SetTile(currentPlayerTile + new Vector3Int(x, y, 0), null);
-            }
-        }
-    }
-
+    //    //clear the surrounding tiles
+    //    for(int x=-vision; x<= vision; x++)
+    //    {
+    //        for(int y=-vision; y<= vision; y++)
+    //        {
+    //            fogOfWar.SetTile(currentPlayerTile + new Vector3Int(x, y, 0), null);
+    //        }
+    //    }
+    //}
 }

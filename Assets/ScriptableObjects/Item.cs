@@ -5,6 +5,7 @@ public class Item : ScriptableObject
 {
     public int id = -1;
     public string itemName;
+    public Sprite itemSprite;
     public ItemType type;
     public ItemRarity rarity;
 
