@@ -4,11 +4,12 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using System.Security.Cryptography;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Manager")]
-    [SerializeField] GameObject uiManager;
+    [SerializeField] private GameObject _uiManager;
 
     [Header("Enemy")]
     public ScriptableObject currentEnemy;
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerAttackButton;
 
     [Header("Fight")]
-    GameState currentGameState;
+    BattleState currentGameState;
     [SerializeField] private int round = -1;
     int coinflipNumber1;
     int oddOrEvenNumber;
@@ -57,22 +58,26 @@ public class GameManager : MonoBehaviour
     [Header("PlayerData")]
     [SerializeField] private PlayerData _playerData;
 
+
+
      public PlayerData playerData => _playerData;
 
-    //[SerializeField] private Slider healthBar;
-    //[SerializeField] private Slider manaBar;
+    //[SerializeField] private Slider _healthBar;
+    //[SerializeField] private Slider _manaBar;
 
     #region init
     private void Awake()
     {
         playerAttackButton.SetActive(false);
-        currentGameState = GameState.noFight;
+        currentGameState = BattleState.noFight;
         InitFightUpdate();
+
+        //Player.Enable();
     }
 
     void Update()
     {
-        if (currentGameState == GameState.fight)
+        if (currentGameState == BattleState.fight)
         {
             CheckTurn(playerTurn);
             //UpdateUI();
@@ -80,7 +85,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(currentGameState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
         }
 
-        uiManager.GetComponent<TestUiManager>().UpdateUI();
+        _uiManager.GetComponent<TestUiManager>().UpdateUI();
     }
     #endregion
 
@@ -92,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClickBackToMap()
     {
-        uiManager.GetComponent<TestUiManager>().CallBackToMap();
+        _uiManager.GetComponent<TestUiManager>().CallBackToMap();
     }
 
     public void OnClickPlayerAttack()
@@ -108,9 +113,9 @@ public class GameManager : MonoBehaviour
         if (selectedClass == "sorcerer") currentClass = sorcerer;
     }
         //{
-        //    //GetComponent<GameManager>().currentClass = GetComponent<GameManager>().fighter;
-        //    //uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("fighter");
-        //    CallSetPlayerData("fighter"); ;
+        //    //GetComponent<GameManager>().currentClass = GetComponent<GameManager>()._fighterButton;
+        //    //_uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("_fighterButton");
+        //    CallSetPlayerData("_fighterButton"); ;
         
 
     public void SetPlayerData()
@@ -147,7 +152,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Fight started");
 
-        currentGameState = GameState.fight;
+        currentGameState = BattleState.fight;
 
         currentEnemy = enemy;
         InitFightUpdate();
@@ -349,7 +354,7 @@ public class GameManager : MonoBehaviour
 
         if (enemyHitPoints <= 0)
         {
-            currentGameState = GameState.fightFinished;
+            currentGameState = BattleState.fightFinished;
             whichRoundText.text = "-";
 
             fightText.text = "You killed the enemy. Good for you.";
@@ -357,7 +362,7 @@ public class GameManager : MonoBehaviour
         }
         if (classHitPoints <= 0)
         {
-            currentGameState = GameState.fightFinished;
+            currentGameState = BattleState.fightFinished;
             whichRoundText.text = "-";
 
             fightText.text = "The enemy wounded you badly. Are you dying?";
@@ -367,7 +372,7 @@ public class GameManager : MonoBehaviour
 
     private void Restart()
     {
-        currentGameState = GameState.noFight;
+        currentGameState = BattleState.noFight;
 
         currentClass = null;
         currentEnemy = null;
@@ -397,7 +402,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         Debug.Log("Waiting for adventure");
-        uiManager.GetComponent<TestUiManager>().CallBackToMap();
+        _uiManager.GetComponent<TestUiManager>().CallBackToMap();
     }
 
     #endregion
@@ -406,11 +411,21 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Your soul is healed. Your body not. Maybe the first one was a lie, sorry.");
     }
+
+
+
 }
 
-enum GameState
+enum BattleState
 {
     fight,
     noFight,
     fightFinished
+}
+
+enum GameState
+{
+    onMap,
+    inBattle,
+    paused
 }

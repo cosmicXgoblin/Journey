@@ -3,19 +3,51 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.InputSystem;
 using UnityEditor;
+using TMPro;
 
-public class MovementController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject _uiManager;
+
     [SerializeField] private Vector2 movementInput;
     [SerializeField] private Vector3 direction;
 
-    //[SerializeField] private float fullTile;
-    //[SerializeField] private float halfTileWidth;
-    //[SerializeField] private float halfTileLength;
+    private PlayerInput _playerInput;
+    public InputActionMap playerMap;
+    public InputActionMap uiMap;
+
 
     //public Tilemap fogOfWar;
 
     [SerializeField] bool hasMoved;
+
+    #region init
+    private void Awake()
+    {
+        // setting up the PlayerInput
+        _playerInput = GetComponent<PlayerInput>();
+        playerMap = _playerInput.actions.FindActionMap("Player");
+        uiMap = _playerInput.actions.FindActionMap("UI");
+    }
+
+    private void OnPause()
+    {
+        _uiManager.GetComponent<TestUiManager>().CallPause();
+
+        Debug.Log("Pause was triggered");
+    }
+
+    private void OnEnable()
+    {
+        playerMap.Enable();
+        uiMap.Disable();
+    }
+
+    private void OnDisable()
+    {
+        playerMap.Disable();
+        uiMap.Enable();
+    }
 
     void Update()
     {
@@ -33,6 +65,9 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Movement
     public void GetMovementDirection()
     {
         if (movementInput.y < 0)
@@ -83,7 +118,9 @@ public class MovementController : MonoBehaviour
         
     }
 
-    public int vision = 1;
+    #endregion
+
+    //public int vision = 1;
 
     //void UpdateFogOfWar()
     //{
@@ -98,4 +135,11 @@ public class MovementController : MonoBehaviour
     //        }
     //    }
     //}
+
+    #region Pausemenü
+
+
+    #endregion
+
+
 }

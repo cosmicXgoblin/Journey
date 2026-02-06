@@ -17,7 +17,7 @@
 
 //    [Header("Player")]
 //    public ScriptableObject currentClass;
-//    public TextMeshProUGUI className;
+//    public TextMeshProUGUI _className;
 //    public TextMeshProUGUI classAttackText;
 //    private int classAttack;
 //    public TextMeshProUGUI classHitPointsText;
@@ -29,9 +29,9 @@
 //    public Enemy rat;
 //    public Enemy rat1;
 //    public Enemy rat2;
-//    public Class fighter;
-//    public Class thief;
-//    public Class sorcerer;
+//    public Class _fighterButton;
+//    public Class _thiefButton;
+//    public Class _sorcererButton;
 
 //    [Header("UI")]
 //    public TextMeshProUGUI fightText;
@@ -39,8 +39,8 @@
 //    public GameObject playerAttackButton;
 
 //    [Header("Fight")]
-//    GameState gameState;
-//    GameState currentGameState;
+//    BattleState gameState;
+//    BattleState currentGameState;
 //    int round;
 //    int coinflipNumber1;
 //    int oddOrEvenNumber;
@@ -54,11 +54,11 @@
 //    private void Awake()
 //    {
 //        playerAttackButton.SetActive(false);
-//        currentGameState = GameState.noFight;
+//        currentGameState = BattleState.noFight;
 //    }
 //    private void Update()
 //    {
-//        if (currentGameState == GameState.fight)
+//        if (currentGameState == BattleState.fight)
 //        {
 //            CheckTurn(playerTurn, round);
 //            UpdateUI();
@@ -74,7 +74,7 @@
 //    {
 //        if (currentEnemy == null || currentClass == null) return;
 
-//        className.text = currentClass.name;
+//        _className.text = currentClass.name;
 //        enemyName.text = currentEnemy.name;
 
 //        if (currentEnemy != null)
@@ -106,29 +106,29 @@
 
 //        if (currentClass != null)
 //        {
-//            if (currentClass == fighter)
+//            if (currentClass == _fighterButton)
 //            {
-//                classAttackText.text = fighter.attack.ToString();
-//                classAttack = fighter.attack;
-//                classHitPointsText.text = fighter.hitPoints.ToString();
-//                classHitPoints = fighter.hitPoints;
-//                classAttackModifier = fighter.fight;
+//                classAttackText.text = _fighterButton.attack.ToString();
+//                classAttack = _fighterButton.attack;
+//                classHitPointsText.text = _fighterButton.hitPoints.ToString();
+//                classHitPoints = _fighterButton.hitPoints;
+//                classAttackModifier = _fighterButton.fight;
 //            }
-//            if (currentClass == thief)
+//            if (currentClass == _thiefButton)
 //            {
-//                classAttackText.text = thief.attack.ToString();
-//                classAttack = thief.attack;
-//                classHitPointsText.text = thief.hitPoints.ToString();
-//                classHitPoints = thief.hitPoints;
-//                classAttackModifier = fighter.dexterity;
+//                classAttackText.text = _thiefButton.attack.ToString();
+//                classAttack = _thiefButton.attack;
+//                classHitPointsText.text = _thiefButton.hitPoints.ToString();
+//                classHitPoints = _thiefButton.hitPoints;
+//                classAttackModifier = _fighterButton.dexterity;
 //            }
-//            if (currentClass == sorcerer)
+//            if (currentClass == _sorcererButton)
 //            {
-//                classAttackText.text = sorcerer.attack.ToString();
-//                classAttack = sorcerer.attack;
-//                classHitPointsText.text = sorcerer.hitPoints.ToString();
-//                classHitPoints = sorcerer.hitPoints;
-//                classAttackModifier = fighter.thinking;
+//                classAttackText.text = _sorcererButton.attack.ToString();
+//                classAttack = _sorcererButton.attack;
+//                classHitPointsText.text = _sorcererButton.hitPoints.ToString();
+//                classHitPoints = _sorcererButton.hitPoints;
+//                classAttackModifier = _fighterButton.thinking;
 //            }
 
 //            classAttackModifierText.text = classAttackModifier.ToString();
@@ -142,7 +142,7 @@
 
 //    public void InitStartFight()
 //    {
-//        currentGameState = GameState.fight;
+//        currentGameState = BattleState.fight;
 //        round = 0;
 
 //        coinflipNumber1 = Random.Range(0, 100);
@@ -292,7 +292,7 @@
 
 //        if (enemyHitPoints <= 0)
 //        {
-//            currentGameState = GameState.fightFinished;
+//            currentGameState = BattleState.fightFinished;
 //            whichRoundText.text = "-";
 
 //            fightText.text = "You killed the enemy. Good for you.";
@@ -300,7 +300,7 @@
 //        }
 //        if (classHitPoints <= 0)
 //        {
-//            currentGameState = GameState.fightFinished;
+//            currentGameState = BattleState.fightFinished;
 //            whichRoundText.text = "-";
 
 //            fightText.text = "The enemy wounded you badly. Are you dying?";
@@ -310,11 +310,11 @@
 
 //    private void Restart()
 //    {
-//        currentGameState = GameState.noFight;
+//        currentGameState = BattleState.noFight;
 
 //        currentClass = null;
 //        currentEnemy = null;
-//        className.text = "Name";
+//        _className.text = "Name";
 //        enemyName.text = "Name";
 //        classAttackText.text = "Attack";
 //        enemyAttackText.text = "Attack";
@@ -334,7 +334,7 @@
 //    #endregion
 //}
 
-//enum GameState
+//enum BattleState
 //{
 //    fight,
 //    noFight,

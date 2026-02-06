@@ -7,7 +7,7 @@ public class TestChooseCharacter : MonoBehaviour
     //public bool thiefSelected;
     //public bool sorcererSelected;
 
-    //private GameObject testFight;
+    //private GameObject _testFight;
     //private Enemy currentEnemy;
     private ScriptableObject currentClass;
     private ScriptableObject currentEnemy;
@@ -28,20 +28,20 @@ public class TestChooseCharacter : MonoBehaviour
     //// make this one
     //public void OnClickFighterChosen()
     //{
-    //    //GetComponent<GameManager>().currentClass = GetComponent<GameManager>().fighter;
-    //    //uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("fighter");
-    //    CallSetPlayerData("fighter"); ;
+    //    //GetComponent<GameManager>().currentClass = GetComponent<GameManager>()._fighterButton;
+    //    //_uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("_fighterButton");
+    //    CallSetPlayerData("_fighterButton"); ;
     //}
 
     //public void OnClickThiefChosen()
     //{
-    //    GetComponent<GameManager>().currentClass = GetComponent<GameManager>().thief;
-    //    uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("thief");
+    //    GetComponent<GameManager>().currentClass = GetComponent<GameManager>()._thiefButton;
+    //    _uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("_thiefButton");
     //}
 
     //public void OnClickSorcererChosen()
     //{
-    //    GetComponent<GameManager>().currentClass = GetComponent<GameManager>().sorcerer;
-    //    uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("sorcerer");
+    //    GetComponent<GameManager>().currentClass = GetComponent<GameManager>()._sorcererButton;
+    //    _uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("_sorcererButton");
     //}
 }

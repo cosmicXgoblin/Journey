@@ -6,104 +6,133 @@ using UnityEngine.UI;
 
 public class TestUiManager : MonoBehaviour
 {
-    [SerializeField] private GameObject testFight;
-    [SerializeField] private GameObject testChooseCharacter;
-    [SerializeField] private GameObject testMap;
-    [SerializeField] private GameObject screenUi;
+    [SerializeField] private GameObject _gameManager;
+    [SerializeField] private GameObject _playerController;
 
-    [SerializeField] private GameObject gameManager;
+    [Header("Screens & Panels")]
+    [SerializeField] private GameObject _testFight;
+    [SerializeField] private GameObject _testChooseCharacter;
+    [SerializeField] private GameObject _testMap;
+    [SerializeField] private GameObject _screenUi;
+    [SerializeField] private GameObject _pausePanel;
 
     [Header("Characterselection")]
-    [SerializeField] private Button fighter;
-    [SerializeField] private Button thief;
-    [SerializeField] private Button sorcerer;
+    [SerializeField] private Button _fighterButton;
+    [SerializeField] private Button _thiefButton;
+    [SerializeField] private Button _sorcererButton;
 
     [Header("UI Charactersheet")]
-    [SerializeField] private GameObject playerMapfigure;
-    [SerializeField] private GameObject characterPanel;
-    [SerializeField] private Image classImage;
-    [SerializeField] private TextMeshProUGUI className;
-    [SerializeField] private Slider healthBar;
-    [SerializeField] private Slider manaBar;
-    [SerializeField] private GameObject manaBarObject;
+    [SerializeField] private GameObject _characterPanel;
+    [SerializeField] private GameObject _playerMapfigure;
+    [SerializeField] private Image _classImage;
+    [SerializeField] private TextMeshProUGUI _className;
+    [SerializeField] private Slider _healthBar;
+    [SerializeField] private Slider _manaBar;
+    [SerializeField] private GameObject _manaBarObject;
 
-    [SerializeField] private Sprite classMapfigur;
+    [SerializeField] private Sprite _classMapfigure;
 
+    #region Init
     void Start()
     {
-        testFight.SetActive(false);
-        testMap.SetActive(false);
-        screenUi.SetActive(true);                       // ScreenUi and characterPanel need to be in this order!
-        characterPanel.SetActive(false);
-        testChooseCharacter.SetActive(true);
+        _testFight.SetActive(false);
+        _testMap.SetActive(false);
+        _screenUi.SetActive(true);                       // ScreenUi and _characterPanel need to be in this order!
+        _characterPanel.SetActive(false);
+        _testChooseCharacter.SetActive(true);
     }
+    #endregion
 
+    #region OnClick
     public void OnClickGoFight()
     {
-        testChooseCharacter.SetActive(false);
-        testFight.SetActive(true);
-        characterPanel.SetActive(false);
+        _testChooseCharacter.SetActive(false);
+        _testFight.SetActive(true);
+        _characterPanel.SetActive(false);
     }
 
     public void OnClickGoAdventure()
     {
-        testChooseCharacter.SetActive(false);
-        testMap.SetActive(true);
-        characterPanel.SetActive(true);
+        _testChooseCharacter.SetActive(false);
+        _testMap.SetActive(true);
+        _characterPanel.SetActive(true);
     }
 
     public void OnClickSetCharacter(string selectedClass)
     {
         if (selectedClass == "fighter")
         {
-            classImage.sprite = gameManager.GetComponent<GameManager>().fighter.classSpriteRound;
-            classMapfigur = gameManager.GetComponent<GameManager>().fighter.classMapfigure_Base;
-            className.text = gameManager.GetComponent<GameManager>().fighter.className;
-            healthBar.value = gameManager.GetComponent<GameManager>().fighter.hitPoints;
-            manaBarObject.SetActive(false);
+            _classImage.sprite = _gameManager.GetComponent<GameManager>().fighter.classSpriteRound;
+            _classMapfigure = _gameManager.GetComponent<GameManager>().fighter.classMapfigure_Base;
+            _className.text = _gameManager.GetComponent<GameManager>().fighter.className;
+            _healthBar.value = _gameManager.GetComponent<GameManager>().fighter.hitPoints;
+            _manaBarObject.SetActive(false);
 
-            playerMapfigure.GetComponent<SpriteRenderer>().sprite = classMapfigur;
+            _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure;
         }
 
         if (selectedClass == "thief")
         {
-            classImage.sprite = gameManager.GetComponent<GameManager>().thief.classSpriteRound;
-            classMapfigur = gameManager.GetComponent<GameManager>().thief.classMapfigure_Base;
-            className.text = gameManager.GetComponent<GameManager>().thief.className;
-            healthBar.value = gameManager.GetComponent<GameManager>().thief.hitPoints;
-            manaBarObject.SetActive(false);
+            _classImage.sprite = _gameManager.GetComponent<GameManager>().thief.classSpriteRound;
+            _classMapfigure = _gameManager.GetComponent<GameManager>().thief.classMapfigure_Base;
+            _className.text = _gameManager.GetComponent<GameManager>().thief.className;
+            _healthBar.value = _gameManager.GetComponent<GameManager>().thief.hitPoints;
+            _manaBarObject.SetActive(false);
 
-            playerMapfigure.GetComponent<SpriteRenderer>().sprite = classMapfigur;
+            _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure;
         }
 
         if (selectedClass == "sorcerer")
         {
-            classImage.sprite = gameManager.GetComponent<GameManager>().sorcerer.classSpriteRound;
-            classMapfigur = gameManager.GetComponent<GameManager>().sorcerer.classMapfigure_Base;
-            className.text = gameManager.GetComponent<GameManager>().sorcerer.className;
-            healthBar.value = gameManager.GetComponent<GameManager>().sorcerer.hitPoints;
-            manaBar.value = 100;
+            _classImage.sprite = _gameManager.GetComponent<GameManager>().sorcerer.classSpriteRound;
+            _classMapfigure = _gameManager.GetComponent<GameManager>().sorcerer.classMapfigure_Base;
+            _className.text = _gameManager.GetComponent<GameManager>().sorcerer.className;
+            _healthBar.value = _gameManager.GetComponent<GameManager>().sorcerer.hitPoints;
+            _manaBar.value = 100;
 
-            playerMapfigure.GetComponent<SpriteRenderer>().sprite = classMapfigur;
+            _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure;
         }
     }
 
+    #endregion
+    
     public void Fight()
     {
-        testMap.SetActive(false);
-        testFight.SetActive(true);
-        characterPanel.SetActive(false);
+        _testMap.SetActive(false);
+        _testFight.SetActive(true);
+        _characterPanel.SetActive(false);
     }
-
     public void CallBackToMap()
     {
-        testMap.SetActive(true);
-        testFight.SetActive(false);
-        characterPanel.SetActive(true);
+        _testMap.SetActive(true);
+        _testFight.SetActive(false);
+        _characterPanel.SetActive(true);
     }
 
     public void UpdateUI()
     {
-       // gameManager.GetComponent<GameManger>().playerData
+       // _gameManager.GetComponent<GameManger>().playerData
     }
+
+    public void CallPause()
+    {
+        if (!_pausePanel.activeInHierarchy)
+        {
+            _pausePanel.SetActive(true);
+            _playerController.GetComponent<PlayerController>().playerMap.Disable();
+            _playerController.GetComponent<PlayerController>().uiMap.Enable();
+        }
+        else
+        {
+            _pausePanel.SetActive(false);
+            _playerController.GetComponent<PlayerController>().playerMap.Enable();
+            _playerController.GetComponent<PlayerController>().playerMap.Disable();
+        }
+    }
+
+    public void Blabla()
+    {
+        //_playerController.
+    }
+
 }
