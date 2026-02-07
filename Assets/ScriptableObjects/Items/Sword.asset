@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: -1
   itemName: Sword
+  itemSprite: {fileID: 21300000, guid: 0acb3a2638eb15c4185ce0cf649bbe69, type: 3}
   type: 0
   rarity: 0
   description: Don't touch the sharp side.
   goldValue: 0
   equipable: 1
   consumable: 0
+  randomEvent: 0
   buff: 0
   debuff: 0

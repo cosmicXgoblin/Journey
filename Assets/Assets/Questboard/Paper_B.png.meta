@@ -1,0 +1,715 @@
+fileFormatVersion: 2
+guid: adf2d5a98a8ef8d43b0c4876bac7175f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3134959038397050327
+    second: Paper_B_0
+  - first:
+      213: -8227124897129247630
+    second: Paper_B_1
+  - first:
+      213: 939017136424003590
+    second: Paper_B_2
+  - first:
+      213: 325861986694940271
+    second: Paper_B_3
+  - first:
+      213: -7922170840113821751
+    second: Paper_B_4
+  - first:
+      213: -9200073421411375519
+    second: Paper_B_5
+  - first:
+      213: 3381054990011409102
+    second: Paper_B_6
+  - first:
+      213: -6981310525289609488
+    second: Paper_B_7
+  - first:
+      213: 3940648652026685667
+    second: Paper_B_8
+  - first:
+      213: -2200861289769393473
+    second: Paper_B_9
+  - first:
+      213: -3538750552428620630
+    second: Paper_B_10
+  - first:
+      213: -2446770126910186844
+    second: Paper_B_11
+  - first:
+      213: -1721071049434069556
+    second: Paper_B_12
+  - first:
+      213: -6321821012971709987
+    second: Paper_B_13
+  - first:
+      213: 4824886458583424728
+    second: Paper_B_14
+  - first:
+      213: -8201608060414005669
+    second: Paper_B_15
+  - first:
+      213: -6914015140143368513
+    second: Paper_B_16
+  - first:
+      213: 5865204478975224367
+    second: Paper_B_17
+  - first:
+      213: -5230553381553308480
+    second: Paper_B_18
+  - first:
+      213: -9179414033659877024
+    second: Paper_B_19
+  - first:
+      213: -1468758856265012741
+    second: Paper_B_20
+  - first:
+      213: 4882776414892797906
+    second: Paper_B_21
+  - first:
+      213: 8906082703664387208
+    second: Paper_B_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Paper_B_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 958
+        height: 1292
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92291f24d536e74d0800000000000000
+      internalID: -3134959038397050327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_1
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 10
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27cc6d7ce7163dd80800000000000000
+      internalID: -8227124897129247630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_2
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 5
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 608ae864c1f080d00800000000000000
+      internalID: 939017136424003590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_3
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 20
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6641ca10c1b58400800000000000000
+      internalID: 325861986694940271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_4
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 1
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c7ce09289bce0290800000000000000
+      internalID: -7922170840113821751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_5
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 7
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1662341a7f5c25080800000000000000
+      internalID: -9200073421411375519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_6
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 20
+        width: 17
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec221bd899bebee20800000000000000
+      internalID: 3381054990011409102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_7
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 18
+        width: 26
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f6ca69d0176d1f90800000000000000
+      internalID: -6981310525289609488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_8
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 7
+        width: 24
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e82ca0121fffa630800000000000000
+      internalID: 3940648652026685667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_9
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 21
+        width: 36
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb2236f4158f471e0800000000000000
+      internalID: -2200861289769393473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_10
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 0
+        width: 17
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa456c52f15d3eec0800000000000000
+      internalID: -3538750552428620630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_11
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 10
+        width: 29
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aa1b7a78835b0ed0800000000000000
+      internalID: -2446770126910186844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_12
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 15
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc50649cff68d18e0800000000000000
+      internalID: -1721071049434069556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_13
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 23
+        width: 19
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd9983c78416448a0800000000000000
+      internalID: -6321821012971709987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_14
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 1
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8de1575bba075f240800000000000000
+      internalID: 4824886458583424728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_15
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 0
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5eea0c4ce80e2e80800000000000000
+      internalID: -8201608060414005669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_16
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 22
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb6f410bcdb7c00a0800000000000000
+      internalID: -6914015140143368513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_17
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 0
+        width: 22
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2a29500664656150800000000000000
+      internalID: 5865204478975224367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_18
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 0
+        width: 55
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ccfbc189675967b0800000000000000
+      internalID: -5230553381553308480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_19
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 10
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 069a77d229b2c9080800000000000000
+      internalID: -9179414033659877024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_20
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 18
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf96d9f1a9bed9be0800000000000000
+      internalID: -1468758856265012741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_21
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 25
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2df275f774b13c340800000000000000
+      internalID: 4882776414892797906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Paper_B_22
+      rect:
+        serializedVersion: 2
+        x: 878
+        y: 23
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8849a245803c89b70800000000000000
+      internalID: 8906082703664387208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Paper_B_0: -3134959038397050327
+      Paper_B_1: -8227124897129247630
+      Paper_B_10: -3538750552428620630
+      Paper_B_11: -2446770126910186844
+      Paper_B_12: -1721071049434069556
+      Paper_B_13: -6321821012971709987
+      Paper_B_14: 4824886458583424728
+      Paper_B_15: -8201608060414005669
+      Paper_B_16: -6914015140143368513
+      Paper_B_17: 5865204478975224367
+      Paper_B_18: -5230553381553308480
+      Paper_B_19: -9179414033659877024
+      Paper_B_2: 939017136424003590
+      Paper_B_20: -1468758856265012741
+      Paper_B_21: 4882776414892797906
+      Paper_B_22: 8906082703664387208
+      Paper_B_3: 325861986694940271
+      Paper_B_4: -7922170840113821751
+      Paper_B_5: -9200073421411375519
+      Paper_B_6: 3381054990011409102
+      Paper_B_7: -6981310525289609488
+      Paper_B_8: 3940648652026685667
+      Paper_B_9: -2200861289769393473
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -72,6 +72,7 @@ public class TestUiManager : MonoBehaviour
             _classMapfigure_noBase = _gameManager.GetComponent<GameManager>().fighter.classMapfigure_noBase;
             _className.text = _gameManager.GetComponent<GameManager>().fighter.className;
             _healthBar.value = _gameManager.GetComponent<GameManager>().fighter.hitPoints;
+            _healthBar.maxValue = _gameManager.GetComponent<GameManager>().fighter.hitPoints;
             _manaBarObject.SetActive(false);
         }
 
@@ -82,6 +83,7 @@ public class TestUiManager : MonoBehaviour
             _classMapfigure_noBase = _gameManager.GetComponent<GameManager>().thief.classMapfigure_noBase;
             _className.text = _gameManager.GetComponent<GameManager>().thief.className;
             _healthBar.value = _gameManager.GetComponent<GameManager>().thief.hitPoints;
+            _healthBar.maxValue = _gameManager.GetComponent<GameManager>().thief.hitPoints;
             _manaBarObject.SetActive(false);
         }
 
@@ -92,7 +94,9 @@ public class TestUiManager : MonoBehaviour
             _classMapfigure_noBase = _gameManager.GetComponent<GameManager>().sorcerer.classMapfigure_noBase;
             _className.text = _gameManager.GetComponent<GameManager>().sorcerer.className;
             _healthBar.value = _gameManager.GetComponent<GameManager>().sorcerer.hitPoints;
+            _healthBar.maxValue = _gameManager.GetComponent<GameManager>().sorcerer.hitPoints;
             _manaBar.value = 100;
+            _manaBarObject.SetActive(true);
         }
         _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_Base;
     }

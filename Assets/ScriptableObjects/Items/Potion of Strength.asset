@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Potion of Strength
   m_EditorClassIdentifier: 
   id: -1
-  itemName: Potion of Strength
-  itemSprite: {fileID: 0}
+  itemName: Potion of Mana
+  itemSprite: {fileID: 21300000, guid: a7f869eadd89c4641a2480c037b2801e, type: 3}
   type: 2
   rarity: 2
-  description: You're now the strongest strong ever stronged.
+  description: Can you feel the power in your veins?
   goldValue: 100
   equipable: 0
   consumable: 1
