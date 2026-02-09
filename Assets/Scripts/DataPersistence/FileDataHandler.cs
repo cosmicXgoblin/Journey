@@ -56,7 +56,7 @@ public class FileDataHandler
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
             // serialize the c# game data object into Json
-            string dataToStroe = JsonUtility.ToJson(data, true);        // true for formatting
+            string dataToStroe = JsonUtility.ToJson(data, true);        // true for formatting | JsonUtility does not support more complex dataTypes like Dictionaries
 
             // write the serialized data to the file
             using (FileStream stream = new FileStream(fullPath, FileMode.Create))           // using bc this ensures connection to file is closed when we're done reading / writing
