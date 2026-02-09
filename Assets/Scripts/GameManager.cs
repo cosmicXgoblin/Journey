@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Security.Cryptography;
 using UnityEngine.InputSystem;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDataPersistence
 {
     [Header("Manager")]
     [SerializeField] private GameObject _uiManager;
@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     bool playerTurnDone;
     bool enemyTurnDone;
     bool playerFirst;
+
+    public int fightCount;
+    [SerializeField] public TextMeshProUGUI fightCountText;
 
     [Header("PlayerData")]
     [SerializeField] private PlayerData _playerData;
@@ -147,7 +150,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Fight
-
     public void InitStartFight(ScriptableObject enemy)
     {
         Debug.Log("Fight started");
@@ -171,6 +173,7 @@ public class GameManager : MonoBehaviour
         classHitPointsText.text = classHitPoints.ToString();
 
         whichRoundText.text = round.ToString();
+        fightCountText.text = fightCount.ToString();
     }
 
     public void InitFightUpdate()
@@ -358,6 +361,7 @@ public class GameManager : MonoBehaviour
             whichRoundText.text = "-";
 
             fightText.text = "You killed the enemy. Good for you.";
+            fightCount++;
             StartCoroutine(WaitAdventure(5f));
         }
         if (classHitPoints <= 0)
@@ -366,6 +370,7 @@ public class GameManager : MonoBehaviour
             whichRoundText.text = "-";
 
             fightText.text = "The enemy wounded you badly. Are you dying?";
+            fightCount++;
             StartCoroutine(WaitAdventure(0.5f));
         }
     }
@@ -392,6 +397,7 @@ public class GameManager : MonoBehaviour
 
         //UpdateUI();
     }
+    
     private IEnumerator WaitEnemy(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -412,8 +418,20 @@ public class GameManager : MonoBehaviour
         Debug.Log("Your soul is healed. Your body not. Maybe the first one was a lie, sorry.");
     }
 
+    #region IDataPersistence
 
+    public void LoadData(GameData data)
+    {
+        this.fightCount = data.fightCount;
+    }
 
+    public void SaveData(ref GameData data)
+    {
+        data.fightCount = this.fightCount;
+        Debug.Log("FightCount: " + fightCount);
+    }
+
+    #endregion
 }
 
 enum BattleState

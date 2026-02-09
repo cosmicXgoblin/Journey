@@ -113,11 +113,28 @@ public class TestUiManager : MonoBehaviour
         _pausePanelOptions.SetActive(true);
         _pausePanelMain.SetActive(false);
     }
+     
     public void OnClickPauseMenu()
     {
         CallPause();
     }
+    
+    public void OnClickNewGame()
+    {
+        DataPersistenceManager.instance.NewGame();
+    }
+
+    public void OnClickLoadGame()
+    {
+        DataPersistenceManager.instance.LoadGame();
+    }
+    public void OnClickSavegame()
+    {
+        DataPersistenceManager.instance.SaveGame();
+    }
     #endregion
+
+
 
     public void ChangeMapfigureBase()
     {
