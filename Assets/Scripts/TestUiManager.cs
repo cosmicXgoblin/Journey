@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Device;
@@ -9,6 +10,16 @@ public class TestUiManager : MonoBehaviour
     [SerializeField] private GameObject _gameManager;
     [SerializeField] private GameObject _playerController;
 
+    [Header("Title Menu")]
+    [SerializeField] private GameObject _canvasTitle;
+    [SerializeField] private GameObject _titlePanel;
+    [SerializeField] private GameObject _titlePanelNewGame;
+    [SerializeField] private GameObject _titlePanelLoadGame;
+
+    [Header("New Game")]
+    //[SerializeField] private InputField _inputField;
+    public string inputFileName;
+
     [Header("Screens & Panels")]
     [SerializeField] private GameObject _testFight;
     [SerializeField] private GameObject _testChooseCharacter;
@@ -17,6 +28,7 @@ public class TestUiManager : MonoBehaviour
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private GameObject _pausePanelMain;
     [SerializeField] private GameObject _pausePanelOptions;
+
 
     [Header("Characterselection")]
     [SerializeField] private Button _fighterButton;
@@ -31,6 +43,7 @@ public class TestUiManager : MonoBehaviour
     [SerializeField] private Slider _healthBar;
     [SerializeField] private Slider _manaBar;
     [SerializeField] private GameObject _manaBarObject;
+    [SerializeField] private GameObject _inventory;
 
     [SerializeField] private Sprite _classMapfigure_Base;
     [SerializeField] private Sprite _classMapfigure_noBase;
@@ -43,8 +56,15 @@ public class TestUiManager : MonoBehaviour
         _testMap.SetActive(false);
         _screenUi.SetActive(true);                       // ScreenUi and _characterPanel need to be in this order!
         _characterPanel.SetActive(false);
-        _testChooseCharacter.SetActive(true);
+        _testChooseCharacter.SetActive(false);
         _pausePanel.SetActive(false);
+        _titlePanelNewGame.SetActive(false);
+        _inventory.SetActive(false);
+        _screenUi.SetActive(false);
+        _titlePanelLoadGame.SetActive(false);
+
+        _canvasTitle.SetActive(true);
+        _titlePanel.SetActive(true);
     }
     #endregion
 
@@ -60,6 +80,7 @@ public class TestUiManager : MonoBehaviour
     {
         _testChooseCharacter.SetActive(false);
         _testMap.SetActive(true);
+        _screenUi.SetActive(true);
         _characterPanel.SetActive(true);
     }
 
@@ -99,6 +120,7 @@ public class TestUiManager : MonoBehaviour
             _manaBarObject.SetActive(true);
         }
         _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_Base;
+
     }
 
     public void OnClickContinue()
@@ -121,20 +143,47 @@ public class TestUiManager : MonoBehaviour
     
     public void OnClickNewGame()
     {
-        DataPersistenceManager.instance.NewGame();
+        _titlePanel.SetActive(false);
+        _titlePanelNewGame.SetActive(true);
+    }
+    public void OnClickStartNewGame()
+    {
+        //DataPersistenceManager.instance.NewGame();
+
+        DataPersistenceManager.instance.CallSelectFilename(inputFileName);
+
+        _titlePanelNewGame.SetActive(false);
+        _testChooseCharacter.SetActive(true);
     }
 
-    public void OnClickLoadGame()
+    public void OnClickLoadGamePart1()
+    {
+        _titlePanelLoadGame.SetActive(true);
+        _titlePanel.SetActive(false);
+    }
+    public void OnClickLoadGamePart2()
     {
         DataPersistenceManager.instance.LoadGame();
     }
+
     public void OnClickSavegame()
     {
         DataPersistenceManager.instance.SaveGame();
     }
+
+    public void OnClickBackToTitle()
+    {
+        _titlePanelNewGame.SetActive(false);
+        _titlePanel.SetActive(true);
+    }
+  
     #endregion
 
-
+    public void ReadStringInput(string s)
+    {
+        inputFileName = s + ".journey";
+        //DataPersistenceManager.instance.CallSelectFilename(inputFileName);
+    }
 
     public void ChangeMapfigureBase()
     {

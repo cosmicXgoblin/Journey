@@ -66,7 +66,6 @@ public class FileDataHandler
                     writer.Write(dataToStroe);
                 }
             }
-
         }
         catch (Exception e)
         {

@@ -30,6 +30,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         uiMap = _playerInput.actions.FindActionMap("UI");
     }
 
+    public void OnNewGame()
+    {
+        this.transform.position = new Vector3(-332.33f, -157.89f, -4.2f);
+    }
+
     private void OnPause()
     {
         _uiManager.GetComponent<TestUiManager>().CallPause();
@@ -150,5 +155,4 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     {
         data.playerPosition = this.transform.position;
     }
-
 }
