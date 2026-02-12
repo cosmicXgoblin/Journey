@@ -12156,9 +12156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiManager: {fileID: 1184888953}
   _database: {fileID: 1286397499}
-  battleStarted:
-    m_PersistentCalls:
-      m_Calls: []
   currentEnemy: {fileID: 0}
   currentEnemyHitPoints: 0
   currentClass: {fileID: 0}
@@ -14073,7 +14070,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 1049681374}
   _playerController: {fileID: 32927588}
-  _database: {fileID: 1049681374}
+  _database: {fileID: 1286397499}
   _canvasTitle: {fileID: 1063766996}
   _titlePanel: {fileID: 1063778628}
   _titlePanelNewGame: {fileID: 78710797}
