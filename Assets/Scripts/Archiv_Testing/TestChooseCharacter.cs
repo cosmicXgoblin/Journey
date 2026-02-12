@@ -29,19 +29,19 @@ public class TestChooseCharacter : MonoBehaviour
     //public void OnClickFighterChosen()
     //{
     //    //GetComponent<GameManager>().currentClass = GetComponent<GameManager>()._fighterButton;
-    //    //_uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("_fighterButton");
+    //    //_uiManager.GetComponent<UiManager>().OnClickSetCharacter("_fighterButton");
     //    CallSetPlayerData("_fighterButton"); ;
     //}
 
     //public void OnClickThiefChosen()
     //{
     //    GetComponent<GameManager>().currentClass = GetComponent<GameManager>()._thiefButton;
-    //    _uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("_thiefButton");
+    //    _uiManager.GetComponent<UiManager>().OnClickSetCharacter("_thiefButton");
     //}
 
     //public void OnClickSorcererChosen()
     //{
     //    GetComponent<GameManager>().currentClass = GetComponent<GameManager>()._sorcererButton;
-    //    _uiManager.GetComponent<TestUiManager>().OnClickSetCharacter("_sorcererButton");
+    //    _uiManager.GetComponent<UiManager>().OnClickSetCharacter("_sorcererButton");
     //}
 }

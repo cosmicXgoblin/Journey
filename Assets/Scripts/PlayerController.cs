@@ -5,37 +5,44 @@ using UnityEngine.InputSystem;
 using UnityEditor;
 using TMPro;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDataPersistence
 {
+    [Header("Manager")]
     [SerializeField] private GameObject _uiManager;
 
+    [Header("Movement")]
     [SerializeField] private Vector2 movementInput;
     [SerializeField] private Vector3 direction;
-
     private PlayerInput _playerInput;
     public InputActionMap playerMap;
     public InputActionMap uiMap;
+    [SerializeField] bool hasMoved;
 
-
+    //[Header("Fog of War")]
     //public Tilemap fogOfWar;
 
-    [SerializeField] bool hasMoved;
+
 
     #region init
     private void Awake()
     {
-        // setting up the PlayerInput
+        // setting up the PlayerInput, getting all the references
         _playerInput = GetComponent<PlayerInput>();
         playerMap = _playerInput.actions.FindActionMap("Player");
         uiMap = _playerInput.actions.FindActionMap("UI");
+
+        this.transform.position = new Vector3(-332.33f, -157.89f, -4.2f);           // übergangsweise
     }
 
-    private void OnPause()
-    {
-        _uiManager.GetComponent<TestUiManager>().CallPause();
+    //public void OnNewGame()
+    //{
+    //    this.transform.position = new Vector3(-332.33f, -157.89f, -4.2f);
+    //}
 
-        Debug.Log("Pause was triggered");
-    }
+    //private void OnPause()
+    //{
+    //    _uiManager.GetComponent<UiManager>().CallPause();
+    //}
 
     private void OnEnable()
     {
@@ -49,6 +56,11 @@ public class PlayerController : MonoBehaviour
         uiMap.Enable();
     }
 
+    /// <summary>
+    /// The PlayerController checks for y-Input (up/down). If there is none, hasMoved will be set to false, so the player will be able
+    /// to move the next time Update() runs. If there is some while hasMoved is true, a function to check the direction the player should
+    /// move int is called.
+    /// </summary>
     void Update()
     {
         if(movementInput.y == 0)
@@ -68,6 +80,12 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Movement
+    /// <summary>
+    /// This function will give us the direction the player should move in.
+    /// It'll check if the y-Input was under 0, so the direction will be going doing.
+    /// The next stept is checking if it should go down&right, down&left or just down. This is checked via the x-Input.
+    /// Same thing for up, up&righ, up&left.
+    /// </summary>
     public void GetMovementDirection()
     {
         if (movementInput.y < 0)
@@ -113,13 +131,14 @@ public class PlayerController : MonoBehaviour
        movementInput = value.Get<Vector2>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+
+    //}
 
     #endregion
 
+    #region Fog of War
     //public int vision = 1;
 
     //void UpdateFogOfWar()
@@ -135,11 +154,17 @@ public class PlayerController : MonoBehaviour
     //        }
     //    }
     //}
-
-    #region Pausemenü
-
-
     #endregion
 
+    #region IDataPersistence
+    public void LoadData(GameData data)
+    {
+        this.transform.position = data.playerPosition;
+    }
 
+    public void SaveData(ref GameData data)
+    {
+        data.playerPosition = this.transform.position;
+    }
+    #endregion
 }

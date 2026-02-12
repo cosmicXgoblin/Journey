@@ -13,7 +13,7 @@
 //    public TextMeshProUGUI enemyAttackText;
 //    private int enemyAttack;
 //    public TextMeshProUGUI enemyHitPointsText;
-//    private int enemyHitPoints;
+//    private int _currentEnemyHitPoints;
 
 //    [Header("Player")]
 //    public ScriptableObject currentClass;
@@ -21,7 +21,7 @@
 //    public TextMeshProUGUI classAttackText;
 //    private int classAttack;
 //    public TextMeshProUGUI classHitPointsText;
-//    private int classHitPoints;
+//    private int _currentPlayerHitPoints;
 //    private int classAttackModifier;
 //    public TextMeshProUGUI classAttackModifierText;
 
@@ -40,10 +40,10 @@
 
 //    [Header("Fight")]
 //    BattleState gameState;
-//    BattleState currentGameState;
+//    BattleState currentBattleState;
 //    int round;
-//    int coinflipNumber1;
-//    int oddOrEvenNumber;
+//    int randomNumber;
+//    int randomNumberOdd;
 //    bool playerTurn;
 //    int diceroll;
 //    bool playerTurnDone;
@@ -54,23 +54,23 @@
 //    private void Awake()
 //    {
 //        playerAttackButton.SetActive(false);
-//        currentGameState = BattleState.noFight;
+//        currentBattleState = BattleState.noFight;
 //    }
 //    private void Update()
 //    {
-//        if (currentGameState == BattleState.fight)
+//        if (currentBattleState == BattleState.fight)
 //        {
 //            CheckTurn(playerTurn, round);
-//            UpdateUI();
+//            CallUpdateUI();
 //        }
 
 
-//        Debug.Log(currentGameState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
+//        Debug.Log(currentBattleState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
 //    }
 //    #endregion
 
 //    #region OnClick
-//    public void InitFightUpdate()
+//    public void SetBattle()
 //    {
 //        if (currentEnemy == null || currentClass == null) return;
 
@@ -84,7 +84,7 @@
 //                enemyAttackText.text = rat.attack.ToString();
 //                enemyAttack = rat.attack;
 //                enemyHitPointsText.text = rat.hitPoints.ToString();
-//                enemyHitPoints = rat.hitPoints;
+//                _currentEnemyHitPoints = rat.hitPoints;
 //            }
 
 //            if (currentEnemy == rat1)
@@ -92,7 +92,7 @@
 //                enemyAttackText.text = rat1.attack.ToString();
 //                enemyAttack = rat1.attack;
 //                enemyHitPointsText.text = rat1.hitPoints.ToString();
-//                enemyHitPoints = rat1.hitPoints;
+//                _currentEnemyHitPoints = rat1.hitPoints;
 //            }
 
 //            if (currentEnemy == rat2)
@@ -100,7 +100,7 @@
 //                enemyAttackText.text = rat2.attack.ToString();
 //                enemyAttack = rat2.attack;
 //                enemyHitPointsText.text = rat2.hitPoints.ToString();
-//                enemyHitPoints = rat2.hitPoints;
+//                _currentEnemyHitPoints = rat2.hitPoints;
 //            }
 //        }
 
@@ -111,7 +111,7 @@
 //                classAttackText.text = _fighterButton.attack.ToString();
 //                classAttack = _fighterButton.attack;
 //                classHitPointsText.text = _fighterButton.hitPoints.ToString();
-//                classHitPoints = _fighterButton.hitPoints;
+//                _currentPlayerHitPoints = _fighterButton.hitPoints;
 //                classAttackModifier = _fighterButton.fight;
 //            }
 //            if (currentClass == _thiefButton)
@@ -119,7 +119,7 @@
 //                classAttackText.text = _thiefButton.attack.ToString();
 //                classAttack = _thiefButton.attack;
 //                classHitPointsText.text = _thiefButton.hitPoints.ToString();
-//                classHitPoints = _thiefButton.hitPoints;
+//                _currentPlayerHitPoints = _thiefButton.hitPoints;
 //                classAttackModifier = _fighterButton.dexterity;
 //            }
 //            if (currentClass == _sorcererButton)
@@ -127,7 +127,7 @@
 //                classAttackText.text = _sorcererButton.attack.ToString();
 //                classAttack = _sorcererButton.attack;
 //                classHitPointsText.text = _sorcererButton.hitPoints.ToString();
-//                classHitPoints = _sorcererButton.hitPoints;
+//                _currentPlayerHitPoints = _sorcererButton.hitPoints;
 //                classAttackModifier = _fighterButton.thinking;
 //            }
 
@@ -137,18 +137,18 @@
     
 //    public void OnClickRestart()
 //    {
-//        Restart();
+//        ClearFight();
 //    }
 
-//    public void InitStartFight()
+//    public void InitBattle()
 //    {
-//        currentGameState = BattleState.fight;
+//        currentBattleState = BattleState.fight;
 //        round = 0;
 
-//        coinflipNumber1 = Random.Range(0, 100);
-//        oddOrEvenNumber = coinflipNumber1 % 2;
+//        randomNumber = Random.Range(0, 100);
+//        randomNumberOdd = randomNumber % 2;
 
-//        OddOrEven(oddOrEvenNumber);
+//        OddOrEven(randomNumberOdd);
 //    }
 
 //    public void OnClickPlayerAttack()
@@ -160,17 +160,17 @@
 
 //    #region Fight
      
-//    private void UpdateUI()
+//    private void CallUpdateUI()
 //    {
-//        enemyHitPointsText.text = enemyHitPoints.ToString();
-//        classHitPointsText.text = classHitPoints.ToString();
+//        enemyHitPointsText.text = _currentEnemyHitPoints.ToString();
+//        classHitPointsText.text = _currentPlayerHitPoints.ToString();
 
 //        whichRoundText.text = round.ToString();
 //    }
    
-//    private void OddOrEven(int oddOrEvenNumber)
+//    private void OddOrEven(int randomNumberOdd)
 //    {
-//        if (oddOrEvenNumber == 0)
+//        if (randomNumberOdd == 0)
 //        {
 //            playerTurn = true;
 //            playerTurnDone = false;
@@ -232,8 +232,8 @@
 
 //        if (diceroll >= classAttack)
 //        {
-//            classHitPoints = classHitPoints - 1;
-//            Debug.Log("classHitPoints " + classHitPoints);
+//            _currentPlayerHitPoints = _currentPlayerHitPoints - 1;
+//            Debug.Log("_currentPlayerHitPoints " + _currentPlayerHitPoints);
 //            fightText.text = "The enemy hit you!";
 //            CheckConditions();
 //        }
@@ -255,8 +255,8 @@
 //        if (diceroll + classAttackModifier >= enemyAttack)
 //        {
 
-//            enemyHitPoints = enemyHitPoints - 1;
-//            Debug.Log("enemyHitPoints " + enemyHitPoints);
+//            _currentEnemyHitPoints = _currentEnemyHitPoints - 1;
+//            Debug.Log("_currentEnemyHitPoints " + _currentEnemyHitPoints);
 //            fightText.text = "You hit the enemy with " + diceroll + " " + classAttackModifier + ".";
 //            CheckConditions();
 //        }
@@ -283,24 +283,24 @@
 //    private IEnumerator WaitRestart(float delay)
 //    {
 //        yield return new WaitForSeconds(delay);
-//        Restart();
+//        ClearFight();
 //    }
 
 //    private void CheckConditions()
 //    {
-//        UpdateUI();
+//        CallUpdateUI();
 
-//        if (enemyHitPoints <= 0)
+//        if (_currentEnemyHitPoints <= 0)
 //        {
-//            currentGameState = BattleState.fightFinished;
+//            currentBattleState = BattleState.fightFinished;
 //            whichRoundText.text = "-";
 
 //            fightText.text = "You killed the enemy. Good for you.";
 //            StartCoroutine(WaitRestart(5f));
 //        }
-//        if (classHitPoints <= 0)
+//        if (_currentPlayerHitPoints <= 0)
 //        {
-//            currentGameState = BattleState.fightFinished;
+//            currentBattleState = BattleState.fightFinished;
 //            whichRoundText.text = "-";
 
 //            fightText.text = "The enemy wounded you badly. Are you dying?";
@@ -308,9 +308,9 @@
 //        }
 //    }
 
-//    private void Restart()
+//    private void ClearFight()
 //    {
-//        currentGameState = BattleState.noFight;
+//        currentBattleState = BattleState.noFight;
 
 //        currentClass = null;
 //        currentEnemy = null;
@@ -322,13 +322,13 @@
 //        enemyAttack = 0;
 //        classHitPointsText.text = "Hitpoints";
 //        enemyHitPointsText.text = "Hitpoints";
-//        classHitPoints = 0;
-//        enemyHitPoints = 0;
+//        _currentPlayerHitPoints = 0;
+//        _currentEnemyHitPoints = 0;
 
 //        fightText.text = "";
 //        playerAttackButton.SetActive(false);
 
-//        //UpdateUI();
+//        //CallUpdateUI();
 //    }
 
 //    #endregion
