@@ -18,10 +18,11 @@ public class DataPersistenceManager : MonoBehaviour
     [SerializeField] private string _fileName;
     private FileDataHandler _dataHandler;
 
+    [Header("Data Storage Config")]
+    [SerializeField] private SavefileData _loadedData;
     private GameData _gameData;
     private List<IDataPersistence> dataPersistenceObjects;
-    [SerializeField] private SavefileData _loadedData;
-
+    
     public static DataPersistenceManager instance { get; private set; }
 
     private void Awake()
