@@ -4,9 +4,9 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Device;
+using UnityEngine.Events;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class UiManager : MonoBehaviour
 {
@@ -50,26 +50,31 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _manaBarObject;
     [SerializeField] private GameObject _inventory;
 
-    [Header("Fight UI - Enemy")]
+    [Header("Fight UI")]
     public Image enemyImage;
     public TextMeshProUGUI enemyName;
     public TextMeshProUGUI enemyAttackText;
     public TextMeshProUGUI enemyHitPointsText;
-    public int currentEnemyHitPoints;
-
-    [Header("Fight UI - Class")]
     public Image classImage;
     public TextMeshProUGUI className;
     public TextMeshProUGUI classAttackText;
     public TextMeshProUGUI classHitPointsText;
-    public int currentPlayerHitPoints;
+    //public int CurrentPlayerHitPoints;
     public TextMeshProUGUI classAttackModifierText;
     public GameObject playerAttackButton;
+    public TextMeshProUGUI fightText;
+    public TextMeshProUGUI whichRoundText;
+    private Image _target;
 
     [Header("UI Charactapperance (game)")]
     [SerializeField] private Sprite _classMapfigure_Base;
     [SerializeField] private Sprite _classMapfigure_noBase;
     [SerializeField] private bool _noBase;
+
+    [Header("Effects")]
+    private Color _tempColor;
+    public Color red;
+    public Color original;
 
 
 
@@ -89,6 +94,8 @@ public class UiManager : MonoBehaviour
 
         _canvasTitle.SetActive(true);
         _titlePanel.SetActive(true);
+
+        original.a = 0.5f;
     }
     #endregion
 
@@ -145,7 +152,7 @@ public class UiManager : MonoBehaviour
         }
         _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_Base;
 
-        UpdateUi(_gameManager.GetComponent<GameManager>().currentPlayerHitPoints);
+        UpdateUi(_gameManager.GetComponent<GameManager>().CurrentPlayerHitPoints);
 
     }
 
@@ -263,7 +270,9 @@ public class UiManager : MonoBehaviour
         enemyAttackText.text = "Attack";
         classHitPointsText.text = "Hitpoints";
         enemyHitPointsText.text = "Hitpoints";
-    }
+        fightText.text = "";
+        whichRoundText.text = "";
+}
 
     public void CallSetFightUI(ScriptableObject currentClass, ScriptableObject currentEnemy)
     {
@@ -311,6 +320,29 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    public IEnumerator ImageEffect(bool enemy, float delay, string color)
+    {
+        if (enemy)
+            _target = enemyImage.GetComponent<Image>();
+        else if (!enemy)
+            _target = classImage.GetComponent<Image>();
+
+
+        if (color == "red")
+        {
+            red.a = 1f;
+            _tempColor = red;
+            _target.color = _tempColor;
+            Debug.Log("Image should be red for a moment");
+        }
+        yield return new WaitForSeconds(delay);
+        _target.color = original;
+
+        //_target.color = new Color(0f, 0f, 0f, 1f);
+        //yield return new WaitForSeconds(delay);
+        //_target.color = new Color(1f, 1f, 1f, 1f);
+    }
+
     #endregion
 
 
@@ -319,11 +351,10 @@ public class UiManager : MonoBehaviour
         _healthBar.value = currentPlayerHitPoints;
         _healthBarText.text = currentPlayerHitPoints.ToString() + " / " +  _gameManager.GetComponent<GameManager>().PlayerData.maxHitPoints.ToString();
 
-        //enemyHitPointsText.text = _currentEnemyHitPoints.ToString();
-        //classHitPointsText.text = _currentPlayerHitPoints.ToString();
+        enemyHitPointsText.text = _gameManager.GetComponent<GameManager>().CurrentEnemyHitPoints.ToString();
+        classHitPointsText.text = _gameManager.GetComponent<GameManager>().CurrentPlayerHitPoints.ToString();
 
-        //whichRoundText.text = round.ToString();
-        //fightCountText.text = fightCount.ToString();
+        whichRoundText.text = _gameManager.GetComponent<GameManager>().Round.ToString();
 
         //_gameManager.GetComponent<GameManger>().playerData;
     }

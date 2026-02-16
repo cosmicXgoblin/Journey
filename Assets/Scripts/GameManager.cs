@@ -1,11 +1,12 @@
-using UnityEngine;
-using TMPro;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine.UI;
 using System.Security.Cryptography;
-using UnityEngine.InputSystem;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour //, IDataPersistence
 {
@@ -19,38 +20,41 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     [Header("Enemy")]
     public ScriptableObject currentEnemy;
     private int enemyAttack;
-    private int _currentEnemyHitPoints;
-    public int currentEnemyHitPoints;
+    [SerializeField]  private int _currentEnemyHitPoints;
+    //public int CurrentEnemyHitPoints;
 
     [Header("Player")]
     public Class currentClass;
     public Image classImage;
     private int classAttack;
-    private int _currentPlayerHitPoints;
-    public int currentPlayerHitPoints;
+    [SerializeField]  private int _currentPlayerHitPoints;
+    //public int CurrentPlayerHitPoints;
     public int classAttackModifier;
 
     [Header("UI")]
-    public TextMeshProUGUI fightText;
-    public TextMeshProUGUI whichRoundText;
+    private TextMeshProUGUI _fightText;
+    private TextMeshProUGUI _whichRoundText;
     private GameObject _playerAttackButton;
 
     [Header("Fight")]
     BattleState currentBattleState;
-    [SerializeField] private int round = -1;
+    [SerializeField] private int _round = 0;
     int randomNumber;
     int randomNumberOdd;
     bool playerTurn;
     int diceroll;
-    [SerializeField] bool playerTurnDone;
-    [SerializeField] bool enemyTurnDone;
-    [SerializeField] bool playerFirst;
+    bool playerTurnDone;
+    bool enemyTurnDone;
+    bool playerFirst;
 
 
     [Header("PlayerData")]
     [SerializeField] private PlayerData _playerData;
 
      public PlayerData PlayerData => _playerData;
+    public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
+    public int CurrentEnemyHitPoints => _currentEnemyHitPoints;
+    public int Round => _round;
 
     #region init
     private void Awake()
@@ -59,6 +63,8 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         currentGameState = GameState.init;
 
         _playerAttackButton = _uiManager.GetComponent<UiManager>().playerAttackButton;
+        _fightText = _uiManager.GetComponent<UiManager>().fightText;
+        _whichRoundText = _uiManager.GetComponent<UiManager>().whichRoundText;
     }
 
     void Update()
@@ -72,7 +78,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         if (currentGameState == GameState.activeBattle)
         {
             CheckTurn();
-            Debug.Log(currentBattleState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
+            Debug.Log(currentBattleState + " | round: " + _round + " | " + "playerTurn: " + playerTurn);
         }
 
         CallUpdateUI(_currentPlayerHitPoints);
@@ -148,9 +154,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     #region Fight
     public void StartBattle(ScriptableObject enemy)
     {
+        currentGameState = GameState.transition;
         currentEnemy = enemy;
 
-        SetBattle();
+        SetBattle(enemy);
         _uiManager.GetComponent<UiManager>().CallSetFightUI(currentClass, currentEnemy);
 
         Coinflip(0, 100, true);
@@ -161,9 +168,13 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _uiManager.GetComponent<UiManager>().ShowFightUI();
     }
 
-    public void SetBattle()
+    public void SetBattle(ScriptableObject enemy)
     {
-        if (currentEnemy == null || currentClass == null) return;
+        if (currentGameState != GameState.transition)
+            return;
+
+        Debug.Log(currentEnemy + " or " + enemy.name.ToString());
+        if (currentEnemy == null) Debug.Log("There is no current enemy!");
 
         if (currentEnemy != null)
         {
@@ -182,6 +193,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
                 enemyAttack = _database.GetComponent<Database>().rat2.attack;
                 _currentEnemyHitPoints = _database.GetComponent<Database>().rat2.hitPoints;
             }
+            //currentEnemyHitPoints = _currentEnemyHitPoints;
         }
         if (currentClass != null)
         {
@@ -209,74 +221,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             //classAttackModifierText.text = classAttackModifier.ToString();
         }
     }
-
-        //UiCallSetFight(currentClass.name, currentEnemy.name);
-        //className.text = currentClass.name;
-        //enemyName.text = currentEnemy.name;
-
-            //CheckTurn(playerTurn);
-
-            //    if (currentEnemy != null)
-            //    {
-            //        if (currentEnemy == rat)
-            //        {
-            //            enemyAttackText.text = rat.attack.ToString();
-            //            enemyImage.sprite = rat.enemySprite;
-            //            enemyAttack = rat.attack;
-            //            enemyHitPointsText.text = rat.hitPoints.ToString();
-            //            _currentEnemyHitPoints = rat.hitPoints;
-            //        }
-            //        if (currentEnemy == rat1)
-            //        {
-            //            enemyAttackText.text = rat1.attack.ToString();
-            //            enemyImage.sprite = rat1.enemySprite;
-            //            enemyAttack = rat1.attack;
-            //            enemyHitPointsText.text = rat1.hitPoints.ToString();
-            //            _currentEnemyHitPoints = rat1.hitPoints;
-            //        }
-            //        if (currentEnemy == rat2)
-            //        {
-            //            enemyAttackText.text = rat2.attack.ToString();
-            //            enemyImage.sprite = rat2.enemySprite;
-            //            enemyAttack = rat2.attack;
-            //            enemyHitPointsText.text = rat2.hitPoints.ToString();
-            //            _currentEnemyHitPoints = rat2.hitPoints;
-            //        }
-            //    }
-            //    if (currentClass != null)
-            //    {
-            //        if (currentClass == fighter)
-            //        {
-            //            classAttackText.text = fighter.attack.ToString();
-            //            classImage.sprite = fighter.classSprite;
-            //            classAttack = fighter.attack;
-            //            classHitPointsText.text = fighter.hitPoints.ToString();
-            //            _currentPlayerHitPoints = fighter.hitPoints;
-            //            classAttackModifier = fighter.fight;
-            //        }
-            //        if (currentClass == thief)
-            //        {
-            //            classAttackText.text = thief.attack.ToString();
-            //            classImage.sprite = thief.classSprite;
-            //            classAttack = thief.attack;
-            //            classHitPointsText.text = thief.hitPoints.ToString();
-            //            _currentPlayerHitPoints = thief.hitPoints;
-            //            classAttackModifier = fighter.dexterity;
-            //        }
-            //        if (currentClass == sorcerer)
-            //        {
-            //            classAttackText.text = sorcerer.attack.ToString();
-            //            classImage.sprite = thief.classSprite;
-            //            classAttack = sorcerer.attack;
-            //            classHitPointsText.text = sorcerer.hitPoints.ToString();
-            //            _currentPlayerHitPoints = sorcerer.hitPoints;
-            //            classAttackModifier = fighter.thinking;
-            //        }
-
-            //        classAttackModifierText.text = classAttackModifier.ToString();
-            //    }
-            //}
-
 
             /// <summary>
             /// Flip a coin within the given range.
@@ -316,9 +260,9 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     private void CallUpdateUI(int _currentPlayerHitPoints)
     {
         //currentEnemyHitPoints = _currentEnemyHitPoints;
-        currentPlayerHitPoints = _currentPlayerHitPoints;
+        //currentPlayerHitPoints = _currentPlayerHitPoints;
 
-        _uiManager.GetComponent<UiManager>().UpdateUi(currentPlayerHitPoints);
+        _uiManager.GetComponent<UiManager>().UpdateUi(CurrentPlayerHitPoints);
     }
 
   /// <summary>
@@ -337,7 +281,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         { 
             _playerAttackButton.SetActive(false);
             EnemyAttackPart1();
-
         }
 
         if (playerTurnDone && enemyTurnDone)
@@ -345,8 +288,8 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             playerTurnDone = false;
             enemyTurnDone = false;
 
-            round++;
-
+            //_round++;
+           
             if (playerFirst) playerTurn = true;
             else playerTurn = false;
 
@@ -375,16 +318,19 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         {
             _currentPlayerHitPoints = _currentPlayerHitPoints - 1;
             Debug.Log("classHitPoints " + _currentPlayerHitPoints);
-            fightText.text = "The enemy hit you!";
+            _fightText.text = "The enemy hit you!";
+            StartCoroutine(_uiManager.GetComponent<UiManager>().ImageEffect(true, 0.2f, "red"));
+
             CheckConditions();
         }
         if (diceroll < enemyAttack)
         {
-            fightText.text = "The enemy missed you!";
-        }
-
+            _fightText.text = "The enemy missed you!";
+        }              
         enemyTurnDone = true;
         playerTurn = true;
+
+        if (playerFirst) _round++;
     }
 
     private void PlayerAttack()
@@ -397,60 +343,63 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         {
             _currentEnemyHitPoints = _currentEnemyHitPoints - 1;
             Debug.Log("enemyHitPoints " + _currentEnemyHitPoints);
-            fightText.text = "You hit the enemy with " + diceroll + " " + classAttackModifier + ".";
+            _fightText.text = "You hit the enemy with a" + diceroll + " and a Attackmodifier of " + classAttackModifier + ".";
+            StartCoroutine(_uiManager.GetComponent<UiManager>().ImageEffect(false, 0.2f, "red"));
+
             CheckConditions();
-            //return;
         }
         if (diceroll + classAttackModifier < enemyAttack && _currentEnemyHitPoints != 0 && _currentPlayerHitPoints != 0)
         {
-            fightText.text = "You missed the enemy!";
+            _fightText.text = "You missed the enemy!";
         }
 
-        //StartCoroutine(Wait(5f));
-
         playerTurn = false;
-
-        // StartCoroutine(Wait(5f));
-
         playerTurnDone = true;
+        if (!playerFirst) _round++;
     }
 
     private void CheckConditions()
     {
         _playerData.currentHitPoints = _currentPlayerHitPoints;
 
+        if (currentEnemy == null) return;
+
         if (_currentEnemyHitPoints <= 0)
         {
             currentBattleState = BattleState.fightFinished;
-            whichRoundText.text = "-";
+            currentGameState = GameState.onMap;
+            _whichRoundText.text = "WIN";
 
-            fightText.text = "You killed the enemy. Good for you.";
-            StartCoroutine(WaitAdventure(3f));
-            ClearFight();
+            _fightText.text = "You killed the enemy. Good for you.";
+            EndFight(2f);
+            
         }
         if (_currentPlayerHitPoints <= 0)
         {
             currentBattleState = BattleState.fightFinished;
-            whichRoundText.text = "-";
+            currentGameState = GameState.onMap;
+            _whichRoundText.text = "LOSE";
 
-            fightText.text = "The enemy wounded you badly. Are you dying?";
-            StartCoroutine(WaitAdventure(0.5f));
-            ClearFight();
+            _fightText.text = "The enemy wounded you badly. Are you dying?";
+            EndFight(0.5f);
         }
     }
 
     private void ClearFight()
     {
         currentBattleState = BattleState.noFight;
-        currentGameState = GameState.onMap;
+        currentGameState = GameState.transition;
 
         currentClass = null;
         currentEnemy = null;
         classAttack = 0;
         enemyAttack = 0;
         _currentEnemyHitPoints = 0;
-
-        fightText.text = "";
+        playerTurnDone = false;
+        enemyTurnDone = false;
+        playerFirst = false;
+        _round = 0;
+        _fightText.text = "";
         _playerAttackButton.SetActive(false);
 
         _uiManager.GetComponent<UiManager>().ClearFightUI();
@@ -467,6 +416,13 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         yield return new WaitForSeconds(delay);
         Debug.Log("Waiting for adventure");
         _uiManager.GetComponent<UiManager>().CallBackToMap();
+        ClearFight();
+    }
+
+    private void EndFight(float delay)
+    {
+        _playerAttackButton.SetActive(false);
+        StartCoroutine(WaitAdventure(delay));
     }
 
     #endregion
@@ -507,6 +463,7 @@ enum BattleState
 enum GameState
 {
     init,
+    transition,
     onMap,
     activeBattle,
     paused

@@ -27,9 +27,6 @@ public class Map_EnemyEvent : MonoBehaviour, IDataPersistence
             {
                 gameManager.GetComponent<GameManager>().StartBattle(enemy);
 
-                //uiManager.GetComponent<UiManager>().Fight();
-                //gameManager.GetComponent<GameManager>().InitBattle(enemy);
-
                 _fought = true;
             }
         }

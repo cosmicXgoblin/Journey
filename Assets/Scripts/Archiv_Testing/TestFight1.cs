@@ -41,7 +41,7 @@
 //    [Header("Fight")]
 //    BattleState gameState;
 //    BattleState currentBattleState;
-//    int round;
+//    int _round;
 //    int randomNumber;
 //    int randomNumberOdd;
 //    bool playerTurn;
@@ -60,12 +60,12 @@
 //    {
 //        if (currentBattleState == BattleState.fight)
 //        {
-//            CheckTurn(playerTurn, round);
+//            CheckTurn(playerTurn, _round);
 //            CallUpdateUI();
 //        }
 
 
-//        Debug.Log(currentBattleState + " | round: " + round + " | " + "playerTurn: " + playerTurn);
+//        Debug.Log(currentBattleState + " | _round: " + _round + " | " + "playerTurn: " + playerTurn);
 //    }
 //    #endregion
 
@@ -143,7 +143,7 @@
 //    public void InitBattle()
 //    {
 //        currentBattleState = BattleState.fight;
-//        round = 0;
+//        _round = 0;
 
 //        randomNumber = Random.Range(0, 100);
 //        randomNumberOdd = randomNumber % 2;
@@ -165,7 +165,7 @@
 //        enemyHitPointsText.text = _currentEnemyHitPoints.ToString();
 //        classHitPointsText.text = _currentPlayerHitPoints.ToString();
 
-//        whichRoundText.text = round.ToString();
+//        whichRoundText.text = _round.ToString();
 //    }
    
 //    private void OddOrEven(int randomNumberOdd)
@@ -184,7 +184,7 @@
 //        }
 //    }
 
-//    private void CheckTurn(bool playerTurn, int round)
+//    private void CheckTurn(bool playerTurn, int _round)
 //    {
 //        //if (!playerFirst && enemyTurnDone && )
 
@@ -204,7 +204,7 @@
 //            playerTurnDone = false;
 //            enemyTurnDone = false;
 
-//            round++;
+//            _round++;
 
 //            if (playerFirst) playerTurn = true;
 //            else playerTurn = false;
