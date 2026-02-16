@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40011db6040b63e42a6313ef716c8b63, type: 3}
+  m_Name: Rat 1
+  m_EditorClassIdentifier: 
+  id: -1
+  enemyName: Rat (big)
+  enemySprite: {fileID: 21300000, guid: 8b26d67c78bda7d4a9c943a8c0d6c907, type: 3}
+  fight: 3
+  thinking: 0
+  speed: 1
+  observing: 0
+  dexterity: 0
+  charme: 0
+  attack: 8
+  hitPoints: 3
