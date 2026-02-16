@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         currentGameState = GameState.init;
 
         _playerAttackButton = _uiManager.GetComponent<UiManager>().playerAttackButton;
-        _playerAttackButton.SetActive(false);
     }
 
     void Update()
@@ -131,6 +130,9 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
         //Debug.Log(_playerData.attackModifier);
         _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
+        _currentPlayerHitPoints = _playerData.currentHitPoints;
+
+        currentGameState = GameState.onMap;
 
         //this are later for loading / saving, just as a reminder
         // currentPlayerData.currenthitPoints;
@@ -286,6 +288,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     public void Coinflip (int min, int max, bool OddOrEven)
     {
         randomNumber = Random.Range(min, max);
+        Debug.Log(randomNumber);
         if (OddOrEven)
         {
             OddOrEven = false;
@@ -293,14 +296,19 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             randomNumberOdd = randomNumber % 2;
             if (randomNumberOdd == 0)
             {
+                playerFirst = true;
                 playerTurn = true;
                 playerTurnDone = false;
+                enemyTurnDone = false;
+
             }
             else
             {
+                playerFirst = false;
                 playerTurn = false;
                 playerTurnDone = true;
-                playerFirst = false;
+                enemyTurnDone = true;
+
             }
         }
     }
@@ -320,16 +328,16 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     private void CheckTurn()
     {
-        if (playerTurn & !playerTurnDone)
+        if (playerTurn && !playerTurnDone)
         {
-            //_playerAttackButton.SetActive(true);
-            playerTurnDone;
+            _playerAttackButton.SetActive(true);
         }
 
-        if (!playerTurn & !enemyTurnDone)
+        if (!playerTurn && !enemyTurnDone)
         { 
-            //_playerAttackButton.SetActive(false);
+            _playerAttackButton.SetActive(false);
             EnemyAttackPart1();
+
         }
 
         if (playerTurnDone && enemyTurnDone)
@@ -356,7 +364,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
         RollTheDice(0, 20);
         Debug.Log("Enemy rolled the dice.");
-        StartCoroutine(WaitEnemy(1.5f));
+        StartCoroutine(WaitEnemy(1f));
     }
 
     private void EnemyAttackPart2()
@@ -391,7 +399,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             Debug.Log("enemyHitPoints " + _currentEnemyHitPoints);
             fightText.text = "You hit the enemy with " + diceroll + " " + classAttackModifier + ".";
             CheckConditions();
-            return;
+            //return;
         }
         if (diceroll + classAttackModifier < enemyAttack && _currentEnemyHitPoints != 0 && _currentPlayerHitPoints != 0)
         {
