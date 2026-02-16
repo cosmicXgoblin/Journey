@@ -31,8 +31,9 @@ public class PlayerData : ScriptableObject
     public int charme;
 
     public int attack;
-    public int hitPoints;
-    public int currenthitPoints;
+    public int attackModifier;
+    public int maxHitPoints;
+    public int currentHitPoints;
 
     public Item Item1;
     public Item Item2;

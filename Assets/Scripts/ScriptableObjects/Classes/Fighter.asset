@@ -25,4 +25,5 @@ MonoBehaviour:
   dexterity: 0
   charme: 0
   attack: 8
-  hitPoints: 5
+  attackModifier: 0
+  maxHitPoints: 5

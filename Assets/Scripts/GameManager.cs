@@ -28,12 +28,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     private int classAttack;
     private int _currentPlayerHitPoints;
     public int currentPlayerHitPoints;
-    private int classAttackModifier;
+    public int classAttackModifier;
 
     [Header("UI")]
     public TextMeshProUGUI fightText;
     public TextMeshProUGUI whichRoundText;
-    public GameObject playerAttackButton;
+    private GameObject _playerAttackButton;
 
     [Header("Fight")]
     BattleState currentBattleState;
@@ -42,9 +42,9 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     int randomNumberOdd;
     bool playerTurn;
     int diceroll;
-    bool playerTurnDone;
-    bool enemyTurnDone;
-    bool playerFirst;
+    [SerializeField] bool playerTurnDone;
+    [SerializeField] bool enemyTurnDone;
+    [SerializeField] bool playerFirst;
 
 
     [Header("PlayerData")]
@@ -55,9 +55,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     #region init
     private void Awake()
     {
-        playerAttackButton.SetActive(false);
         currentBattleState = BattleState.noFight;
         currentGameState = GameState.init;
+
+        _playerAttackButton = _uiManager.GetComponent<UiManager>().playerAttackButton;
+        _playerAttackButton.SetActive(false);
     }
 
     void Update()
@@ -117,9 +119,20 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _playerData.dexterity = currentClass.dexterity;
         _playerData.charme = currentClass.charme;
         _playerData.attack = currentClass.attack;
-        _playerData.hitPoints = currentClass.hitPoints;
-        _playerData.currenthitPoints = _playerData.hitPoints;
-      //this are later for loading / saving, just as a reminder
+        _playerData.maxHitPoints = currentClass.maxHitPoints;
+        _playerData.currentHitPoints = currentClass.maxHitPoints;
+
+        if (currentClass.className == "Fighter")
+            _playerData.attackModifier = _playerData.fight;
+        if (currentClass.className == "Thief")
+            _playerData.attackModifier = _playerData.dexterity;
+        if (currentClass.className == "Sorcerer")
+            _playerData.attackModifier = _playerData.thinking;
+
+        //Debug.Log(_playerData.attackModifier);
+        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
+
+        //this are later for loading / saving, just as a reminder
         // currentPlayerData.currenthitPoints;
         // currentPlayerData.Item1
         // currentPlayerData.Item2
@@ -173,21 +186,23 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             if (currentClass == _database.GetComponent<Database>().fighter)
             {
                 classAttack = _database.GetComponent<Database>().fighter.attack;
-                _currentPlayerHitPoints = _database.GetComponent<Database>().fighter.hitPoints;
-                classAttackModifier = _database.GetComponent<Database>().fighter.fight;
+                _currentPlayerHitPoints = _database.GetComponent<Database>().fighter.maxHitPoints;
+                //classAttackModifier = _playerData.attackModifier;
             }
             if (currentClass == _database.GetComponent<Database>().thief)
             {
                 classAttack = _database.GetComponent<Database>().thief.attack;
-                _currentPlayerHitPoints = _database.GetComponent<Database>().thief.hitPoints;
-                classAttackModifier = _database.GetComponent<Database>().fighter.dexterity;
+                _currentPlayerHitPoints = _database.GetComponent<Database>().thief.maxHitPoints;
+                //classAttackModifier = _database.GetComponent<Database>().thief.attackModifier;
             }
             if (currentClass == _database.GetComponent<Database>().sorcerer)
             {
                 classAttack = _database.GetComponent<Database>().sorcerer.attack;
-                _currentPlayerHitPoints = _database.GetComponent<Database>().sorcerer.hitPoints;
-                classAttackModifier = _database.GetComponent<Database>().fighter.thinking;
+                _currentPlayerHitPoints = _database.GetComponent<Database>().sorcerer.maxHitPoints;
+                //classAttackModifier = _database.GetComponent<Database>().sorcerer.attackModifier;
             }
+
+            classAttackModifier = _playerData.attackModifier;
 
             //classAttackModifierText.text = classAttackModifier.ToString();
         }
@@ -302,18 +317,18 @@ public class GameManager : MonoBehaviour //, IDataPersistence
   /// Will only get called if the current GameState is activeBattle.
   /// Tracking a lot of the related UI, most should be moved. TODO.
   /// </summary>
-    
 
     private void CheckTurn()
     {
         if (playerTurn & !playerTurnDone)
         {
-            playerAttackButton.SetActive(true);
+            //_playerAttackButton.SetActive(true);
+            playerTurnDone;
         }
 
         if (!playerTurn & !enemyTurnDone)
-        {
-            playerAttackButton.SetActive(false);
+        { 
+            //_playerAttackButton.SetActive(false);
             EnemyAttackPart1();
         }
 
@@ -326,6 +341,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
             if (playerFirst) playerTurn = true;
             else playerTurn = false;
+
         }     
     }
     
@@ -375,8 +391,9 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             Debug.Log("enemyHitPoints " + _currentEnemyHitPoints);
             fightText.text = "You hit the enemy with " + diceroll + " " + classAttackModifier + ".";
             CheckConditions();
+            return;
         }
-        if (diceroll + classAttackModifier < enemyAttack)
+        if (diceroll + classAttackModifier < enemyAttack && _currentEnemyHitPoints != 0 && _currentPlayerHitPoints != 0)
         {
             fightText.text = "You missed the enemy!";
         }
@@ -392,6 +409,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     private void CheckConditions()
     {
+        _playerData.currentHitPoints = _currentPlayerHitPoints;
 
         if (_currentEnemyHitPoints <= 0)
         {
@@ -400,6 +418,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
             fightText.text = "You killed the enemy. Good for you.";
             StartCoroutine(WaitAdventure(3f));
+            ClearFight();
         }
         if (_currentPlayerHitPoints <= 0)
         {
@@ -408,21 +427,25 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
             fightText.text = "The enemy wounded you badly. Are you dying?";
             StartCoroutine(WaitAdventure(0.5f));
+            ClearFight();
         }
     }
 
     private void ClearFight()
     {
         currentBattleState = BattleState.noFight;
+        currentGameState = GameState.onMap;
+
         currentClass = null;
         currentEnemy = null;
         classAttack = 0;
         enemyAttack = 0;
-        _currentPlayerHitPoints = 0;
         _currentEnemyHitPoints = 0;
 
         fightText.text = "";
-        playerAttackButton.SetActive(false);
+        _playerAttackButton.SetActive(false);
+
+        _uiManager.GetComponent<UiManager>().ClearFightUI();
     }
     
     private IEnumerator WaitEnemy(float delay)
@@ -442,7 +465,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     public void Heal()
     {
-        Debug.Log("Your soul is healed. Your body not. Maybe the first one was a lie, sorry.");
+        Debug.Log("Your body is healded. Your soul will always remember what you endured. Healed to " + _playerData.maxHitPoints + ".");
+
+        _playerData.currentHitPoints = _playerData.maxHitPoints;
+        _currentPlayerHitPoints = _playerData.maxHitPoints;
+        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.maxHitPoints);
+
     }
 
     #region IDataPersistence

@@ -29,5 +29,6 @@ public class Class : ScriptableObject
     public int charme;
 
     public int attack;
-    public int hitPoints;
+    public int attackModifier;
+    public int maxHitPoints;
 }

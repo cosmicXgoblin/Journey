@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: -1
   enemyName: Rat
-  enemySprite: {fileID: 21300000, guid: 1baadf6d9252cfe48aff0af9809c5c5d, type: 3}
+  enemySprite: {fileID: 21300000, guid: fc74da4961db2a64c8b215e059e9081f, type: 3}
   fight: 1
   thinking: 0
   speed: 3

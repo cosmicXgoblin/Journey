@@ -44,7 +44,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image _classImage;
     [SerializeField] private TextMeshProUGUI _className;
     [SerializeField] private Slider _healthBar;
+    [SerializeField] private TextMeshProUGUI _healthBarText;
     [SerializeField] private Slider _manaBar;
+    [SerializeField] private TextMeshProUGUI _manaBarText;
     [SerializeField] private GameObject _manaBarObject;
     [SerializeField] private GameObject _inventory;
 
@@ -62,6 +64,7 @@ public class UiManager : MonoBehaviour
     public TextMeshProUGUI classHitPointsText;
     public int currentPlayerHitPoints;
     public TextMeshProUGUI classAttackModifierText;
+    public GameObject playerAttackButton;
 
     [Header("UI Charactapperance (game)")]
     [SerializeField] private Sprite _classMapfigure_Base;
@@ -113,8 +116,8 @@ public class UiManager : MonoBehaviour
             _classMapfigure_Base = _database.GetComponent<Database>().fighter.classMapfigure_Base;
             _classMapfigure_noBase = _database.GetComponent<Database>().fighter.classMapfigure_noBase;
             _className.text = _database.GetComponent<Database>().fighter.className;
-            _healthBar.value = _database.GetComponent<Database>().fighter.hitPoints;
-            _healthBar.maxValue = _database.GetComponent<Database>().fighter.hitPoints;
+            _healthBar.value = _database.GetComponent<Database>().fighter.maxHitPoints;
+            _healthBar.maxValue = _database.GetComponent<Database>().fighter.maxHitPoints;
             _manaBarObject.SetActive(false);
         }
 
@@ -124,8 +127,8 @@ public class UiManager : MonoBehaviour
             _classMapfigure_Base = _database.GetComponent<Database>().thief.classMapfigure_Base;
             _classMapfigure_noBase = _database.GetComponent<Database>().thief.classMapfigure_noBase;
             _className.text = _database.GetComponent<Database>().thief.className;
-            _healthBar.value = _database.GetComponent<Database>().thief.hitPoints;
-            _healthBar.maxValue = _database.GetComponent<Database>().thief.hitPoints;
+            _healthBar.value = _database.GetComponent<Database>().thief.maxHitPoints;
+            _healthBar.maxValue = _database.GetComponent<Database>().thief.maxHitPoints;
             _manaBarObject.SetActive(false);
         }
 
@@ -135,12 +138,14 @@ public class UiManager : MonoBehaviour
             _classMapfigure_Base = _database.GetComponent<Database>().sorcerer.classMapfigure_Base;
             _classMapfigure_noBase = _database.GetComponent<Database>().sorcerer.classMapfigure_noBase;
             _className.text = _database.GetComponent<Database>().sorcerer.className;
-            _healthBar.value = _database.GetComponent<Database>().sorcerer.hitPoints;
-            _healthBar.maxValue = _database.GetComponent<Database>().sorcerer.hitPoints;
+            _healthBar.value = _database.GetComponent<Database>().sorcerer.maxHitPoints;
+            _healthBar.maxValue = _database.GetComponent<Database>().sorcerer.maxHitPoints;
             _manaBar.value = 100;
             _manaBarObject.SetActive(true);
         }
         _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_Base;
+
+        UpdateUi(_gameManager.GetComponent<GameManager>().currentPlayerHitPoints);
 
     }
 
@@ -208,24 +213,6 @@ public class UiManager : MonoBehaviour
     }
     #endregion
 
-
-    public void ShowFightUI()
-    {
-        _testMap.SetActive(false);
-        _characterPanel.SetActive(false);
-        _testFight.SetActive(true);
-    }
-
-    public void ClearFightUI()
-    {
-        className.text = "Name";
-        enemyName.text = "Name";
-        classAttackText.text = "Attack";
-        enemyAttackText.text = "Attack";
-        classHitPointsText.text = "Hitpoints";
-        enemyHitPointsText.text = "Hitpoints";
-    }
-
     #region Calls
     public void CallBackToMap()
     {
@@ -253,6 +240,7 @@ public class UiManager : MonoBehaviour
         }
     }
     #endregion
+
     public void ReadStringInput(string s)
     {
         inputFileName = s + ".journey";
@@ -260,6 +248,22 @@ public class UiManager : MonoBehaviour
     }
 
     #region Fight
+    public void ShowFightUI()
+    {
+        _testMap.SetActive(false);
+        _characterPanel.SetActive(false);
+        _testFight.SetActive(true);
+    }
+
+    public void ClearFightUI()
+    {
+        className.text = "Name";
+        enemyName.text = "Name";
+        classAttackText.text = "Attack";
+        enemyAttackText.text = "Attack";
+        classHitPointsText.text = "Hitpoints";
+        enemyHitPointsText.text = "Hitpoints";
+    }
 
     public void CallSetFightUI(ScriptableObject currentClass, ScriptableObject currentEnemy)
     {
@@ -290,34 +294,30 @@ public class UiManager : MonoBehaviour
             {
                 classAttackText.text = _database.GetComponent<Database>().fighter.attack.ToString();
                 classImage.sprite = _database.GetComponent<Database>().fighter.classSprite;
-                classHitPointsText.text = _database.GetComponent<Database>().fighter.hitPoints.ToString();
+                classHitPointsText.text = _database.GetComponent<Database>().fighter.maxHitPoints.ToString();
             }
             if (currentClass == _database.GetComponent<Database>().thief)
             {
                 classAttackText.text = _database.GetComponent<Database>().thief.attack.ToString();
                 classImage.sprite = _database.GetComponent<Database>().thief.classSprite;
-                classHitPointsText.text = _database.GetComponent<Database>().thief.hitPoints.ToString();
             }
             if (currentClass == _database.GetComponent<Database>().sorcerer)
             {
                 classAttackText.text = _database.GetComponent<Database>().sorcerer.attack.ToString();
                 classImage.sprite = _database.GetComponent<Database>().thief.classSprite;
-                classHitPointsText.text = _database.GetComponent<Database>().sorcerer.hitPoints.ToString();
             }
 
-            //classAttackModifierText.text = classAttackModifier.ToString();
+            classAttackModifierText.text = _gameManager.GetComponent<GameManager>().classAttackModifier.ToString();
         }
     }
 
-
-
-
-   #endregion
+    #endregion
 
 
     public void UpdateUi(int currentPlayerHitPoints)        
     {
         _healthBar.value = currentPlayerHitPoints;
+        _healthBarText.text = currentPlayerHitPoints.ToString() + " / " +  _gameManager.GetComponent<GameManager>().PlayerData.maxHitPoints.ToString();
 
         //enemyHitPointsText.text = _currentEnemyHitPoints.ToString();
         //classHitPointsText.text = _currentPlayerHitPoints.ToString();
