@@ -39,10 +39,10 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     //    this.transform.position = new Vector3(-332.33f, -157.89f, -4.2f);
     //}
 
-    //private void OnPause()
-    //{
-    //    _uiManager.GetComponent<UiManager>().CallPause();
-    //}
+    private void OnPause()
+    {
+        _uiManager.GetComponent<UiManager>().CallPause();
+    }
 
     private void OnEnable()
     {
