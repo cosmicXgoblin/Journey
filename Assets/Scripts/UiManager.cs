@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Device;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
@@ -18,8 +19,12 @@ public class UiManager : MonoBehaviour
     [Header("Title Menu")]
     [SerializeField] private GameObject _canvasTitle;
     [SerializeField] private GameObject _titlePanel;
+    [SerializeField] private GameObject _titlePanelButtons;
+    [SerializeField] private GameObject _titlePanelOptions;
     [SerializeField] private GameObject _titlePanelNewGame;
+    [SerializeField] private GameObject _titleButtonStartGame;
     [SerializeField] private GameObject _titlePanelLoadGame;
+
 
     [Header("Screens & Panels")]
     [SerializeField] private GameObject _testFight;
@@ -92,8 +97,11 @@ public class UiManager : MonoBehaviour
         _screenUi.SetActive(false);
         _titlePanelLoadGame.SetActive(false);
 
+
         _canvasTitle.SetActive(true);
         _titlePanel.SetActive(true);
+        _titlePanelButtons.SetActive(true);
+        _titlePanelOptions.SetActive(false);
 
         original.a = 0.5f;
     }
@@ -163,12 +171,23 @@ public class UiManager : MonoBehaviour
         _playerController.GetComponent<PlayerController>().playerMap.Disable();
     }
 
-    public void OnClickOptions()
+    public void OnClickOptionsPause()
     {
         _pausePanelOptions.SetActive(true);
         _pausePanelMain.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(_pausePanelOptions.transform.GetChild(0).gameObject);
     }
-     
+
+    public void OnClickOptionsMain()
+    {
+        _titlePanelOptions.SetActive(true);
+        _titlePanelButtons.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(_titlePanelOptions.transform.GetChild(0).gameObject);
+    }
+
+    // not in use
     public void OnClickPauseMenu()
     {
         CallPause();
@@ -178,6 +197,8 @@ public class UiManager : MonoBehaviour
     {
         _titlePanel.SetActive(false);
         _titlePanelNewGame.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_titleButtonStartGame);
     }
     public void OnClickStartNewGame()
     {
@@ -187,6 +208,8 @@ public class UiManager : MonoBehaviour
 
         _titlePanelNewGame.SetActive(false);
         _testChooseCharacter.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_fighterButton.gameObject);
     }
 
     public void OnClickLoadGamePart1()
@@ -207,7 +230,11 @@ public class UiManager : MonoBehaviour
     public void OnClickBackToTitle()
     {
         _titlePanelNewGame.SetActive(false);
+        _titlePanelOptions.SetActive(false);
         _titlePanel.SetActive(true);
+        _titlePanelButtons.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_titlePanelButtons.transform.GetChild(0).gameObject);
     }
     
     public void OnClickChangeMapfigureBase()
@@ -227,6 +254,7 @@ public class UiManager : MonoBehaviour
         _testFight.SetActive(false);
         _characterPanel.SetActive(true);
     }
+
     public void CallPause()
     {
         if (!_pausePanel.activeInHierarchy)
@@ -234,14 +262,18 @@ public class UiManager : MonoBehaviour
             _pausePanel.SetActive(true);
             _pausePanelOptions.SetActive(false);
             _pausePanelMain.SetActive(true);
+
             _playerController.GetComponent<PlayerController>().playerMap.Disable();
             _playerController.GetComponent<PlayerController>().uiMap.Enable();
+
+            EventSystem.current.SetSelectedGameObject(_pausePanelMain.transform.GetChild(0).gameObject);
         }
         else
         {
             _pausePanel.SetActive(false);
             _pausePanelOptions.SetActive(false);
             _pausePanelMain.SetActive(true);
+
             _playerController.GetComponent<PlayerController>().playerMap.Enable();
             _playerController.GetComponent<PlayerController>().uiMap.Disable();
         }
