@@ -8,6 +8,8 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
+using Ink.Runtime;
+using System.Collections.Generic;
 
 public class UiManager : MonoBehaviour
 {
@@ -34,6 +36,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private GameObject _pausePanelMain;
     [SerializeField] private GameObject _pausePanelOptions;
+    [SerializeField] private GameObject _dialogueAndChoicesPanel;
+    [SerializeField] private GameObject _dialoguePanel;
+    [SerializeField] private GameObject _choicesPanel;
 
     [Header("Persistence")]
     public string inputFileName;
@@ -83,6 +88,8 @@ public class UiManager : MonoBehaviour
 
 
 
+
+
     #region Init
     void Start()
     {
@@ -96,6 +103,8 @@ public class UiManager : MonoBehaviour
         _inventory.SetActive(false);
         _screenUi.SetActive(false);
         _titlePanelLoadGame.SetActive(false);
+        _dialogueAndChoicesPanel.SetActive(false); ;
+        _dialoguePanel.SetActive(false); ;
 
 
         _canvasTitle.SetActive(true);
@@ -278,6 +287,15 @@ public class UiManager : MonoBehaviour
             _playerController.GetComponent<PlayerController>().uiMap.Disable();
         }
     }
+    
+    public void CallDialogueUI()
+    {
+        _playerController.SetActive(false);
+
+        _dialogueAndChoicesPanel.SetActive(true);
+        _dialoguePanel.SetActive(true);
+        _choicesPanel.SetActive(false);
+    }
     #endregion
 
     public void ReadStringInput(string s)
@@ -374,6 +392,12 @@ public class UiManager : MonoBehaviour
         //yield return new WaitForSeconds(delay);
         //_target.color = new Color(1f, 1f, 1f, 1f);
     }
+
+    #endregion
+
+    #region Dialogue
+    
+    
 
     #endregion
 

@@ -1,13 +1,14 @@
 VAR class = ""
-~ temp item = ""
-~ temp cost = ""
-
-
+VAR item = ""
+VAR cost = ""
+/* _________________________________ */
 
 -> main
 
 === main ===
 You new here? # speaker: narrator
+Test
+Test
     *Yes.
     *Apparently.
     *No, I just wanted to replay the tutorial.
