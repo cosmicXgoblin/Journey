@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ChoiceButton : MonoBehaviour, ISelectHandler
+public class ChoiceButton : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Button _button;
     [SerializeField] private TextMeshProUGUI _choiceText;
 
-    private int choiceIndex = -1;
+    private int _choiceIndex = -1;
 
     public void SetChoiceText(string choiceTextString)
     {
@@ -18,7 +18,7 @@ public class ChoiceButton : MonoBehaviour, ISelectHandler
 
     public void SetChoiceIndex(int choiceIndex)
     {
-        this.choiceIndex = choiceIndex;
+        this._choiceIndex = choiceIndex;
     }
 
     public void SelectButton()
@@ -26,8 +26,8 @@ public class ChoiceButton : MonoBehaviour, ISelectHandler
         _button.Select();
     }
 
-    public void OnSelect(BaseEventData eventData)
+    public void OnClickSelect()
     {
-       EventsManager.Instance.dialogueEvents.UpdateChoiceIndex(choiceIndex);
+        DialogueManager.Instance.UpdateChoiceIndex(_choiceIndex);
     }
 }

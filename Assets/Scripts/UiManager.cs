@@ -294,7 +294,6 @@ public class UiManager : MonoBehaviour
 
         _dialogueAndChoicesPanel.SetActive(true);
         _dialoguePanel.SetActive(true);
-        _choicesPanel.SetActive(false);
     }
     #endregion
 

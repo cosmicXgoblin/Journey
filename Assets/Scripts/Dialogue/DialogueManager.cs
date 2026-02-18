@@ -45,7 +45,7 @@ public class DialogueManager : MonoBehaviour
        // EventsManager.Instance.dialogueEvents.OnUpdateChoiceIndex += UpdateChoiceIndex;
     }
 
-    private void UpdateChoiceIndex(int choiceIndex)
+    public void UpdateChoiceIndex(int choiceIndex)
     {
         this.currentChoiceIndex = choiceIndex;
     }
@@ -142,13 +142,14 @@ public class DialogueManager : MonoBehaviour
             choiceButton.gameObject.SetActive(true);
             choiceButton.SetChoiceText(dialogueChoice.text);
             choiceButton.SetChoiceIndex(inkChoiceIndex);
-            choiceButtonIndex--;
 
             if (inkChoiceIndex == 0)
             {
                 choiceButton.SelectButton();
-                DialogueManager.Instance.UpdateChoiceIndex(0);
+                DialogueManager.Instance.UpdateChoiceIndex(1);
             }
+
+            choiceButtonIndex--;
         }
     }
 
@@ -163,5 +164,10 @@ public class DialogueManager : MonoBehaviour
         _tempKnotName = "";
     }
 
+    //public void UpdateChoiceIndex(int _choiceIndex)
+    //{
+    //    if (OnUpdateChoiceIndex != null)
+    //        OnUpdateChoiceIndex(_choiceIndex);
+    //}
 
 }

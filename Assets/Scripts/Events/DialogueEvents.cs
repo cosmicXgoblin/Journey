@@ -23,10 +23,9 @@ public class DialogueEvents
     //        OnDisplayDialogue(dialogueLine, dialogueChoices);
     //}
 
-    public event Action<int> OnUpdateChoiceIndex;
-    public void UpdateChoiceIndex(int choiceIndex)
-    {
-        if (OnUpdateChoiceIndex != null)
-            OnUpdateChoiceIndex(choiceIndex);
-    }
+    //public void UpdateChoiceIndex(int choiceIndex)
+    //{
+    //    if (OnUpdateChoiceIndex != null)
+    //        OnUpdateChoiceIndex(choiceIndex);
+    //}
 }
