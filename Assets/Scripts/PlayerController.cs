@@ -52,8 +52,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     private void OnDisable()
     {
-        playerMap.Disable();
         uiMap.Enable();
+        playerMap.Disable();
     }
 
     /// <summary>

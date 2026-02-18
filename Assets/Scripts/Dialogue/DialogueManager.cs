@@ -50,6 +50,7 @@ public class DialogueManager : MonoBehaviour
         this.currentChoiceIndex = choiceIndex;
     }
 
+
     private void SubmitPressed(string knotName)
     {
         if (!dialoguePlaying)
@@ -61,6 +62,15 @@ public class DialogueManager : MonoBehaviour
 
     public void OnClickSubmit()
     {
+        Submit();
+    }
+    public void CallSubmit()
+    {
+        Submit();
+    }
+
+    private void Submit()
+    {
         if (!dialoguePlaying)
             return;
         else
@@ -69,11 +79,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+
+
     public void CallDialogue(string knotName)
     {
         EnterDialogue(knotName);
         //_tempKnotName = knotName;
     }
+
 
     public void EnterDialogue(string knotName)
     {
@@ -100,8 +113,6 @@ public class DialogueManager : MonoBehaviour
             currentChoiceIndex = -1;
         }
 
-        Debug.Log(story.canContinue.ToString());
-        Debug.Log(story.currentChoices);
         if (story.canContinue)
         {
             string dialogueLine = story.Continue();

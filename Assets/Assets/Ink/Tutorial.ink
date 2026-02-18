@@ -7,46 +7,44 @@ VAR cost = ""
 
 === main ===
 You new here? # speaker: narrator
-Test
-Test
-    *Yes.
-    *Apparently.
-    *No, I just wanted to replay the tutorial.
+    *[Yes.]
+    *[Apparently.]
+    *[No, I just wanted to replay the tutorial.]
         So, either you're the person who's trying to mark this project, or a beloved friend the dev talked into testing it ... or you're just forgetful.
-        * * Person who's trying to mark this project.
+        * * [Person who's trying to mark this project.]
             Please imagine me in a suit and a proper british accent then.
             Shall we begin?
-        * * Beloved friend or something alike.
+        * * [Beloved friend or something alike.]
             Message from the dev:
             You are loved and I am eternal grateful to know you <3
             Let's get this started.
-        * * Just forgetful.
-            Alrighty tighty, then once again:
-    - The reasons you choose this life can be many.    
+        * * [Just forgetful.]
+            Alrighty tighty, then once again: # background: village
+    - The reasons you choose this life can be many.  
 Maybe you're just looking for honor, riches or you like being stabbed repeatedly with various weapons.
 Adventure does not discriminate.
 -> characterselection
 
 === characterselection ===
 What is your background?
-    + Fighter
+    + [Fighter]
         ~ class = "fighter"
         You fight on the frontlines, your weapons of choice is a sword or an axe.
         -> acceptSelectedCharacter
-    + Thief
+    + [Thief]
         ~  class = "thief"
         You like to deceive and the thrill of stealing. In combat you prefer to stay hidden. Your weapon of choice is a dagger or a bow.
         -> acceptSelectedCharacter
-    + Sorcerer
+    + [Sorcerer]
         ~ class = "sorcerer"
         You wield great power, but it comes with a price. Your weapon of choice, beside your magic, is your staff.
         -> acceptSelectedCharacter
 
 === acceptSelectedCharacter ===
 Does this sound like you?
-    * Yes. I am a {class}.
+    * [Yes. I am a {class}.]
     -> startAdventure
-    * No, that does not feel right.
+    + [No, that does not feel right.]
     -> characterselection
     
 === startAdventure ===
@@ -66,33 +64,34 @@ But first, you should stop by the local shop.
 
 === firstTimeShopper ===
 Placeholdertext. #TODO
+-> shopping
+
+=== shopping ===
 Items you can purchase:
-    + [Potion of Healing]
-        ~ item = "Potion of Healing"
-        ~ cost = "50"
-    + [Cheese]
-        ~ item = "cheese"
-        ~ cost = "3"
-    + [Apple]
-        ~ item = "apple"
-        ~ cost = "1"
-    + [Sharp Sword]
-        ~ item = "sharp sword"
-        ~ cost = "75"
-    + [Potion of Magic]
-        ~ item = "Potion of Magic"
-        ~ cost = "75"
     + I'm done shopping.
             Are you sure? You won't be able to come back until you completed the tutorial.
             *** Yes.
             -> firstTimeShopperEnd
             *** No.
             -> firstTimeShopper
+    + [Potion of Healing]
+        ~ item = "Potion of Healing"
+        ~ cost = "50"
+    + [Cheese]
+        ~ item = "cheese"
+        ~ cost = "3"
+    + [Sharp Sword]
+        ~ item = "sharp sword"
+        ~ cost = "75"
+    + [Potion of Magic]
+        ~ item = "Potion of Magic"
+        ~ cost = "75"
+
     - The {item} will cost you {cost}G.
-        ** Buy it. # TODO add logic
+        ++ Buy it. # TODO add logic
             You bought {item} for {cost}G.
             -> firstTimeShopper
-        ** Don't buy it.
+        ++ [Don't buy it.]
             -> firstTimeShopper
 
         
@@ -103,9 +102,9 @@ On the table is a weird looking potion.
 
 === stealOpportunity ===
 Do you want to steal the weird potion?
-    * Yes.
+    * [Yes.]
     -> stealWeirdPotion
-    * No.
+    * [No.]
     -> DONE
     
 === stealWeirdPotion ===
@@ -142,14 +141,14 @@ Yes? #speaker: tavernkeeper
 -> theTavernkeeper
 
 === theTavernkeeper ===
-    * Give them the piece of paper they put up on the quest board.
+    * [Give them the piece of paper they put up on the quest board.]
         -> newHelp
-    * Tell them you're here because of the rats.
+    * [Tell them you're here because of the rats.]
         Rats? #speaker: tavernkeeper
         Oh no, you're mistaken, we have no rats here.
         They jump up onto the bar, their hand clamping hard on your shoulder. #speaker: narrator
         -> newHelp
-    * Study their technique with the dirty glass. 
+    * [Study their technique with the dirty glass. ]
         It's remarkable. #speaker: narrator
         With every movement of their wrist, they are able to incorporate more and more dirt into the glass.
         You ask yourself if someone trained them or if there are some Olympics of Barkeepres.
@@ -173,14 +172,14 @@ We are a very clean establishment, so there are DEFINITLY no rats in our basemen
 And if you see something ratshaped there, well, as I said:
 There are DEFINITLY no rats in the basement.
 And after you looked at our basement, and i confirm that it is STILL ratfree, you get your reward for, eh, looking at our basement.
-    * Point to the paper. # if paper given TODO
-    * Nod slowy and knowingly.
-    * Stare at them.
+    * [Point to the paper.] # if paper given TODO
+    * [Nod slowy and knowingly.]
+    * [Stare at them.]
     - Yes, yes, and as a reward ...
 You're new here in town, do you have somwhere to rest?
  /*   * Yes.
         Well, that's for sure a lie. */
-    * No.
+    * [No.]
     - I am far from rich, but what if you can make yourself a home behind some crates?
     Nothing fancy, but better than the streets.
     Some coin wuld be nice, but a warm place sounds good, especially after your last weeks on the road.
@@ -193,16 +192,16 @@ You're new here in town, do you have somwhere to rest?
 They carefully open the door and, with a swift motion, push you into the room.
 You hear the rustling of keys and something softly clicking-
 Did they just ... lock you in?
-    * Punch against the door.
+    * [Punch against the door.]
         Great. #TODO logic
         Now you're locked in AND your fist is aching.
         -> ratIsAttacking
-    * Shout at them.
+    * [Shout at them.]
         Nothing.
         Nobody will come to your help
         You and your dreams will die here and ...
         -> ratIsAttacking
-    * Look at your environment.
+    * [Look at your environment.]
         There is some sort of arcane light under the ceiling, but it's dim and flickering.
         You can see some crates and barrels.
         Beside a torn up bag is a giant rat, munching away at it's former contet.
