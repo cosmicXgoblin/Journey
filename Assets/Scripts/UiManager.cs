@@ -8,6 +8,8 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
+using Ink.Runtime;
+using System.Collections.Generic;
 
 public class UiManager : MonoBehaviour
 {
@@ -34,6 +36,10 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private GameObject _pausePanelMain;
     [SerializeField] private GameObject _pausePanelOptions;
+    [SerializeField] private GameObject _dialogueAndChoicesPanel;
+    [SerializeField] private GameObject _dialoguePanel;
+    [SerializeField] private GameObject _choicesPanel;
+    [SerializeField] private GameObject _chooseTutorialPanel;
 
     [Header("Persistence")]
     public string inputFileName;
@@ -83,6 +89,8 @@ public class UiManager : MonoBehaviour
 
 
 
+
+
     #region Init
     void Start()
     {
@@ -96,6 +104,9 @@ public class UiManager : MonoBehaviour
         _inventory.SetActive(false);
         _screenUi.SetActive(false);
         _titlePanelLoadGame.SetActive(false);
+        _dialogueAndChoicesPanel.SetActive(false); ;
+        _dialoguePanel.SetActive(false);
+        _chooseTutorialPanel.SetActive(false);
 
 
         _canvasTitle.SetActive(true);
@@ -207,9 +218,28 @@ public class UiManager : MonoBehaviour
         DataPersistenceManager.instance.CallSelectFilename(inputFileName);
 
         _titlePanelNewGame.SetActive(false);
+        _chooseTutorialPanel.SetActive(false);
         _testChooseCharacter.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(_fighterButton.gameObject);
+    }
+
+    public void OnClickOpenTutorialQuestion()
+    {
+        _titlePanel.SetActive(false);
+        _chooseTutorialPanel.SetActive(true);
+    }
+
+    public void OnClickStartTutorial()
+    {
+        _titlePanel.SetActive(false);
+        _titlePanelNewGame.SetActive(false);
+        _chooseTutorialPanel.SetActive(false);
+        _screenUi.SetActive(true);
+        _dialogueAndChoicesPanel.SetActive(true);
+        _dialoguePanel.SetActive(true);
+
+        Debug.Log("Here's the tutorial.");
     }
 
     public void OnClickLoadGamePart1()
@@ -231,6 +261,7 @@ public class UiManager : MonoBehaviour
     {
         _titlePanelNewGame.SetActive(false);
         _titlePanelOptions.SetActive(false);
+        _chooseTutorialPanel.SetActive(false);
         _titlePanel.SetActive(true);
         _titlePanelButtons.SetActive(true);
 
@@ -277,6 +308,16 @@ public class UiManager : MonoBehaviour
             _playerController.GetComponent<PlayerController>().playerMap.Enable();
             _playerController.GetComponent<PlayerController>().uiMap.Disable();
         }
+    }
+    
+    public void CallDialogueUI()
+    {
+        _playerController.SetActive(false);
+
+        _dialogueAndChoicesPanel.SetActive(true);
+        _dialoguePanel.SetActive(true);
+
+        _playerController.SetActive(false);
     }
     #endregion
 
@@ -374,6 +415,12 @@ public class UiManager : MonoBehaviour
         //yield return new WaitForSeconds(delay);
         //_target.color = new Color(1f, 1f, 1f, 1f);
     }
+
+    #endregion
+
+    #region Dialogue
+    
+    
 
     #endregion
 

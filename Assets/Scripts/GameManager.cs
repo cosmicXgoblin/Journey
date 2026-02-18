@@ -465,6 +465,7 @@ enum GameState
     init,
     transition,
     onMap,
+    inDialogue,
     activeBattle,
     paused
 }
