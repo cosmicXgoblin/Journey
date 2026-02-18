@@ -25,11 +25,13 @@ MonoBehaviour:
   dexterity: 0
   charme: 0
   attack: 0
-  hitPoints: 0
-  currenthitPoints: 0
+  attackModifier: 0
+  maxHitPoints: 0
+  currentHitPoints: 0
   Item1: {fileID: 0}
   Item2: {fileID: 0}
   Item3: {fileID: 0}
   Item4: {fileID: 0}
   Item5: {fileID: 0}
   lastLocation: {fileID: 0}
+  gold: 0

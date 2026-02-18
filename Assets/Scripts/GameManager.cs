@@ -51,14 +51,21 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     [Header("PlayerData")]
     [SerializeField] private PlayerData _playerData;
 
+    [SerializeField] private Item _tempItem;
+    [SerializeField] private InventorySlot _tempInvSlot;
+
      public PlayerData PlayerData => _playerData;
     public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
     public int CurrentEnemyHitPoints => _currentEnemyHitPoints;
     public int Round => _round;
+    public static GameManager Instance { get; private set; }
+
 
     #region init
     private void Awake()
     {
+        if (Instance == null) Instance = this;
+
         currentBattleState = BattleState.noFight;
         currentGameState = GameState.init;
 
@@ -126,6 +133,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _playerData.attack = currentClass.attack;
         _playerData.maxHitPoints = currentClass.maxHitPoints;
         _playerData.currentHitPoints = currentClass.maxHitPoints;
+        _playerData.gold = 100;
 
         if (currentClass.className == "Fighter")
             _playerData.attackModifier = _playerData.fight;
@@ -136,6 +144,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
         //Debug.Log(_playerData.attackModifier);
         _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
+        _uiManager.GetComponent<UiManager>().UpdateUI(_playerData.gold);
         _currentPlayerHitPoints = _playerData.currentHitPoints;
 
         currentGameState = GameState.onMap;
@@ -426,6 +435,39 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     }
 
     #endregion
+
+
+    public void SetTempItem(Item itemInSlot, InventorySlot inventorySlot)
+    {
+        _tempItem = itemInSlot;
+        _tempInvSlot = inventorySlot;
+    }
+
+    private void ClearTempItem()
+    {
+        _tempItem = null;
+        _tempInvSlot = null;   
+    }
+
+    public void OnClickConsumeItem()
+    {
+        ConsumeItem(_tempItem, _tempInvSlot);
+    }
+
+    private void ConsumeItem(Item item, InventorySlot inventorySlot)
+    {
+        if (item.effect == ItemEffect.Heal) Debug.Log("Heal");
+        else if (item.effect == ItemEffect.Damage) Debug.Log("Damage");
+        else if (item.effect == ItemEffect.RandomEvent) Debug.Log("RandomEvent");
+
+        inventorySlot.ClearSlot();
+        ClearTempItem();
+    }
+
+    //public void DeleteItem(InventorySlot inventorySlot)
+    //{
+    //    inventorySlot.ClearSlot();
+    //}
 
     public void Heal()
     {
