@@ -436,9 +436,9 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region Items
-    public void OpenConsumableUI(Item item, InventorySlot invSlot)
+    public void OpenConsumableUI()
     {
-        _consumablePanel.SetActive(true);
+            _consumablePanel.SetActive(true);
     }
 
     public void OnClickCloseConsumableUI()
@@ -446,7 +446,7 @@ public class UiManager : MonoBehaviour
         CloseConsumableUI();
     }
 
-    private void CloseConsumableUI()
+    public void CloseConsumableUI()
     {
         _consumablePanel.SetActive(false);
     }

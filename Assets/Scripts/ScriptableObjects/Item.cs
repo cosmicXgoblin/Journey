@@ -17,10 +17,11 @@ public class Item : ScriptableObject
     public bool consumable;
     public ItemEffect effect;
 
-    public bool randomEvent;
+    //public bool randomEvent;
+    public RandomEvent randomEvent;
 
-    public float buff;
-    public float debuff;
+    public int buff;
+    public int debuff;
 
 }
 public enum ItemType
@@ -45,4 +46,9 @@ public enum ItemEffect
     Heal,
     Damage,
     RandomEvent
+}
+
+public enum RandomEvent
+{
+    HealOrDamage
 }

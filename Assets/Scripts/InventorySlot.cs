@@ -49,9 +49,7 @@ public class InventorySlot : MonoBehaviour
     }
 
     public void OnClick()
-    {
-        UpdateInventorySlot();
-        
+    {        
         GameManager.Instance.SetTempItem(itemInSlot, inventorySlot);
 
         Debug.Log(itemName.ToString() + ": " + itemDescription);
@@ -59,13 +57,14 @@ public class InventorySlot : MonoBehaviour
         if (_itemInSlot.consumable == true)
         {
             Item item = _itemInSlot;
-            UiManager.Instance.OpenConsumableUI(item, inventorySlot);
+            UiManager.Instance.OpenConsumableUI();
         }
     }
 
 
     public void ClearSlot()
     {
+        _itemInSlot = null;
         _itemImage.sprite = null;
         itemName = null;
         _itemNameText.text = "";

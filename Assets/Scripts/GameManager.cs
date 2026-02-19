@@ -456,12 +456,29 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     private void ConsumeItem(Item item, InventorySlot inventorySlot)
     {
-        if (item.effect == ItemEffect.Heal) Debug.Log("Heal");
-        else if (item.effect == ItemEffect.Damage) Debug.Log("Damage");
-        else if (item.effect == ItemEffect.RandomEvent) Debug.Log("RandomEvent");
+        if (item.effect == ItemEffect.Heal)
+            Heal(item.buff, false);
+
+        if (item.effect == ItemEffect.RandomEvent)
+        {
+            if (item.randomEvent == RandomEvent.HealOrDamage)
+            {
+                Debug.Log("Will this heal or damage you?");
+                RollTheDice(1, 3);
+                Debug.Log(diceroll);
+                if (diceroll == 1) Heal(item.buff, false);
+                else Damage(item.debuff, false);
+            }
+        }
+
+
+        //if (item.effect == ItemEffect.Heal) Debug.Log("Heal");
+        //else if (item.effect == ItemEffect.Damage) Debug.Log("Damage");
+        //else if (item.effect == ItemEffect.RandomEvent) Debug.Log("RandomEvent");
 
         inventorySlot.ClearSlot();
         ClearTempItem();
+        UiManager.Instance.CloseConsumableUI();
     }
 
     //public void DeleteItem(InventorySlot inventorySlot)
@@ -469,14 +486,46 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     //    inventorySlot.ClearSlot();
     //}
 
-    public void Heal()
+    public void Heal(int heal, bool maxHeal)
     {
-        Debug.Log("Your body is healded. Your soul will always remember what you endured. Healed to " + _playerData.maxHitPoints + ".");
+        if (maxHeal == true)
+        {
+            _playerData.currentHitPoints = _playerData.maxHitPoints;
+        }
+        else
+        {
+            int healToMax = _playerData.maxHitPoints - _playerData.currentHitPoints;
+            Debug.Log("healtToMax: " + healToMax);
+            if (heal > healToMax)
+                _playerData.currentHitPoints = _playerData.maxHitPoints;
+            else _playerData.currentHitPoints += heal;
+            Debug.Log("Player got healed for " + heal);
+        }
+        _currentPlayerHitPoints = _playerData.currentHitPoints;
+        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
 
-        _playerData.currentHitPoints = _playerData.maxHitPoints;
-        _currentPlayerHitPoints = _playerData.maxHitPoints;
-        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.maxHitPoints);
 
+        Debug.Log("Your body is healed. Your soul will always remember what you endured. Healed to " + _playerData.maxHitPoints + ".");
+
+        //_playerData.currentHitPoints = _playerData.maxHitPoints;
+        //_currentPlayerHitPoints = _playerData.maxHitPoints;
+        //_uiManager.GetComponent<UiManager>().UpdateUi(_playerData.maxHitPoints);
+
+    }
+
+    public void Damage (int damage, bool maxDamage)
+    {
+        if (maxDamage)
+        {
+            Debug.Log("You received maximal Damage.");
+        }
+        else
+        {
+            _playerData.currentHitPoints -= damage;
+            Debug.Log("Player got damaged for " + damage);
+        }
+        _currentPlayerHitPoints = _playerData.currentHitPoints;
+        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
     }
 
     #region IDataPersistence
