@@ -21,6 +21,7 @@ MonoBehaviour:
   goldValue: 35
   equipable: 0
   consumable: 1
+  effect: 2
   randomEvent: 1
   buff: 0
   debuff: 0

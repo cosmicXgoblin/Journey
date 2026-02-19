@@ -35,13 +35,18 @@ public class PlayerData : ScriptableObject
     public int maxHitPoints;
     public int currentHitPoints;
 
+    public Item Item0;
     public Item Item1;
     public Item Item2;
     public Item Item3;
     public Item Item4;
     public Item Item5;
+    public Item Item6;
+    public Item Item7;
+    public Item Item8;
 
     public Transform lastLocation;
+    public int gold;
 
     /* 
      public GameObject lastCamp;

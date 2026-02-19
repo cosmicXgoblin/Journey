@@ -9,7 +9,7 @@ public class Map_RestEvents : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            gameManager.GetComponent<GameManager>().Heal();
+            gameManager.GetComponent<GameManager>().Heal(0, true);
         }
     }
 }

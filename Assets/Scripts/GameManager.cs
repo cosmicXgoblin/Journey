@@ -51,14 +51,21 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     [Header("PlayerData")]
     [SerializeField] private PlayerData _playerData;
 
+    [SerializeField] private Item _tempItem;
+    [SerializeField] private InventorySlot _tempInvSlot;
+
      public PlayerData PlayerData => _playerData;
     public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
     public int CurrentEnemyHitPoints => _currentEnemyHitPoints;
     public int Round => _round;
+    public static GameManager Instance { get; private set; }
+
 
     #region init
     private void Awake()
     {
+        if (Instance == null) Instance = this;
+
         currentBattleState = BattleState.noFight;
         currentGameState = GameState.init;
 
@@ -126,6 +133,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _playerData.attack = currentClass.attack;
         _playerData.maxHitPoints = currentClass.maxHitPoints;
         _playerData.currentHitPoints = currentClass.maxHitPoints;
+        _playerData.gold = 100;
 
         if (currentClass.className == "Fighter")
             _playerData.attackModifier = _playerData.fight;
@@ -136,6 +144,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
         //Debug.Log(_playerData.attackModifier);
         _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
+        _uiManager.GetComponent<UiManager>().UpdateUI(_playerData.gold);
         _currentPlayerHitPoints = _playerData.currentHitPoints;
 
         currentGameState = GameState.onMap;
@@ -427,14 +436,96 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     #endregion
 
-    public void Heal()
+
+    public void SetTempItem(Item itemInSlot, InventorySlot inventorySlot)
     {
-        Debug.Log("Your body is healded. Your soul will always remember what you endured. Healed to " + _playerData.maxHitPoints + ".");
+        _tempItem = itemInSlot;
+        _tempInvSlot = inventorySlot;
+    }
 
-        _playerData.currentHitPoints = _playerData.maxHitPoints;
-        _currentPlayerHitPoints = _playerData.maxHitPoints;
-        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.maxHitPoints);
+    private void ClearTempItem()
+    {
+        _tempItem = null;
+        _tempInvSlot = null;   
+    }
 
+    public void OnClickConsumeItem()
+    {
+        ConsumeItem(_tempItem, _tempInvSlot);
+    }
+
+    private void ConsumeItem(Item item, InventorySlot inventorySlot)
+    {
+        if (item.effect == ItemEffect.Heal)
+            Heal(item.buff, false);
+
+        if (item.effect == ItemEffect.RandomEvent)
+        {
+            if (item.randomEvent == RandomEvent.HealOrDamage)
+            {
+                Debug.Log("Will this heal or damage you?");
+                RollTheDice(1, 3);
+                Debug.Log(diceroll);
+                if (diceroll == 1) Heal(item.buff, false);
+                else Damage(item.debuff, false);
+            }
+        }
+
+
+        //if (item.effect == ItemEffect.Heal) Debug.Log("Heal");
+        //else if (item.effect == ItemEffect.Damage) Debug.Log("Damage");
+        //else if (item.effect == ItemEffect.RandomEvent) Debug.Log("RandomEvent");
+
+        inventorySlot.ClearSlot();
+        ClearTempItem();
+        UiManager.Instance.CloseConsumableUI();
+    }
+
+    //public void DeleteItem(InventorySlot inventorySlot)
+    //{
+    //    inventorySlot.ClearSlot();
+    //}
+
+    public void Heal(int heal, bool maxHeal)
+    {
+        if (maxHeal == true)
+        {
+            _playerData.currentHitPoints = _playerData.maxHitPoints;
+        }
+        else
+        {
+            int healToMax = _playerData.maxHitPoints - _playerData.currentHitPoints;
+            Debug.Log("healtToMax: " + healToMax);
+            if (heal > healToMax)
+                _playerData.currentHitPoints = _playerData.maxHitPoints;
+            else _playerData.currentHitPoints += heal;
+            Debug.Log("Player got healed for " + heal);
+        }
+        _currentPlayerHitPoints = _playerData.currentHitPoints;
+        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
+
+
+        Debug.Log("Your body is healed. Your soul will always remember what you endured. Healed to " + _playerData.maxHitPoints + ".");
+
+        //_playerData.currentHitPoints = _playerData.maxHitPoints;
+        //_currentPlayerHitPoints = _playerData.maxHitPoints;
+        //_uiManager.GetComponent<UiManager>().UpdateUi(_playerData.maxHitPoints);
+
+    }
+
+    public void Damage (int damage, bool maxDamage)
+    {
+        if (maxDamage)
+        {
+            Debug.Log("You received maximal Damage.");
+        }
+        else
+        {
+            _playerData.currentHitPoints -= damage;
+            Debug.Log("Player got damaged for " + damage);
+        }
+        _currentPlayerHitPoints = _playerData.currentHitPoints;
+        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
     }
 
     #region IDataPersistence

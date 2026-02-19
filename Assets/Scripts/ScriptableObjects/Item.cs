@@ -15,10 +15,13 @@ public class Item : ScriptableObject
 
     public bool equipable;
     public bool consumable;
-    public bool randomEvent;
+    public ItemEffect effect;
 
-    public float buff;
-    public float debuff;
+    //public bool randomEvent;
+    public RandomEvent randomEvent;
+
+    public int buff;
+    public int debuff;
 
 }
 public enum ItemType
@@ -36,4 +39,16 @@ public enum ItemRarity
     rare,
     mythical,
     legendary
+}
+
+public enum ItemEffect
+{
+    Heal,
+    Damage,
+    RandomEvent
+}
+
+public enum RandomEvent
+{
+    HealOrDamage
 }

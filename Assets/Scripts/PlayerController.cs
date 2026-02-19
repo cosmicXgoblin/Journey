@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     private PlayerInput _playerInput;
     public InputActionMap playerMap;
     public InputActionMap uiMap;
+    public InputActionMap alwaysMap;
     [SerializeField] bool hasMoved;
 
     //[Header("Fog of War")]
@@ -30,6 +31,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         _playerInput = GetComponent<PlayerInput>();
         playerMap = _playerInput.actions.FindActionMap("Player");
         uiMap = _playerInput.actions.FindActionMap("UI");
+        alwaysMap = _playerInput.actions.FindActionMap("Always");
+
 
         this.transform.position = new Vector3(-332.33f, -157.89f, -4.2f);           // übergangsweise
     }
@@ -48,12 +51,14 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     {
         playerMap.Enable();
         uiMap.Disable();
+        alwaysMap.Enable();
     }
 
     private void OnDisable()
     {
         uiMap.Enable();
         playerMap.Disable();
+        alwaysMap.Enable();
     }
 
     /// <summary>

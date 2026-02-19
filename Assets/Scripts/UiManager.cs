@@ -1,4 +1,6 @@
+using Ink.Runtime;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -8,8 +10,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
-using Ink.Runtime;
-using System.Collections.Generic;
+using static UnityEditor.Progress;
 
 public class UiManager : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _dialoguePanel;
     [SerializeField] private GameObject _choicesPanel;
     [SerializeField] private GameObject _chooseTutorialPanel;
+    [SerializeField] private GameObject _inventoryPanel;
+    [SerializeField] private GameObject _consumablePanel;
 
     [Header("Persistence")]
     public string inputFileName;
@@ -60,6 +63,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _manaBarText;
     [SerializeField] private GameObject _manaBarObject;
     [SerializeField] private GameObject _inventory;
+    [SerializeField] private TextMeshProUGUI _goldText;
 
     [Header("Fight UI")]
     public Image enemyImage;
@@ -87,11 +91,16 @@ public class UiManager : MonoBehaviour
     public Color red;
     public Color original;
 
-
+    public static UiManager Instance { get; private set; }
 
 
 
     #region Init
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        if (Instance == null) Instance = this;
+    }
     void Start()
     {
         _testFight.SetActive(false);
@@ -107,6 +116,7 @@ public class UiManager : MonoBehaviour
         _dialogueAndChoicesPanel.SetActive(false); ;
         _dialoguePanel.SetActive(false);
         _chooseTutorialPanel.SetActive(false);
+        _consumablePanel.SetActive(false);
 
 
         _canvasTitle.SetActive(true);
@@ -220,6 +230,7 @@ public class UiManager : MonoBehaviour
         _titlePanelNewGame.SetActive(false);
         _chooseTutorialPanel.SetActive(false);
         _testChooseCharacter.SetActive(true);
+        _inventoryPanel.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(_fighterButton.gameObject);
     }
@@ -419,8 +430,27 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region Dialogue
-    
-    
+
+
+
+    #endregion
+
+    #region Items
+    public void OpenConsumableUI()
+    {
+            _consumablePanel.SetActive(true);
+    }
+
+    public void OnClickCloseConsumableUI()
+    {
+        CloseConsumableUI();
+    }
+
+    public void CloseConsumableUI()
+    {
+        _consumablePanel.SetActive(false);
+    }
+
 
     #endregion
 
@@ -436,6 +466,12 @@ public class UiManager : MonoBehaviour
         whichRoundText.text = _gameManager.GetComponent<GameManager>().Round.ToString();
 
         //_gameManager.GetComponent<GameManger>().playerData;
+    }
+
+
+    public void UpdateUI (int playerGold)
+    {
+        _goldText.text = playerGold.ToString() + "G";
     }
 
 }
