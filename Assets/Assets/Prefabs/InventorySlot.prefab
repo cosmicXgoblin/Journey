@@ -149,12 +149,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f266b4b559aaac94bac137f32c895b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlot: {fileID: 8536707887521578784}
-  _itemInSlot: {fileID: 11400000, guid: 34ed8bcee3019824385c9720247df264, type: 2}
   _invSlotSprite: {fileID: 7818922345718924243}
+  inventorySlot: {fileID: 8536707887521578784}
+  _itemInSlot: {fileID: 0}
   itemName: 
   _itemImage: {fileID: 456429037170260831}
-  _itemNameText: {fileID: 0}
+  itemDescription: 
 --- !u!61 &4229554557902297721
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour //, IDataPersistence
 {
@@ -53,6 +54,8 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     [SerializeField] private Item _tempItem;
     [SerializeField] private InventorySlot _tempInvSlot;
+
+    [SerializeField] private List<InventorySlot> invSlots;
 
      public PlayerData PlayerData => _playerData;
     public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
@@ -448,6 +451,73 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _tempItem = null;
         _tempInvSlot = null;   
     }
+
+    public void BuyItem(string item, int goldValue)
+    {
+        PlayerData.gold = PlayerData.gold - goldValue;
+        UiManager.Instance.UpdateUi(PlayerData.gold);
+
+        Debug.Log("Currently at BuyItem. Item to buy: " + item);
+
+        GetItemToAdd(item);
+    }
+
+    private void GetItemToAdd(string item)
+    {
+        switch (item)
+        {
+            case "Apple":
+                TryToAdd(Database.Instance.Apple);
+                break;
+            case "cheese":
+                TryToAdd(Database.Instance.Cheese);
+                break;
+            case "Mystery Potion":
+                TryToAdd(Database.Instance.MysteryPotion);
+                break;
+            case "Potion of Healing":
+                TryToAdd(Database.Instance.PotionOfHealing);
+                break;
+            case "Potion of Strength":
+                TryToAdd(Database.Instance.PotionOfStrength);
+                break;
+            case "Sword":
+                TryToAdd(Database.Instance.Sword);
+                break;
+            case "sharp sword":
+                TryToAdd(Database.Instance.sharpSword);
+                break;
+        }
+    }
+
+    private void TryToAdd (Item itemToAdd)
+    {
+        Debug.Log("Trying to add: " + itemToAdd.itemName);
+
+        if (invSlots[0].itemInSlot == null) invSlots[0].AddItem(itemToAdd);
+        else if (invSlots[1].itemInSlot == null) invSlots[1].AddItem(itemToAdd);
+        else if (invSlots[2].itemInSlot == null) invSlots[2].AddItem(itemToAdd);
+        else if (invSlots[3].itemInSlot == null) invSlots[3].AddItem(itemToAdd);
+        else if (invSlots[4].itemInSlot == null) invSlots[4].AddItem(itemToAdd);
+        else if (invSlots[5].itemInSlot == null) invSlots[5].AddItem(itemToAdd);
+        else if (invSlots[6].itemInSlot == null) invSlots[6].AddItem(itemToAdd);
+        else if (invSlots[7].itemInSlot == null) invSlots[7].AddItem(itemToAdd);
+        else if (invSlots[8].itemInSlot == null) invSlots[8].AddItem(itemToAdd);
+
+
+
+        //foreach (InventorySlot invSlot in invSlots)
+        //{
+        //    if (invSlot == null) invSlot.AddItem(itemToAdd);
+        //    break;
+
+        //    //Debug.Log("Going through inventorySlots. Currently at " + invSlots[i].ToString() );
+        //    //if (invSlots[i].itemInSlot == null)
+        //    //    invSlots[i].AddItem(itemToAdd);
+        //    //break;
+        //}
+    }
+
 
     public void OnClickConsumeItem()
     {

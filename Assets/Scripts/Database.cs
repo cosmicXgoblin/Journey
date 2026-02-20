@@ -26,6 +26,15 @@ public class Database : MonoBehaviour
     public Sprite Tavern;
     public Sprite None;
 
+    [Header("Items")]
+    public Item Apple;
+    public Item Cheese;
+    public Item MysteryPotion;
+    public Item PotionOfHealing;
+    public Item PotionOfStrength;
+    public Item Sword;
+    public Item sharpSword;
+
     public static Database Instance { get; private set; }
 
     private void Awake()

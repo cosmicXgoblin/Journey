@@ -5,17 +5,19 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
+    [Header("Slot UI")]
+    [SerializeField] private GameObject _invSlotSprite;
+
     [Header("Slot Attributes")]
     public InventorySlot inventorySlot;
     [SerializeField] private Item _itemInSlot;
-    [SerializeField] private GameObject _invSlotSprite;
     //public int slotIndex;
 
 
     [Header("Item Attributes")]
     public string itemName;
-    private string itemDescription;
     [SerializeField] private Image _itemImage;
+    [SerializeField] private string itemDescription;
 
     //[Header("UI")]
     //[SerializeField] private TextMeshProUGUI _itemNameText;
@@ -28,7 +30,7 @@ public class InventorySlot : MonoBehaviour
         UpdateInventorySlot();
     }
 
-    private void AddItem(Item itemToAdd)
+    public void AddItem(Item itemToAdd)
     {
         _itemInSlot = itemToAdd;
 
@@ -39,6 +41,7 @@ public class InventorySlot : MonoBehaviour
     {
         if (_itemInSlot == null)
             return;
+
 
         _itemImage.sprite = _itemInSlot.itemSprite;
         itemName = _itemInSlot.itemName;
@@ -66,7 +69,7 @@ public class InventorySlot : MonoBehaviour
     {
         _itemInSlot = null;
         _itemImage.sprite = null;
-        itemName = null;
+        itemName = "";
         //_itemNameText.text = "";
         itemDescription = "";
         _itemImage = null;

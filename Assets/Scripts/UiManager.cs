@@ -437,16 +437,22 @@ public class UiManager : MonoBehaviour
 
     #region Dialogue
 
-    public void OpenGoldDialogue()
+    public void ToggleGoldDialogue(bool goldUiOpen)
     {
-        _dialogueGold.SetActive(true);
-    }
+        int playerGold = GameManager.Instance.PlayerData.gold;
+        UpdateUI(playerGold);
 
-    public void CloseGoldDialogue()
-    {
-        _dialogueGold.SetActive(false);
+        if (goldUiOpen)
+        {
+            _dialogueGold.SetActive(true);
+            _inventoryPanel.SetActive(true);
+        }
+        else
+        {
+            _dialogueGold.SetActive(false);
+            _inventoryPanel.SetActive(false);
+        }
     }
-
     #endregion
 
     #region Items

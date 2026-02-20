@@ -13,25 +13,29 @@ MonoBehaviour:
   m_Name: New Player Data
   m_EditorClassIdentifier: 
   id: -1
-  className: 
-  classSprite: {fileID: 0}
-  classSpriteRound: {fileID: 0}
-  mapFigure_Base: {fileID: 0}
-  mapFigure_noBase: {fileID: 0}
+  className: Thief
+  classSprite: {fileID: 21300000, guid: 73c172b115e0dec49a9de8dc1a4355fd, type: 3}
+  classSpriteRound: {fileID: -3731558670861287178, guid: 0bd470ad181110d42ab648c906643376, type: 3}
+  mapFigure_Base: {fileID: 21300000, guid: 3dab145944d14d54e8458a6083f993b6, type: 3}
+  mapFigure_noBase: {fileID: 21300000, guid: 5185624fdcb850e48ad795fb036a55a2, type: 3}
   fight: 0
   thinking: 0
-  speed: 0
-  observing: 0
-  dexterity: 0
-  charme: 0
-  attack: 0
-  attackModifier: 0
-  maxHitPoints: 0
-  currentHitPoints: 0
+  speed: 1
+  observing: 2
+  dexterity: 3
+  charme: 1
+  attack: 8
+  attackModifier: 3
+  maxHitPoints: 4
+  currentHitPoints: 4
+  Item0: {fileID: 0}
   Item1: {fileID: 0}
   Item2: {fileID: 0}
   Item3: {fileID: 0}
   Item4: {fileID: 0}
   Item5: {fileID: 0}
+  Item6: {fileID: 0}
+  Item7: {fileID: 0}
+  Item8: {fileID: 0}
   lastLocation: {fileID: 0}
-  gold: 0
+  gold: 938
