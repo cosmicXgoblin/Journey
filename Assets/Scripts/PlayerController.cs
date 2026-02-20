@@ -7,9 +7,6 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour, IDataPersistence
 {
-    [Header("Manager")]
-    [SerializeField] private GameObject _uiManager;
-
     [Header("Movement")]
     [SerializeField] private Vector2 movementInput;
     [SerializeField] private Vector3 direction;
@@ -21,8 +18,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     //[Header("Fog of War")]
     //public Tilemap fogOfWar;
-
-
 
     #region init
     private void Awake()
@@ -44,7 +39,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     private void OnPause()
     {
-        _uiManager.GetComponent<UiManager>().CallPause();
+        UiManager.Instance.CallPause();
     }
 
     private void OnEnable()

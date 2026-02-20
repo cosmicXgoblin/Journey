@@ -23,13 +23,13 @@ public class DataPersistenceManager : MonoBehaviour
     private GameData _gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     
-    public static DataPersistenceManager instance { get; private set; }
+    public static DataPersistenceManager Instance { get; private set; }
 
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
             Debug.LogError("More than one DataPersistenceManager in this scene found.");
-        instance = this;
+        Instance = this;
     }
 
     private void Start()

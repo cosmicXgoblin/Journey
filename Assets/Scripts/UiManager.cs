@@ -14,10 +14,9 @@ using static UnityEditor.Progress;
 
 public class UiManager : MonoBehaviour
 {
+    #region Inspector
     [Header("Manager")]
-    [SerializeField] private GameObject _gameManager;
     [SerializeField] private GameObject _playerController;
-    [SerializeField] private GameObject _database;
     
     [Header("Title Menu")]
     [SerializeField] private GameObject _canvasTitle;
@@ -89,49 +88,34 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _dialogueGold;
     [SerializeField] private TextMeshProUGUI _dialogueGoldText;
 
-    [Header("Effects")]
-    private Color _tempColor;
-    public Color red;
-    public Color original;
-
-    public static UiManager Instance { get; private set; }
-
-
+    //[Header("Effects")]
+    //private Color _tempColor;
+    //public Color red;
+    //public Color original;
+    #endregion
 
     #region Init
+        public static UiManager Instance { get; private set; }
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+            Instance = this;
+        else Destroy(this);
     }
     void Start()
     {
-        _testFight.SetActive(false);
-        _testMap.SetActive(false);
-        _screenUi.SetActive(true);                       // ScreenUi and _characterPanel need to be in this order!
-        _characterPanel.SetActive(false);
-        _testChooseCharacter.SetActive(false);
-        _pausePanel.SetActive(false);
-        _titlePanelNewGame.SetActive(false);
-        _inventory.SetActive(false);
-        _screenUi.SetActive(false);
-        _titlePanelLoadGame.SetActive(false);
-        _dialogueAndChoicesPanel.SetActive(false); ;
-        _dialoguePanel.SetActive(false);
-        _chooseTutorialPanel.SetActive(false);
-        _consumablePanel.SetActive(false);
-        _dialogueGold.SetActive(false);
-
+        SetEverythingInactive();
 
         _canvasTitle.SetActive(true);
         _titlePanel.SetActive(true);
         _titlePanelButtons.SetActive(true);
         _titlePanelOptions.SetActive(false);
 
-        original.a = 0.5f;
+        //original.a = 0.5f;
     }
     #endregion
 
+    // will get called when clicking on a button
     #region OnClick
     public void OnClickGoFight()
     {
@@ -148,52 +132,10 @@ public class UiManager : MonoBehaviour
         _characterPanel.SetActive(true);
     }
 
-    public void OnClickSetCharacter(string selectedClass)
-    {
-        if (selectedClass == "fighter")
-        {
-            _classImage.sprite = _database.GetComponent<Database>().fighter.classSpriteRound;
-            _classMapfigure_Base = _database.GetComponent<Database>().fighter.classMapfigure_Base;
-            _classMapfigure_noBase = _database.GetComponent<Database>().fighter.classMapfigure_noBase;
-            _className.text = _database.GetComponent<Database>().fighter.className;
-            _healthBar.value = _database.GetComponent<Database>().fighter.maxHitPoints;
-            _healthBar.maxValue = _database.GetComponent<Database>().fighter.maxHitPoints;
-            _manaBarObject.SetActive(false);
-        }
-
-        if (selectedClass == "thief")
-        {
-            _classImage.sprite = _database.GetComponent<Database>().thief.classSpriteRound;
-            _classMapfigure_Base = _database.GetComponent<Database>().thief.classMapfigure_Base;
-            _classMapfigure_noBase = _database.GetComponent<Database>().thief.classMapfigure_noBase;
-            _className.text = _database.GetComponent<Database>().thief.className;
-            _healthBar.value = _database.GetComponent<Database>().thief.maxHitPoints;
-            _healthBar.maxValue = _database.GetComponent<Database>().thief.maxHitPoints;
-            _manaBarObject.SetActive(false);
-        }
-
-        if (selectedClass == "sorcerer")
-        {
-            _classImage.sprite = _database.GetComponent<Database>().sorcerer.classSpriteRound;
-            _classMapfigure_Base = _database.GetComponent<Database>().sorcerer.classMapfigure_Base;
-            _classMapfigure_noBase = _database.GetComponent<Database>().sorcerer.classMapfigure_noBase;
-            _className.text = _database.GetComponent<Database>().sorcerer.className;
-            _healthBar.value = _database.GetComponent<Database>().sorcerer.maxHitPoints;
-            _healthBar.maxValue = _database.GetComponent<Database>().sorcerer.maxHitPoints;
-            _manaBar.value = 100;
-            _manaBarObject.SetActive(true);
-        }
-        _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_Base;
-
-        UpdateUi(_gameManager.GetComponent<GameManager>().CurrentPlayerHitPoints);
-
-    }
-
     public void OnClickContinue()
     {
         _pausePanel.SetActive(false);
-        _playerController.GetComponent<PlayerController>().playerMap.Enable();
-        _playerController.GetComponent<PlayerController>().playerMap.Disable();
+        EnableUiMap(true);
     }
 
     public void OnClickOptionsPause()
@@ -213,10 +155,10 @@ public class UiManager : MonoBehaviour
     }
 
     // not in use
-    public void OnClickPauseMenu()
-    {
-        CallPause();
-    }
+    //public void OnClickPauseMenu()
+    //{
+    //    CallPause();
+    //}
     
     public void OnClickNewGame()
     {
@@ -225,11 +167,12 @@ public class UiManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(_titleButtonStartGame);
     }
+
     public void OnClickStartNewGame()
     {
-        //DataPersistenceManager.instance.NewGame();
+        //DataPersistenceManager.Instance.NewGame();
 
-        DataPersistenceManager.instance.CallSelectFilename(inputFileName);
+        DataPersistenceManager.Instance.CallSelectFilename(inputFileName);
 
         _titlePanelNewGame.SetActive(false);
         _chooseTutorialPanel.SetActive(false);
@@ -247,15 +190,10 @@ public class UiManager : MonoBehaviour
 
     public void OnClickStartTutorial()
     {
-        _titlePanel.SetActive(false);
-        _titlePanelNewGame.SetActive(false);
-        _chooseTutorialPanel.SetActive(false);
+        SetEverythingInactive();
+
         _screenUi.SetActive(true);
         _dialogueAndChoicesPanel.SetActive(true);
-        _dialoguePanel.SetActive(true);
-        _dialogueGold.SetActive(false);
-
-        Debug.Log("Here's the tutorial.");
     }
 
     public void OnClickLoadGamePart1()
@@ -265,12 +203,12 @@ public class UiManager : MonoBehaviour
     }
     public void OnClickLoadGamePart2()
     {
-        DataPersistenceManager.instance.LoadGame();
+        DataPersistenceManager.Instance.LoadGame();
     }
 
     public void OnClickSavegame()
     {
-        DataPersistenceManager.instance.SaveGame();
+        DataPersistenceManager.Instance.SaveGame();
     }
 
     public void OnClickBackToTitle()
@@ -284,13 +222,57 @@ public class UiManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_titlePanelButtons.transform.GetChild(0).gameObject);
     }
     
-    public void OnClickChangeMapfigureBase()
+    public void OnClickToggleMapfigureBase()
     {
         _noBase = !_noBase;
 
         if (!_noBase)
             _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_Base;
         else _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_noBase;
+    }
+
+    public void OnClickSetCharacter(string selectedClass)
+    {
+        switch (selectedClass)
+        {
+            case "fighter":
+                _classImage.sprite = Database.Instance.fighter.classSpriteRound;
+                _classMapfigure_Base = Database.Instance.GetComponent<Database>().fighter.classMapfigure_Base;
+                _classMapfigure_noBase = Database.Instance.GetComponent<Database>().fighter.classMapfigure_noBase;
+                _className.text = Database.Instance.GetComponent<Database>().fighter.className;
+                _healthBar.value = Database.Instance.GetComponent<Database>().fighter.maxHitPoints;
+                _healthBar.maxValue = Database.Instance.GetComponent<Database>().fighter.maxHitPoints;
+                _manaBarObject.SetActive(false);
+                break;
+            case "thief":
+                _classImage.sprite = Database.Instance.GetComponent<Database>().thief.classSpriteRound;
+                _classMapfigure_Base = Database.Instance.GetComponent<Database>().thief.classMapfigure_Base;
+                _classMapfigure_noBase = Database.Instance.GetComponent<Database>().thief.classMapfigure_noBase;
+                _className.text = Database.Instance.GetComponent<Database>().thief.className;
+                _healthBar.value = Database.Instance.GetComponent<Database>().thief.maxHitPoints;
+                _healthBar.maxValue = Database.Instance.GetComponent<Database>().thief.maxHitPoints;
+                _manaBarObject.SetActive(false);
+                break;
+            case "sorcerer":
+                _classImage.sprite = Database.Instance.GetComponent<Database>().sorcerer.classSpriteRound;
+                _classMapfigure_Base = Database.Instance.GetComponent<Database>().sorcerer.classMapfigure_Base;
+                _classMapfigure_noBase = Database.Instance.GetComponent<Database>().sorcerer.classMapfigure_noBase;
+                _className.text = Database.Instance.GetComponent<Database>().sorcerer.className;
+                _healthBar.value = Database.Instance.GetComponent<Database>().sorcerer.maxHitPoints;
+                _healthBar.maxValue = Database.Instance.GetComponent<Database>().sorcerer.maxHitPoints;
+                _manaBar.value = 100;
+                _manaBarObject.SetActive(true);
+                break;
+        }
+        _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_Base;
+
+        UpdateUi(GameManager.Instance.CurrentPlayerHitPoints);
+    }
+
+    public void EnableUiMap(bool enable)
+    {
+        _playerController.GetComponent<PlayerController>().uiMap.Enable();
+        _playerController.GetComponent<PlayerController>().playerMap.Disable();
     }
     #endregion
 
@@ -310,8 +292,7 @@ public class UiManager : MonoBehaviour
             _pausePanelOptions.SetActive(false);
             _pausePanelMain.SetActive(true);
 
-            _playerController.GetComponent<PlayerController>().playerMap.Disable();
-            _playerController.GetComponent<PlayerController>().uiMap.Enable();
+            EnableUiMap(true);
 
             EventSystem.current.SetSelectedGameObject(_pausePanelMain.transform.GetChild(0).gameObject);
         }
@@ -321,8 +302,7 @@ public class UiManager : MonoBehaviour
             _pausePanelOptions.SetActive(false);
             _pausePanelMain.SetActive(true);
 
-            _playerController.GetComponent<PlayerController>().playerMap.Enable();
-            _playerController.GetComponent<PlayerController>().uiMap.Disable();
+            EnableUiMap(false);
         }
     }
     
@@ -334,15 +314,9 @@ public class UiManager : MonoBehaviour
         _dialoguePanel.SetActive(true);
         _dialogueGold.SetActive(false);
 
-        _playerController.SetActive(false);
+        EnableUiMap(true);
     }
     #endregion
-
-    public void ReadStringInput(string s)
-    {
-        inputFileName = s + ".journey";
-        //DataPersistenceManager.instance.CallSelectFilename(inputFileName);
-    }
 
     #region Fight
     public void ShowFightUI()
@@ -369,70 +343,70 @@ public class UiManager : MonoBehaviour
     {
         if (currentEnemy != null)
         {
-            if (currentEnemy == _database.GetComponent<Database>().rat)
+            if (currentEnemy == Database.Instance.rat)
             {
-                enemyAttackText.text = _database.GetComponent<Database>().rat.attack.ToString();
-                enemyImage.sprite = _database.GetComponent<Database>().rat.enemySprite;
-                enemyHitPointsText.text = _database.GetComponent<Database>().rat.hitPoints.ToString();
+                enemyAttackText.text = Database.Instance.rat.attack.ToString();
+                enemyImage.sprite = Database.Instance.rat.enemySprite;
+                enemyHitPointsText.text = Database.Instance.rat.hitPoints.ToString();
             }
-            if (currentEnemy == _database.GetComponent<Database>().rat1)
+            if (currentEnemy == Database.Instance.rat1)
             {
-                enemyAttackText.text = _database.GetComponent<Database>().rat1.attack.ToString();
-                enemyImage.sprite = _database.GetComponent<Database>().rat1.enemySprite;
-                enemyHitPointsText.text = _database.GetComponent<Database>().rat1.hitPoints.ToString();
+                enemyAttackText.text = Database.Instance.rat1.attack.ToString();
+                enemyImage.sprite = Database.Instance.rat1.enemySprite;
+                enemyHitPointsText.text = Database.Instance.rat1.hitPoints.ToString();
             }
-            if (currentEnemy == _database.GetComponent<Database>().rat2)
-            {
-                enemyAttackText.text = _database.GetComponent<Database>().rat2.attack.ToString();
-                enemyImage.sprite = _database.GetComponent<Database>().rat2.enemySprite;
-                enemyHitPointsText.text = _database.GetComponent<Database>().rat2.hitPoints.ToString();
+            if (currentEnemy == Database.Instance.rat2)
+            { 
+                enemyAttackText.text = Database.Instance.rat2.attack.ToString();
+                enemyImage.sprite = Database.Instance.rat2.enemySprite;
+                enemyHitPointsText.text = Database.Instance.rat2.hitPoints.ToString();
             }
         }
         if (currentClass != null)
         {
-            if (currentClass == _database.GetComponent<Database>().fighter)
+            if (currentClass == Database.Instance.fighter)
             {
-                classAttackText.text = _database.GetComponent<Database>().fighter.attack.ToString();
-                classImage.sprite = _database.GetComponent<Database>().fighter.classSprite;
-                classHitPointsText.text = _database.GetComponent<Database>().fighter.maxHitPoints.ToString();
+                classAttackText.text = Database.Instance.fighter.attack.ToString();
+                classImage.sprite = Database.Instance.fighter.classSprite;
+                classHitPointsText.text = Database.Instance.fighter.maxHitPoints.ToString();
             }
-            if (currentClass == _database.GetComponent<Database>().thief)
+            if (currentClass == Database.Instance.thief)
             {
-                classAttackText.text = _database.GetComponent<Database>().thief.attack.ToString();
-                classImage.sprite = _database.GetComponent<Database>().thief.classSprite;
+                classAttackText.text = Database.Instance.thief.attack.ToString();
+                classImage.sprite = Database.Instance.thief.classSprite;
             }
-            if (currentClass == _database.GetComponent<Database>().sorcerer)
+            if (currentClass == Database.Instance.sorcerer)
             {
-                classAttackText.text = _database.GetComponent<Database>().sorcerer.attack.ToString();
-                classImage.sprite = _database.GetComponent<Database>().thief.classSprite;
+                classAttackText.text = Database.Instance.sorcerer.attack.ToString();
+                classImage.sprite = Database.Instance.thief.classSprite;
             }
 
-            classAttackModifierText.text = _gameManager.GetComponent<GameManager>().classAttackModifier.ToString();
+            classAttackModifierText.text = GameManager.Instance.classAttackModifier.ToString();
         }
     }
 
-    public IEnumerator ImageEffect(bool enemy, float delay, string color)
-    {
-        if (enemy)
-            _target = enemyImage.GetComponent<Image>();
-        else if (!enemy)
-            _target = classImage.GetComponent<Image>();
+    //public IEnumerator ImageEffect(bool enemy, float delay, string color)
+    //{
+    //    if (enemy)
+    //        _target = enemyImage.GetComponent<Image>();
+    //    else if (!enemy)
+    //        _target = classImage.GetComponent<Image>();
 
 
-        if (color == "red")
-        {
-            red.a = 1f;
-            _tempColor = red;
-            _target.color = _tempColor;
-            Debug.Log("Image should be red for a moment");
-        }
-        yield return new WaitForSeconds(delay);
-        _target.color = original;
+    //    if (color == "red")
+    //    {
+    //        red.a = 1f;
+    //        _tempColor = red;
+    //        _target.color = _tempColor;
+    //        Debug.Log("Image should be red for a moment");
+    //    }
+    //    yield return new WaitForSeconds(delay);
+    //    _target.color = original;
 
-        //_target.color = new Color(0f, 0f, 0f, 1f);
-        //yield return new WaitForSeconds(delay);
-        //_target.color = new Color(1f, 1f, 1f, 1f);
-    }
+    //    //_target.color = new Color(0f, 0f, 0f, 1f);
+    //    //yield return new WaitForSeconds(delay);
+    //    //_target.color = new Color(1f, 1f, 1f, 1f);
+    //}
 
     #endregion
 
@@ -472,28 +446,54 @@ public class UiManager : MonoBehaviour
         _consumablePanel.SetActive(false);
     }
 
-
     #endregion
 
 
     public void UpdateUi(int currentPlayerHitPoints)        
     {
         _healthBar.value = currentPlayerHitPoints;
-        _healthBarText.text = currentPlayerHitPoints.ToString() + " / " +  _gameManager.GetComponent<GameManager>().PlayerData.maxHitPoints.ToString();
+        _healthBarText.text = currentPlayerHitPoints.ToString() + " / " +  GameManager.Instance.PlayerData.maxHitPoints.ToString();
 
-        enemyHitPointsText.text = _gameManager.GetComponent<GameManager>().CurrentEnemyHitPoints.ToString();
-        classHitPointsText.text = _gameManager.GetComponent<GameManager>().CurrentPlayerHitPoints.ToString();
+        enemyHitPointsText.text = GameManager.Instance.CurrentEnemyHitPoints.ToString();
+        classHitPointsText.text = GameManager.Instance.CurrentPlayerHitPoints.ToString();
 
-        whichRoundText.text = _gameManager.GetComponent<GameManager>().Round.ToString();
+        whichRoundText.text = GameManager.Instance.Round.ToString();
 
-        //_gameManager.GetComponent<GameManger>().playerData;
+        //GameManager.Instance..GetComponent<GameManger>().playerData;
     }
-
 
     public void UpdateUI (int playerGold)
     {
         _goldText.text = playerGold.ToString() + "G";
         _dialogueGoldText.text = playerGold.ToString() + "G";
     }
+    
+    public void ReadStringInput(string s)
+    {
+        inputFileName = s + ".journey";
+        //DataPersistenceManager.Instance.CallSelectFilename(inputFileName);
+    }
 
+    private void SetEverythingInactive()
+    {
+        _testFight.SetActive(false);
+        _testMap.SetActive(false);
+        _screenUi.SetActive(true);
+        _characterPanel.SetActive(false);
+        _testChooseCharacter.SetActive(false);
+        _pausePanel.SetActive(false);
+        _titlePanelNewGame.SetActive(false);
+        _inventory.SetActive(false);
+        _screenUi.SetActive(false);
+        _titlePanelLoadGame.SetActive(false);
+        _dialogueAndChoicesPanel.SetActive(false); ;
+        _dialoguePanel.SetActive(false);
+        _chooseTutorialPanel.SetActive(false);
+        _consumablePanel.SetActive(false);
+        _dialogueGold.SetActive(false);
+        _canvasTitle.SetActive(false);
+        _titlePanel.SetActive(false);
+        _titlePanelButtons.SetActive(false);
+        _titlePanelOptions.SetActive(false);
+    }
 }

@@ -69,7 +69,7 @@
 //    }
 //    #endregion
 
-//    #region OnClick
+//    #region OnClickInventorySlot
 //    public void SetBattle()
 //    {
 //        if (currentEnemy == null || currentClass == null) return;

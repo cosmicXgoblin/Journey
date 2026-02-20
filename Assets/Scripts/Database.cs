@@ -40,6 +40,6 @@ public class Database : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Debug.LogError("Found more than Database in the scene.");
+        else Destroy(this);
     }
 }

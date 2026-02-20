@@ -11,10 +11,6 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour //, IDataPersistence
 {
-    [Header("Manager")]
-    [SerializeField] private GameObject _uiManager;
-    [SerializeField] private GameObject _database;
-
     [Header("Game")]
     GameState currentGameState;
 
@@ -22,14 +18,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     public ScriptableObject currentEnemy;
     private int enemyAttack;
     [SerializeField]  private int _currentEnemyHitPoints;
-    //public int CurrentEnemyHitPoints;
 
     [Header("Player")]
     public Class currentClass;
     public Image classImage;
     private int classAttack;
     [SerializeField]  private int _currentPlayerHitPoints;
-    //public int CurrentPlayerHitPoints;
     public int classAttackModifier;
 
     [Header("UI")]
@@ -48,13 +42,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     bool enemyTurnDone;
     bool playerFirst;
 
-
     [Header("PlayerData")]
     [SerializeField] private PlayerData _playerData;
 
+    [Header("Inventory")]
     [SerializeField] private Item _tempItem;
     [SerializeField] private InventorySlot _tempInvSlot;
-
     [SerializeField] private List<InventorySlot> invSlots;
 
      public PlayerData PlayerData => _playerData;
@@ -63,18 +56,18 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     public int Round => _round;
     public static GameManager Instance { get; private set; }
 
-
     #region init
     private void Awake()
     {
         if (Instance == null) Instance = this;
+        else Destroy(this);
 
         currentBattleState = BattleState.noFight;
         currentGameState = GameState.init;
 
-        _playerAttackButton = _uiManager.GetComponent<UiManager>().playerAttackButton;
-        _fightText = _uiManager.GetComponent<UiManager>().fightText;
-        _whichRoundText = _uiManager.GetComponent<UiManager>().whichRoundText;
+        _playerAttackButton = UiManager.Instance.playerAttackButton;
+        _fightText = UiManager.Instance.fightText;
+        _whichRoundText = UiManager.Instance.whichRoundText;
     }
 
     void Update()
@@ -99,12 +92,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     public void OnClickRestart()
     {
         ClearFight();
-        _uiManager.GetComponent<UiManager>().ClearFightUI();
+        UiManager.Instance.ClearFightUI();
     }
 
     public void OnClickBackToMap()
     {
-        _uiManager.GetComponent<UiManager>().CallBackToMap();
+        UiManager.Instance.CallBackToMap();
     }
 
     public void OnClickPlayerAttack()
@@ -123,6 +116,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     }
     #endregion
 
+    #region Setup
     public void SetPlayerData()
     {
         _playerData.className = currentClass.className;
@@ -149,19 +143,19 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             _playerData.attackModifier = _playerData.thinking;
 
         //Debug.Log(_playerData.attackModifier);
-        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
-        _uiManager.GetComponent<UiManager>().UpdateUI(_playerData.gold);
+        UiManager.Instance.UpdateUi(_playerData.currentHitPoints);
+        UiManager.Instance.UpdateUI(_playerData.gold);
         _currentPlayerHitPoints = _playerData.currentHitPoints;
 
         currentGameState = GameState.onMap;
     }
     public void SetCurrentClass(string selectedClass)
     {   
-        if (selectedClass == "fighter") currentClass = _database.GetComponent<Database>().fighter;
-        if (selectedClass == "thief") currentClass = _database.GetComponent<Database>().thief;
-        if (selectedClass == "sorcerer") currentClass = _database.GetComponent<Database>().sorcerer;
+        if (selectedClass == "fighter") currentClass = Database.Instance.fighter;
+        if (selectedClass == "thief") currentClass = Database.Instance.thief;
+        if (selectedClass == "sorcerer") currentClass = Database.Instance.sorcerer;
     }
-
+    #endregion
 
     #region Fight
     public void StartBattle(ScriptableObject enemy)
@@ -170,7 +164,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         currentEnemy = enemy;
 
         SetBattle(enemy);
-        _uiManager.GetComponent<UiManager>().CallSetFightUI(currentClass, currentEnemy);
+        UiManager.Instance.CallSetFightUI(currentClass, currentEnemy);
 
         Coinflip(0, 100, true);
 
@@ -190,47 +184,41 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
         if (currentEnemy != null)
         {
-            if (currentEnemy == _database.GetComponent<Database>().rat)
+            if (currentEnemy == Database.Instance.rat)
             {
-                enemyAttack = _database.GetComponent<Database>().rat.attack;
-                _currentEnemyHitPoints = _database.GetComponent<Database>().rat.hitPoints;
+                enemyAttack = Database.Instance.rat.attack;
+                _currentEnemyHitPoints = Database.Instance.rat.hitPoints;
             }
-            if (currentEnemy == _database.GetComponent<Database>().rat1)
+            if (currentEnemy == Database.Instance.rat1)
             {
-                enemyAttack = _database.GetComponent<Database>().rat1.attack;
-                _currentEnemyHitPoints = _database.GetComponent<Database>().rat1.hitPoints;
+                enemyAttack = Database.Instance.rat1.attack;
+                _currentEnemyHitPoints = Database.Instance.rat1.hitPoints;
             }
-            if (currentEnemy == _database.GetComponent<Database>().rat2)
+            if (currentEnemy == Database.Instance.rat2)
             {
-                enemyAttack = _database.GetComponent<Database>().rat2.attack;
-                _currentEnemyHitPoints = _database.GetComponent<Database>().rat2.hitPoints;
+                enemyAttack = Database.Instance.rat2.attack;
+                _currentEnemyHitPoints = Database.Instance.rat2.hitPoints;
             }
-            //currentEnemyHitPoints = _currentEnemyHitPoints;
         }
         if (currentClass != null)
         {
-            if (currentClass == _database.GetComponent<Database>().fighter)
+            if (currentClass == Database.Instance.fighter)
             {
-                classAttack = _database.GetComponent<Database>().fighter.attack;
-                _currentPlayerHitPoints = _database.GetComponent<Database>().fighter.maxHitPoints;
-                //classAttackModifier = _playerData.attackModifier;
+                classAttack = Database.Instance.fighter.attack;
+                _currentPlayerHitPoints = Database.Instance.fighter.maxHitPoints;
             }
-            if (currentClass == _database.GetComponent<Database>().thief)
+            if (currentClass == Database.Instance.thief)
             {
-                classAttack = _database.GetComponent<Database>().thief.attack;
-                _currentPlayerHitPoints = _database.GetComponent<Database>().thief.maxHitPoints;
-                //classAttackModifier = _database.GetComponent<Database>().thief.attackModifier;
+                classAttack = Database.Instance.thief.attack;
+                _currentPlayerHitPoints = Database.Instance.thief.maxHitPoints;
             }
-            if (currentClass == _database.GetComponent<Database>().sorcerer)
+            if (currentClass == Database.Instance.sorcerer)
             {
-                classAttack = _database.GetComponent<Database>().sorcerer.attack;
-                _currentPlayerHitPoints = _database.GetComponent<Database>().sorcerer.maxHitPoints;
-                //classAttackModifier = _database.GetComponent<Database>().sorcerer.attackModifier;
+                classAttack = Database.Instance.sorcerer.attack;
+                _currentPlayerHitPoints = Database.Instance.sorcerer.maxHitPoints;
             }
 
             classAttackModifier = _playerData.attackModifier;
-
-            //classAttackModifierText.text = classAttackModifier.ToString();
         }
     }
 
@@ -239,27 +227,27 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         switch (enemy)
         {
             case "rat":
-                currentEnemy = _database.GetComponent<Database>().rat;
+                currentEnemy = Database.Instance.rat;
                 StartBattle(currentEnemy);
                 break;
             case "rat1":
-                currentEnemy = _database.GetComponent<Database>().rat1;
+                currentEnemy = Database.Instance.rat1;
                 StartBattle(currentEnemy);
                 break;
             case "rat2":
-                currentEnemy = _database.GetComponent<Database>().rat2;
+                currentEnemy = Database.Instance.rat2;
                 StartBattle(currentEnemy);
                 break;
         }
     }
 
-            /// <summary>
-            /// Flip a coin within the given range.
-            /// This method is versatile usable due to the OddOrEven bool, which is just for fights.
-            /// </summary>
-            /// <param name="min"></param>          minimum range
-            /// <param name="max"></param>          max range
-            /// <param name="OddOrEven"></param>    are we in a fight and want to who has the first turn?
+    /// <summary>
+    /// Flip a coin within the given range.
+    /// This method is versatile usable due to the OddOrEven bool, which is just for fights.
+    /// </summary>
+    /// <param name="min"></param>          minimum range
+    /// <param name="max"></param>          max range
+    /// <param name="OddOrEven"></param>    are we in a fight and want to who has the first turn?
     public void Coinflip (int min, int max, bool OddOrEven)
     {
         randomNumber = Random.Range(min, max);
@@ -275,7 +263,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
                 playerTurn = true;
                 playerTurnDone = false;
                 enemyTurnDone = false;
-
             }
             else
             {
@@ -283,23 +270,18 @@ public class GameManager : MonoBehaviour //, IDataPersistence
                 playerTurn = false;
                 playerTurnDone = true;
                 enemyTurnDone = true;
-
             }
         }
     }
-    
+  
+     /// <summary>
+     /// Will only get called if the current GameState is activeBattle.
+     /// Tracking a lot of the related UI, most should be moved. TODO.
+     /// </summary>   
     private void CallUpdateUI(int _currentPlayerHitPoints)
     {
-        //currentEnemyHitPoints = _currentEnemyHitPoints;
-        //currentPlayerHitPoints = _currentPlayerHitPoints;
-
-        _uiManager.GetComponent<UiManager>().UpdateUi(CurrentPlayerHitPoints);
+        UiManager.Instance.UpdateUi(CurrentPlayerHitPoints);
     }
-
-  /// <summary>
-  /// Will only get called if the current GameState is activeBattle.
-  /// Tracking a lot of the related UI, most should be moved. TODO.
-  /// </summary>
 
     private void CheckTurn()
     {
@@ -318,8 +300,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         {
             playerTurnDone = false;
             enemyTurnDone = false;
-
-            //_round++;
            
             if (playerFirst) playerTurn = true;
             else playerTurn = false;
@@ -350,7 +330,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             _currentPlayerHitPoints = _currentPlayerHitPoints - 1;
             Debug.Log("classHitPoints " + _currentPlayerHitPoints);
             _fightText.text = "The enemy hit you!";
-            StartCoroutine(_uiManager.GetComponent<UiManager>().ImageEffect(true, 0.2f, "red"));
+            //StartCoroutine(_uiManager.GetComponent<UiManager>().ImageEffect(true, 0.2f, "red"));
 
             CheckConditions();
         }
@@ -375,7 +355,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             _currentEnemyHitPoints = _currentEnemyHitPoints - 1;
             Debug.Log("enemyHitPoints " + _currentEnemyHitPoints);
             _fightText.text = "You hit the enemy with a" + diceroll + " and a Attackmodifier of " + classAttackModifier + ".";
-            StartCoroutine(_uiManager.GetComponent<UiManager>().ImageEffect(false, 0.2f, "red"));
+            //StartCoroutine(_uiManager.GetComponent<UiManager>().ImageEffect(false, 0.2f, "red"));
 
             CheckConditions();
         }
@@ -433,7 +413,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _fightText.text = "";
         _playerAttackButton.SetActive(false);
 
-        _uiManager.GetComponent<UiManager>().ClearFightUI();
+        UiManager.Instance.ClearFightUI();
     }
     
     private IEnumerator WaitEnemy(float delay)
@@ -446,7 +426,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     {
         yield return new WaitForSeconds(delay);
         Debug.Log("Waiting for adventure");
-        _uiManager.GetComponent<UiManager>().CallBackToMap();
+        UiManager.Instance.CallBackToMap();
         ClearFight();
     }
 
@@ -458,7 +438,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     #endregion
 
-
+    #region Items
     public void SetTempItem(Item itemInSlot, InventorySlot inventorySlot)
     {
         _tempItem = itemInSlot;
@@ -537,7 +517,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         //}
     }
 
-
     public void OnClickConsumeItem()
     {
         ConsumeItem(_tempItem, _tempInvSlot);
@@ -569,12 +548,9 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         inventorySlot.ClearSlot();
         UiManager.Instance.CloseConsumableUI();
     }
+    #endregion
 
-    //public void DeleteItem(InventorySlot inventorySlot)
-    //{
-    //    inventorySlot.ClearSlot();
-    //}
-
+    #region Statuschanges
     public void Heal(int heal, bool maxHeal)
     {
         if (maxHeal == true)
@@ -591,15 +567,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             Debug.Log("Player got healed for " + heal);
         }
         _currentPlayerHitPoints = _playerData.currentHitPoints;
-        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
-
-
-        Debug.Log("Your body is healed. Your soul will always remember what you endured. Healed to " + _playerData.maxHitPoints + ".");
-
-        //_playerData.currentHitPoints = _playerData.maxHitPoints;
-        //_currentPlayerHitPoints = _playerData.maxHitPoints;
-        //_uiManager.GetComponent<UiManager>().UpdateUi(_playerData.maxHitPoints);
-
+        UiManager.Instance.UpdateUi(_playerData.currentHitPoints);
     }
 
     public void Damage (int damage, bool maxDamage)
@@ -614,8 +582,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             Debug.Log("Player got damaged for " + damage);
         }
         _currentPlayerHitPoints = _playerData.currentHitPoints;
-        _uiManager.GetComponent<UiManager>().UpdateUi(_playerData.currentHitPoints);
+        UiManager.Instance.UpdateUi(_playerData.currentHitPoints);
     }
+    
+    #endregion
 
     #region IDataPersistence
 

@@ -13,22 +13,20 @@ public class InventorySlot : MonoBehaviour
     [SerializeField] private Item _itemInSlot;
     //public int slotIndex;
 
-
     [Header("Item Attributes")]
     public string itemName;
     [SerializeField] private Image _itemImage;
     [SerializeField] private string itemDescription;
 
-    //[Header("UI")]
-    //[SerializeField] private TextMeshProUGUI _itemNameText;
-
     public Item itemInSlot => _itemInSlot;
 
+    #region init
     private void Awake()
     {
         ToggleInventorySlotSprite();
         UpdateInventorySlot();
     }
+    #endregion
 
     public void AddItem(Item itemToAdd)
     {
@@ -42,16 +40,14 @@ public class InventorySlot : MonoBehaviour
         if (_itemInSlot == null)
             return;
 
-
         _itemImage.sprite = _itemInSlot.itemSprite;
         itemName = _itemInSlot.itemName;
-        //_itemNameText.text = itemName.ToString();
         itemDescription = _itemInSlot.description;
 
         ToggleInventorySlotSprite();
     }
 
-    public void OnClick()
+    public void OnClickInventorySlot()
     {        
         GameManager.Instance.SetTempItem(itemInSlot, inventorySlot);
 
@@ -64,13 +60,11 @@ public class InventorySlot : MonoBehaviour
         }
     }
 
-
     public void ClearSlot()
     {
         _itemInSlot = null;
         _itemImage.sprite = null;
         itemName = "";
-        //_itemNameText.text = "";
         itemDescription = "";
         _itemImage = null;
 
