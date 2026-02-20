@@ -107,6 +107,16 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePlaying = true;
 
+        story.BindExternalFunction("toggleGoldDialogue", (bool goldUiOpen) => {
+            Debug.Log("Should the Gold UI be open right now? " + goldUiOpen);
+            UiManager.Instance.ToggleGoldDialogue(goldUiOpen);
+        });
+        story.BindExternalFunction("buyItem", (string item, string goldValue)  =>
+        {
+            Debug.Log(item + " was bought for " + goldValue + "G.");
+            int goldValueINT = Convert.ToInt32(goldValue);
+            GameManager.Instance.BuyItem(item, goldValueINT);
+        });
         //Debug.Log("Entering dialogue for knotName: " + knotName);
         if (!knotName.Equals(""))
             story.ChoosePathString(knotName);
@@ -141,6 +151,7 @@ public class DialogueManager : MonoBehaviour
             ExitDialogue();
     }
 
+
     private void HandleTags(List<string> currentTags)
     {
         foreach (string tag in currentTags)
@@ -163,26 +174,10 @@ public class DialogueManager : MonoBehaviour
                 case _BG_TAG:
                     SetBackground(tagValue);
                     break;
-                case _DO:
-                    CallFunctionFromDialogue(tagValue);
-                    break;
                 default:
                     Debug.LogWarning("Tag could not be handled: " + tag);
                     break;
             }
-        }
-    }
-
-    private void CallFunctionFromDialogue(string tagValue)
-    {
-        switch (tagValue)
-        {
-            case "openGoldDialogue":
-                UiManager.Instance.OpenGoldDialogue();
-                break;
-            case "closeGoldDialogue":
-                UiManager.Instance.CloseGoldDialogue();
-                break;
         }
     }
 
@@ -276,6 +271,9 @@ public class DialogueManager : MonoBehaviour
     private void ExitDialogue()
     {
         Debug.Log("Exiting Dialogue");
+
+        story.UnbindExternalFunction("toggleGoldDialogue");
+        story.UnbindExternalFunction("buyItem");
 
         dialoguePlaying = false;
 

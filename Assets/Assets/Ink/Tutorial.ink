@@ -1,3 +1,7 @@
+EXTERNAL toggleGoldDialogue(goldUiOpen)
+EXTERNAL buyItem(item, goldValue)
+
+
 VAR class = ""
 VAR item = ""
 VAR cost = ""
@@ -62,7 +66,8 @@ But first, you should stop by the local shop. #speaker: Narrator #portrait: Narr
 -> firstTimeShopper
 
 === firstTimeShopper ===
-Placeholdertext. # #background: Shop #do: openGoldDialogue
+Placeholdertext. # #background: Shop 
+~toggleGoldDialogue(true)
 -> shopping
 
 === shopping ===
@@ -82,12 +87,13 @@ Items you can purchase:
     + [Sharp Sword]
         ~ item = "sharp sword"
         ~ cost = "75"
-    + [Potion of Magic]
-        ~ item = "Potion of Magic"
+    + [Potion of Strength]
+        ~ item = "Potion of Strength"
         ~ cost = "75"
 
     - The {item} will cost you {cost}G. #speaker: Shopkeeper #portrait: Shopkeeper
-        ++ [Buy it.] #  add logic
+        ++ [Buy it.]
+            ~buyItem(item, cost)
             You bought {item} for {cost}G. #speaker: Narrator #portrait: Narrator
             -> firstTimeShopper
         ++ [Don't buy it.]
@@ -127,7 +133,12 @@ Do you want to steal the weird potion?
             -> toTheTavern
             
 === toTheTavern ==
-The next stop is the tavern. #speaker: Narrator #portrait: Narrator #background: None #do: closeGoldDialogue
+The next stop is the tavern. 
+#speaker: Narrator
+#portrait: Narrator
+#background: None
+~ toggleGoldDialogue(false)
+The next stop is the tavern. 
 As this is a very small city, it is right across the town square.
 Your eyes need a few seconds to adjust to the candle-light room.
 In the far corner, you can see the last embers of a fire long forgotten.

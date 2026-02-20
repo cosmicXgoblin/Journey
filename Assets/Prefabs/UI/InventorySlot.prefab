@@ -147,11 +147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f266b4b559aaac94bac137f32c895b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlot: {fileID: 41621239974740808}
+  inventorySlot: {fileID: 6199693050664527146}
+  _invSlotSprite: {fileID: 0}
   _itemInSlot: {fileID: 0}
   itemName: 
   _itemImage: {fileID: 7217071793126771700}
-  _itemNameText: {fileID: 4295513153522706186}
+  itemDescription: 
 --- !u!1 &1201149700384401398
 GameObject:
   m_ObjectHideFlags: 0
