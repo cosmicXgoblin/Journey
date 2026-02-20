@@ -348,6 +348,7 @@ public class UiManager : MonoBehaviour
     public void ShowFightUI()
     {
         _testMap.SetActive(false);
+        _dialogueAndChoicesPanel.SetActive(false);
         _characterPanel.SetActive(false);
         _testFight.SetActive(true);
     }

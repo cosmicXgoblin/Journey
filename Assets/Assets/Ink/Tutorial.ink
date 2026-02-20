@@ -1,5 +1,7 @@
 EXTERNAL toggleGoldDialogue(goldUiOpen)
 EXTERNAL buyItem(item, goldValue)
+EXTERNAL startFight(enemy)
+EXTERNAL setClass(class)
 
 
 VAR class = ""
@@ -47,6 +49,7 @@ What is your background?
 === acceptSelectedCharacter ===
 Does this sound like you?
     * [Yes. I am a {class}.]
+    ~setClass(class)
     -> startAdventure
     + [No, that does not feel right.]
     -> characterselection
@@ -229,6 +232,7 @@ Time to fight.
 -> Fight // you will go first
 
 === Fight ===
+~startFight("rat")
 -> DONE
 
 

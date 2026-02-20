@@ -1,3 +1,4 @@
+
 using Ink.Runtime;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SearchService;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -107,7 +109,8 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePlaying = true;
 
-        story.BindExternalFunction("toggleGoldDialogue", (bool goldUiOpen) => {
+        story.BindExternalFunction("toggleGoldDialogue", (bool goldUiOpen) =>
+        {
             Debug.Log("Should the Gold UI be open right now? " + goldUiOpen);
             UiManager.Instance.ToggleGoldDialogue(goldUiOpen);
         });
@@ -117,6 +120,18 @@ public class DialogueManager : MonoBehaviour
             int goldValueINT = Convert.ToInt32(goldValue);
             GameManager.Instance.BuyItem(item, goldValueINT);
         });
+        story.BindExternalFunction("startFight", (string enemy) =>
+        {
+            Debug.Log("Starting a fight with" +  enemy);
+            GameManager.Instance.SetBattle(enemy);
+        });
+        story.BindExternalFunction("setClass", (string currenClass) =>
+        {
+            Debug.Log("Selecting class: " + currenClass);
+            GameManager.Instance.SetCurrentClass(currenClass);
+            GameManager.Instance.SetPlayerData();
+        });
+
         //Debug.Log("Entering dialogue for knotName: " + knotName);
         if (!knotName.Equals(""))
             story.ChoosePathString(knotName);
@@ -274,8 +289,11 @@ public class DialogueManager : MonoBehaviour
 
         story.UnbindExternalFunction("toggleGoldDialogue");
         story.UnbindExternalFunction("buyItem");
+        story.UnbindExternalFunction("startFight");
+        story.UnbindExternalFunction("setClass");
 
-        dialoguePlaying = false;
+
+    dialoguePlaying = false;
 
         // clear state for future dialogues
         story.ResetState();

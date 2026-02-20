@@ -114,14 +114,17 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     public void OnClickSetCurrentClass(string selectedClass)
     {
-        if (selectedClass == "fighter") currentClass = _database.GetComponent<Database>().fighter;
-        if (selectedClass == "thief") currentClass = _database.GetComponent<Database>().thief;
-        if (selectedClass == "sorcerer") currentClass = _database.GetComponent<Database>().sorcerer;
+        SetCurrentClass(selectedClass);
     }
         
     public void OnClickSetPlayerData()
     {
-        // var currentPlayerData = Instantiate(_playerData);
+        SetPlayerData();
+    }
+    #endregion
+
+    public void SetPlayerData()
+    {
         _playerData.className = currentClass.className;
         _playerData.classSprite = currentClass.classSprite;
         _playerData.classSpriteRound = currentClass.classSpriteRound;
@@ -151,17 +154,14 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _currentPlayerHitPoints = _playerData.currentHitPoints;
 
         currentGameState = GameState.onMap;
-
-        //this are later for loading / saving, just as a reminder
-        // currentPlayerData.currenthitPoints;
-        // currentPlayerData.Item1
-        // currentPlayerData.Item2
-        // currentPlayerData.Item3
-        // currentPlayerData.Item4
-        // currentPlayerData.Item5
-        // currentPlayerData.lastLocation
     }
-    #endregion
+    public void SetCurrentClass(string selectedClass)
+    {   
+        if (selectedClass == "fighter") currentClass = _database.GetComponent<Database>().fighter;
+        if (selectedClass == "thief") currentClass = _database.GetComponent<Database>().thief;
+        if (selectedClass == "sorcerer") currentClass = _database.GetComponent<Database>().sorcerer;
+    }
+
 
     #region Fight
     public void StartBattle(ScriptableObject enemy)
@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         currentGameState = GameState.activeBattle;
         currentBattleState = BattleState.fight;
 
-        _uiManager.GetComponent<UiManager>().ShowFightUI();
+        UiManager.Instance.ShowFightUI();
     }
 
     public void SetBattle(ScriptableObject enemy)
@@ -231,6 +231,25 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             classAttackModifier = _playerData.attackModifier;
 
             //classAttackModifierText.text = classAttackModifier.ToString();
+        }
+    }
+
+    public void SetBattle(string enemy)
+    {
+        switch (enemy)
+        {
+            case "rat":
+                currentEnemy = _database.GetComponent<Database>().rat;
+                StartBattle(currentEnemy);
+                break;
+            case "rat1":
+                currentEnemy = _database.GetComponent<Database>().rat1;
+                StartBattle(currentEnemy);
+                break;
+            case "rat2":
+                currentEnemy = _database.GetComponent<Database>().rat2;
+                StartBattle(currentEnemy);
+                break;
         }
     }
 
