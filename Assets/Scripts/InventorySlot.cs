@@ -17,8 +17,8 @@ public class InventorySlot : MonoBehaviour
     private string itemDescription;
     [SerializeField] private Image _itemImage;
 
-    [Header("UI")]
-    [SerializeField] private TextMeshProUGUI _itemNameText;
+    //[Header("UI")]
+    //[SerializeField] private TextMeshProUGUI _itemNameText;
 
     public Item itemInSlot => _itemInSlot;
 
@@ -42,7 +42,7 @@ public class InventorySlot : MonoBehaviour
 
         _itemImage.sprite = _itemInSlot.itemSprite;
         itemName = _itemInSlot.itemName;
-        _itemNameText.text = itemName.ToString();
+        //_itemNameText.text = itemName.ToString();
         itemDescription = _itemInSlot.description;
 
         ToggleInventorySlotSprite();
@@ -67,7 +67,7 @@ public class InventorySlot : MonoBehaviour
         _itemInSlot = null;
         _itemImage.sprite = null;
         itemName = null;
-        _itemNameText.text = "";
+        //_itemNameText.text = "";
         itemDescription = "";
         _itemImage = null;
 

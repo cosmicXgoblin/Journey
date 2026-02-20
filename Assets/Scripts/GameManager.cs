@@ -476,8 +476,8 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         //else if (item.effect == ItemEffect.Damage) Debug.Log("Damage");
         //else if (item.effect == ItemEffect.RandomEvent) Debug.Log("RandomEvent");
 
-        inventorySlot.ClearSlot();
         ClearTempItem();
+        inventorySlot.ClearSlot();
         UiManager.Instance.CloseConsumableUI();
     }
 

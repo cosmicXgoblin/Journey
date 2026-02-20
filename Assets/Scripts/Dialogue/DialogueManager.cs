@@ -5,6 +5,8 @@ using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.SearchService;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -14,13 +16,24 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextAsset _inkJson;
     private Story story;
     private int currentChoiceIndex = -1;
-
-    [SerializeField] private GameObject _submitButton;
-    [SerializeField] private TextMeshProUGUI _dialogBoxText;
     private bool dialoguePlaying = false;
     [SerializeField] private string _tempKnotName;
 
+    [Header("Dialogue UI")]
+    [SerializeField] private GameObject _submitButton;
+    [SerializeField] private TextMeshProUGUI _dialogBoxText;
     [SerializeField] private ChoiceButton[] choiceButtons;
+    [SerializeField] private TextMeshProUGUI _speakerNameText;
+    [SerializeField] private Image _speakerPortrait;
+    [SerializeField] private Image _background;
+
+    [Header("Story Tags")]
+    private const string _SPEAKER_TAG = "speaker";
+    private const string _PORTRAIT_TAG = "portrait";
+    private const string _BG_TAG = "background";
+    private const string _DO = "do";
+
+    public Image background => _background;
 
     private void Awake()
     { 
@@ -34,14 +47,14 @@ public class DialogueManager : MonoBehaviour
     private void OnEnable()
     {
         //EventsManager.Instance.dialogueEvents.OnEnterDialogue += EnterDialogue;
-        EventsManager.Instance.inputEvents.OnSubmitPressed += SubmitPressed;
+        //EventsManager.Instance.inputEvents.OnSubmitPressed += SubmitPressed;
         //EventsManager.Instance.dialogueEvents.OnUpdateChoiceIndex += UpdateChoiceIndex;
     }
 
     private void OnDisable()
     {
        // EventsManager.Instance.dialogueEvents.OnEnterDialogue -= EnterDialogue;
-        EventsManager.Instance.inputEvents.OnSubmitPressed -= SubmitPressed;
+        //EventsManager.Instance.inputEvents.OnSubmitPressed -= SubmitPressed;
        // EventsManager.Instance.dialogueEvents.OnUpdateChoiceIndex += UpdateChoiceIndex;
     }
 
@@ -122,9 +135,105 @@ public class DialogueManager : MonoBehaviour
 
             //EventsManager.Instance.dialogueEvents.DisplayDialogue(dialogueLine, story.currentChoices);
             DisplayDialogue(dialogueLine, story.currentChoices);
+            HandleTags(story.currentTags);
         }
         else if (story.currentChoices.Count == 0)
             ExitDialogue();
+    }
+
+    private void HandleTags(List<string> currentTags)
+    {
+        foreach (string tag in currentTags)
+        {
+            // parse it
+            string[] splitTag = tag.Split(":");
+            if (splitTag.Length != 2)
+                Debug.LogError("This tag is not correctly set up and could not be appropriately parsed: " + tag);
+            string tagKey = splitTag[0].Trim();     // Trim() is cleaning up whitespeace around it
+            string tagValue = splitTag[1].Trim();
+
+            switch (tagKey)
+            {
+                case _SPEAKER_TAG:
+                    _speakerNameText.text = tagValue;
+                    break;
+                case _PORTRAIT_TAG:
+                    SetSpeakerPortrait(tagValue);
+                    break;
+                case _BG_TAG:
+                    SetBackground(tagValue);
+                    break;
+                case _DO:
+                    CallFunctionFromDialogue(tagValue);
+                    break;
+                default:
+                    Debug.LogWarning("Tag could not be handled: " + tag);
+                    break;
+            }
+        }
+    }
+
+    private void CallFunctionFromDialogue(string tagValue)
+    {
+        switch (tagValue)
+        {
+            case "openGoldDialogue":
+                UiManager.Instance.OpenGoldDialogue();
+                break;
+            case "closeGoldDialogue":
+                UiManager.Instance.CloseGoldDialogue();
+                break;
+        }
+    }
+
+    private void SetSpeakerPortrait(string tagValue)
+    {
+        switch (tagValue)
+        {
+            case "Narrator":
+                _speakerPortrait.sprite = Database.Instance.Narrator;
+                break;
+            case "Shopkeeper":
+                _speakerPortrait.sprite = Database.Instance.Shopkeeper;
+                break;
+            case "Tavernkeeper":
+                _speakerPortrait.sprite = Database.Instance.Tavernkeeper;
+                break;
+            case "Fighter":
+                _speakerPortrait.sprite = Database.Instance.Fighter;
+                break;
+            case "Thief":
+                _speakerPortrait.sprite = Database.Instance.Thief;
+                break;
+            case "Sorcerer":
+                _speakerPortrait.sprite = Database.Instance.Sorcerer;
+                break;
+            default:
+                Debug.LogWarning("TagValue could not be handled: " + tagValue);
+                break;
+        }
+    }
+
+    private void SetBackground(string tagValue)
+    {
+        switch (tagValue)
+        {
+            case "Shop":
+                _background.sprite = Database.Instance.Shop;
+                break;
+            case "Tavern":
+                _background.sprite = Database.Instance.None;
+                break;
+            case "Village":
+                _background.sprite = Database.Instance.Village;
+                break;
+            case "None":
+                _background.sprite = Database.Instance.None;
+                break;
+            default:
+                Debug.LogWarning("TagValue could not be handled: " + tagValue);
+                break;
+        }
     }
 
     private void DisplayDialogue(string dialogueLine, List<Choice> dialogueChoices)

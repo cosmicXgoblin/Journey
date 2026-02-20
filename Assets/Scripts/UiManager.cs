@@ -86,6 +86,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Sprite _classMapfigure_noBase;
     [SerializeField] private bool _noBase;
 
+    [SerializeField] private GameObject _dialogueGold;
+    [SerializeField] private TextMeshProUGUI _dialogueGoldText;
+
     [Header("Effects")]
     private Color _tempColor;
     public Color red;
@@ -117,6 +120,7 @@ public class UiManager : MonoBehaviour
         _dialoguePanel.SetActive(false);
         _chooseTutorialPanel.SetActive(false);
         _consumablePanel.SetActive(false);
+        _dialogueGold.SetActive(false);
 
 
         _canvasTitle.SetActive(true);
@@ -249,6 +253,7 @@ public class UiManager : MonoBehaviour
         _screenUi.SetActive(true);
         _dialogueAndChoicesPanel.SetActive(true);
         _dialoguePanel.SetActive(true);
+        _dialogueGold.SetActive(false);
 
         Debug.Log("Here's the tutorial.");
     }
@@ -327,6 +332,7 @@ public class UiManager : MonoBehaviour
 
         _dialogueAndChoicesPanel.SetActive(true);
         _dialoguePanel.SetActive(true);
+        _dialogueGold.SetActive(false);
 
         _playerController.SetActive(false);
     }
@@ -431,7 +437,15 @@ public class UiManager : MonoBehaviour
 
     #region Dialogue
 
+    public void OpenGoldDialogue()
+    {
+        _dialogueGold.SetActive(true);
+    }
 
+    public void CloseGoldDialogue()
+    {
+        _dialogueGold.SetActive(false);
+    }
 
     #endregion
 
@@ -472,6 +486,7 @@ public class UiManager : MonoBehaviour
     public void UpdateUI (int playerGold)
     {
         _goldText.text = playerGold.ToString() + "G";
+        _dialogueGoldText.text = playerGold.ToString() + "G";
     }
 
 }

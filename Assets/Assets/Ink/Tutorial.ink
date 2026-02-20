@@ -6,7 +6,7 @@ VAR cost = ""
 -> main
 
 === main ===
-You new here? # speaker: narrator
+You new here? #speaker: Narrator #portrait: Narrator #background: None
     *[Yes.]
     *[Apparently.]
     *[No, I just wanted to replay the tutorial.]
@@ -48,31 +48,30 @@ Does this sound like you?
     -> characterselection
     
 === startAdventure ===
-This city may be new to you, but not the smell.
+This city may be new to you, but not the smell. #background: Village
 It's the unmistakable stench of people going about their day, various animals with their excretions and stone baked in the sun.
 You just stared at a wooden board in the middle of the market place, looking for some work.
 Or better, looking for some coins so you can get proper food and a nice bed for the night.
 Some tavernkeeper is looking for help to remove the rats from their basement.
 
+{class == "fighter": It's good, honest work and you can help someone.} 
+{class == "thief": And maybe you can find interesting things in the basement for your collection.} 
+{class == "sorcerer": Just don't try to throw fireballs at them and you should be fine and set up for the night.} 
 
-{class == "fighter": It's good, honest work and you can help someone.}
-{class == "thief": And maybe you can find interesting things in the basement for your collection.}
-{class == "sorcerer": Just don't try to throw fireballs at them and you should be fine and set up for the night.}
-
-But first, you should stop by the local shop.
+But first, you should stop by the local shop. #speaker: Narrator #portrait: Narrator
 -> firstTimeShopper
 
 === firstTimeShopper ===
-Placeholdertext. #TODO
+Placeholdertext. # #background: Shop #do: openGoldDialogue
 -> shopping
 
 === shopping ===
 Items you can purchase:
-    + I'm done shopping.
-            Are you sure? You won't be able to come back until you completed the tutorial.
-            *** Yes.
+    +   [I'm done shopping.]
+            Are you sure? You won't be able to come back until you completed the tutorial. #speaker: Narrator #portrait: Narrator
+            *** [Yes.]
             -> firstTimeShopperEnd
-            *** No.
+            *** [No.]
             -> firstTimeShopper
     + [Potion of Healing]
         ~ item = "Potion of Healing"
@@ -87,16 +86,16 @@ Items you can purchase:
         ~ item = "Potion of Magic"
         ~ cost = "75"
 
-    - The {item} will cost you {cost}G.
-        ++ Buy it. # TODO add logic
-            You bought {item} for {cost}G.
+    - The {item} will cost you {cost}G. #speaker: Shopkeeper #portrait: Shopkeeper
+        ++ [Buy it.] #  add logic
+            You bought {item} for {cost}G. #speaker: Narrator #portrait: Narrator
             -> firstTimeShopper
         ++ [Don't buy it.]
             -> firstTimeShopper
 
         
 === firstTimeShopperEnd ===
-After completing your shopping, the shopkeeper is turning their back to you.
+After completing your shopping, the shopkeeper is turning their back to you. #speaker: Narrator #portrait: Narrator
 On the table is a weird looking potion.
 -> stealOpportunity
 
@@ -105,31 +104,30 @@ Do you want to steal the weird potion?
     * [Yes.]
     -> stealWeirdPotion
     * [No.]
-    -> DONE
+    -> toTheTavern
     
 === stealWeirdPotion ===
 // logic in code :)
-    * You were caught.
+    * [You were caught.]
         ** {class == "thief"} You could deceive them.
             Silver Tongue and sticky hands, a combination designated for greatness.
             Or prison.
             -> toTheTavern
-        ** {class == "thief"} You couldn't deceive them.
+        ** {class == "thief"} [You couldn't deceive them.]
             It seems the more you tried to weasel your way out of it, the more the shopkeeper got angry.
             You really should avoid them for a bit.
             -> toTheTavern
-        ** {class == "thief"} You didn't try to deceive them.
+        ** {class == "thief"} [You didn't try to deceive them.]
             Well, you shouldn't come back to this shop in the near future.
             -> toTheTavern
         ** Well, you shouldn't come back to this shop in the near future.
             -> toTheTavern
-    * You weren't caught.
+    * [You weren't caught.]
             Model citizen at work.
             -> toTheTavern
             
 === toTheTavern ==
-#speaker: narrator
-The next stop is the tavern.
+The next stop is the tavern. #speaker: Narrator #portrait: Narrator #background: None #do: closeGoldDialogue
 As this is a very small city, it is right across the town square.
 Your eyes need a few seconds to adjust to the candle-light room.
 In the far corner, you can see the last embers of a fire long forgotten.
@@ -137,19 +135,19 @@ The people you can see are not directly looking at you, but you can feel their e
 Behind the bar is a short, bearded person wiping away at a dirty glass.
 You are not sure if their goal is to dry it off or to smudge the stains on it more.
 You approach them.
-Yes? #speaker: tavernkeeper
+Yes? #speaker: Tavernkeeper #portrait: Tavernkeeper
 -> theTavernkeeper
 
 === theTavernkeeper ===
     * [Give them the piece of paper they put up on the quest board.]
         -> newHelp
     * [Tell them you're here because of the rats.]
-        Rats? #speaker: tavernkeeper
+        Rats? #speaker: Tavernkeeper #portrait: Tavernkeeper
         Oh no, you're mistaken, we have no rats here.
-        They jump up onto the bar, their hand clamping hard on your shoulder. #speaker: narrator
+        They jump up onto the bar, their hand clamping hard on your shoulder. #speaker: Narrator #portrait: Narrator
         -> newHelp
     * [Study their technique with the dirty glass. ]
-        It's remarkable. #speaker: narrator
+        It's remarkable. #speaker: Narrator #portrait: Narrator
         With every movement of their wrist, they are able to incorporate more and more dirt into the glass.
         You ask yourself if someone trained them or if there are some Olympics of Barkeepres.
         This guy for sure could win it.
@@ -158,25 +156,25 @@ Yes? #speaker: tavernkeeper
     
 
 === newHelp ===
-You must be the new help for our kitchen, why don't you come to the back. #speaker: tavernkeeper
+You must be the new help for our kitchen, why don't you come to the back. #speaker: Tavernkeeper #portrait: Tavernkeeper
 -> inTheBack
 
 === inTheBack ===
-As you don't feel you have any other choice, you follow them to the back. #speaker: narrator
+As you don't feel you have any other choice, you follow them to the back. #speaker: Narrator #portrait: Narrator
 You're standing in a little corridor, with two other doors and some stairs, presumly to the basement.
-We are a very clean establishment, so there are DEFINITLY no rats in our basement.
-    * Point to the paper. # if paper given TODO
-    * Nod slowy and knowingly.
-    * Stare at them.
+We are a very clean establishment, so there are DEFINITLY no rats in our basement. #speaker: Tavernkeeper #portrait: Tavernkeeper
+    * [Point to the paper.] # if paper given 
+    * [Nod slowy and knowingly.]
+    * [Stare at them.]
     - So I just want you to, eh, look at our basement.
-And if you see something ratshaped there, well, as I said:
+And if you see something ratshaped there, well, as I said: #speaker: Tavernkeeper #portrait: Tavernkeeper
 There are DEFINITLY no rats in the basement.
 And after you looked at our basement, and i confirm that it is STILL ratfree, you get your reward for, eh, looking at our basement.
-    * [Point to the paper.] # if paper given TODO
+    * [Point to the paper.] # if paper given 
     * [Nod slowy and knowingly.]
     * [Stare at them.]
     - Yes, yes, and as a reward ...
-You're new here in town, do you have somwhere to rest?
+You're new here in town, do you have somwhere to rest? #speaker: Tavernkeeper #portrait: Tavernkeeper
  /*   * Yes.
         Well, that's for sure a lie. */
     * [No.]
@@ -189,11 +187,11 @@ You're new here in town, do you have somwhere to rest?
     -> theBasement
     
 === theBasement ===
-They carefully open the door and, with a swift motion, push you into the room.
+They carefully open the door and, with a swift motion, push you into the room. #speaker: Narrator #portrait: Narrator
 You hear the rustling of keys and something softly clicking-
 Did they just ... lock you in?
     * [Punch against the door.]
-        Great. #TODO logic
+        Great. # logic
         Now you're locked in AND your fist is aching.
         -> ratIsAttacking
     * [Shout at them.]
