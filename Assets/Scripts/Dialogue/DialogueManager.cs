@@ -80,6 +80,13 @@ public class DialogueManager : MonoBehaviour
             GameManager.Instance.SetCurrentClass(currenClass);
             GameManager.Instance.SetPlayerData();
         });
+        story.BindExternalFunction("openTutorial", () =>
+        {
+            Tutorial.Instance.tutorialPanel.SetActive(true);
+        });
+
+
+ 
         if (!knotName.Equals(""))
             story.ChoosePathString(knotName);
         else Debug.LogWarning("Knot name was empty when entering dialogue.");

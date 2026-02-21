@@ -95,7 +95,7 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region Init
-        public static UiManager Instance { get; private set; }
+    public static UiManager Instance { get; private set; }
     private void Awake()
     {
         if (Instance == null)
@@ -193,6 +193,7 @@ public class UiManager : MonoBehaviour
         SetEverythingInactive();
 
         _screenUi.SetActive(true);
+        _dialoguePanel.SetActive(true);
         _dialogueAndChoicesPanel.SetActive(true);
     }
 

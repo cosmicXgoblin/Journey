@@ -2,6 +2,7 @@ EXTERNAL toggleGoldDialogue(goldUiOpen)
 EXTERNAL buyItem(item, goldValue)
 EXTERNAL startFight(enemy)
 EXTERNAL setClass(class)
+EXTERNAL openTutorial()
 
 
 VAR class = ""
@@ -33,6 +34,7 @@ Adventure does not discriminate.
 
 === characterselection ===
 What is your background?
+    ~ openTutorial()
     + [Fighter]
         ~ class = "fighter"
         You fight on the frontlines, your weapons of choice is a sword or an axe.
@@ -69,12 +71,16 @@ But first, you should stop by the local shop. #speaker: Narrator #portrait: Narr
 -> firstTimeShopper
 
 === firstTimeShopper ===
-Placeholdertext. # #background: Shop 
+#background: Shop 
+#speaker : Shopkeeper
+Hello adventurer.
+What brings you in today?
 ~toggleGoldDialogue(true)
 -> shopping
 
 === shopping ===
 Items you can purchase:
+    ~openTutorial()
     +   [I'm done shopping.]
             Are you sure? You won't be able to come back until you completed the tutorial. #speaker: Narrator #portrait: Narrator
             *** [Yes.]
