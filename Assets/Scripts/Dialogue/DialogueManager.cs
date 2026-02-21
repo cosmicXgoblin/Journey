@@ -15,7 +15,9 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance { get; private set; }
 
     [Header("Ink Story")]
-    [SerializeField] private TextAsset _inkJson;
+    [SerializeField] private TextAsset _introTutorial;
+    [SerializeField] private TextAsset _intro;
+    [SerializeField] private TextAsset _currentStory;
     private Story story;
     private int currentChoiceIndex = -1;
     private bool dialoguePlaying = false;
@@ -33,7 +35,6 @@ public class DialogueManager : MonoBehaviour
     private const string _SPEAKER_TAG = "speaker";
     private const string _PORTRAIT_TAG = "portrait";
     private const string _BG_TAG = "background";
-    private const string _DO = "do";
 
     public Image background => _background;
 
@@ -42,7 +43,7 @@ public class DialogueManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(this);
 
-        story = new Story(_inkJson.text);
+        //story = new Story(_inkJson.text);
     }
 
     #region Dialogue
@@ -52,9 +53,12 @@ public class DialogueManager : MonoBehaviour
         EnterDialogue(knotName);
     }
    
-    public void EnterDialogue(string knotName)
+    public void EnterDialogue(string storyname)
     {
         if (dialoguePlaying) return;
+
+
+        SetStory(storyname);
 
         dialoguePlaying = true;
 
@@ -94,11 +98,11 @@ public class DialogueManager : MonoBehaviour
             }
         });
 
-
- 
-        if (!knotName.Equals(""))
-            story.ChoosePathString(knotName);
-        else Debug.LogWarning("Knot name was empty when entering dialogue.");
+        
+        
+        //if (!knotName.Equals(""))
+        //    story.ChoosePathString(knotName);
+        //else Debug.LogWarning("Knot name was empty when entering dialogue.");
 
         //start story
         ContinueOrExitStory();
@@ -173,13 +177,34 @@ public class DialogueManager : MonoBehaviour
         story.UnbindExternalFunction("buyItem");
         story.UnbindExternalFunction("startFight");
         story.UnbindExternalFunction("setClass");
+        story.UnbindExternalFunction("openTutorial");
 
-    dialoguePlaying = false;
+        dialoguePlaying = false;
 
         // clear state for future dialogues
         story.ResetState();
     }    
    
+    private void SetStory(string storyname)
+    {
+        Debug.Log("Story will be set to " + storyname);
+
+        switch(storyname)
+        {
+            case "intro":
+                if (GameManager.Instance.tutorial == true) _currentStory = _introTutorial;
+                else _currentStory = _intro;
+                UpdateStory();
+                break;
+        }
+
+    UpdateStory();
+    }
+
+    private void UpdateStory()
+    {
+        story = new Story(_currentStory.text);
+    }
     #endregion
 
     #region Choices

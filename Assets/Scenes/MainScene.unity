@@ -4443,7 +4443,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 228048b27fe492d48beafabbac0bb6f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inkJson: {fileID: 4900000, guid: 1a9cd1468522e974e82d5ee80cf9b8db, type: 3}
+  _introTutorial: {fileID: 4900000, guid: 913e02a502329a64cbbbe1241e155adb, type: 3}
+  _intro: {fileID: 4900000, guid: f986efda1f6afe74fa28663a19d95bde, type: 3}
   _submitButton: {fileID: 1247209085}
   _dialogBoxText: {fileID: 1496688330}
   choiceButtons:
@@ -13085,6 +13086,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1049681375}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnClickToggleTutorial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 273439251}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: EnterDialogue
@@ -13094,7 +13107,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: main
+          m_StringArgument: intro
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &975027843
@@ -24116,7 +24129,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1184888955}
         m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
-        m_MethodName: OnClickStartNewGame
+        m_MethodName: OnClickStartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24124,6 +24137,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 273439251}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: EnterDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: intro
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1601764926

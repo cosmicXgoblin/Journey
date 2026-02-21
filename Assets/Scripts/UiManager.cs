@@ -200,6 +200,16 @@ public class UiManager : MonoBehaviour
         Tutorial.Instance.DisableOutlines();
     }
 
+    public void OnClickStartGame()
+    {
+        SetEverythingInactive();
+
+        _screenUi.SetActive(true);
+        _dialoguePanel.SetActive(true);
+        _dialogueAndChoicesPanel.SetActive(true);
+        _tutorialPanel.SetActive(false);
+    }
+
     public void OnClickLoadGamePart1()
     {
         _titlePanelLoadGame.SetActive(true);
