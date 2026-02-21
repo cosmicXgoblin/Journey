@@ -3,6 +3,7 @@ EXTERNAL buyItem(item, goldValue)
 EXTERNAL startFight(enemy)
 EXTERNAL setClass(class)
 EXTERNAL openTutorial()
+EXTERNAL stealWeirdPotion()
 
 
 VAR class = ""
@@ -30,11 +31,15 @@ You new here? #speaker: Narrator #portrait: Narrator #background: None
     - The reasons you choose this life can be many.  
 Maybe you're just looking for honor, riches or you like being stabbed repeatedly with various weapons.
 Adventure does not discriminate.
--> characterselection
+-> characterselection1
 
-=== characterselection ===
+=== characterselection1 ===
 What is your background?
     ~ openTutorial()
+    -> characterselection2
+    
+=== characterselection2 ===
+What is your background?
     + [Fighter]
         ~ class = "fighter"
         You fight on the frontlines, your weapons of choice is a sword or an axe.
@@ -54,7 +59,7 @@ Does this sound like you?
     ~setClass(class)
     -> startAdventure
     + [No, that does not feel right.]
-    -> characterselection
+    -> characterselection2
     
 === startAdventure ===
 This city may be new to you, but not the smell. #background: Village
@@ -70,23 +75,21 @@ Some tavernkeeper is looking for help to remove the rats from their basement.
 But first, you should stop by the local shop. #speaker: Narrator #portrait: Narrator
 -> firstTimeShopper
 
+
 === firstTimeShopper ===
 #background: Shop 
 #speaker : Shopkeeper
 Hello adventurer.
 What brings you in today?
 ~toggleGoldDialogue(true)
--> shopping
-
-=== shopping ===
 Items you can purchase:
     ~openTutorial()
     +   [I'm done shopping.]
             Are you sure? You won't be able to come back until you completed the tutorial. #speaker: Narrator #portrait: Narrator
             *** [Yes.]
             -> firstTimeShopperEnd
-            *** [No.]
-            -> firstTimeShopper
+            +++ [No.]
+            -> firstTimeShopperAgain
     + [Potion of Healing]
         ~ item = "Potion of Healing"
         ~ cost = "50"
@@ -104,10 +107,38 @@ Items you can purchase:
         ++ [Buy it.]
             ~buyItem(item, cost)
             You bought {item} for {cost}G. #speaker: Narrator #portrait: Narrator
-            -> firstTimeShopper
+            -> firstTimeShopperAgain
         ++ [Don't buy it.]
-            -> firstTimeShopper
+            -> firstTimeShopperAgain
 
+=== firstTimeShopperAgain ===
+Items you can purchase:
+    +   [I'm done shopping.]
+            Are you sure? You won't be able to come back until you completed the tutorial. #speaker: Narrator #portrait: Narrator
+            *** [Yes.]
+            -> firstTimeShopperEnd
+            +++ [No.]
+            -> firstTimeShopperAgain
+    + [Potion of Healing]
+        ~ item = "Potion of Healing"
+        ~ cost = "50"
+    + [Cheese]
+        ~ item = "cheese"
+        ~ cost = "3"
+    + [Sharp Sword]
+        ~ item = "sharp sword"
+        ~ cost = "75"
+    + [Potion of Strength]
+        ~ item = "Potion of Strength"
+        ~ cost = "75"
+
+    - The {item} will cost you {cost}G. #speaker: Shopkeeper #portrait: Shopkeeper
+        ++ [Buy it.]
+            ~buyItem(item, cost)
+            You bought {item} for {cost}G. #speaker: Narrator #portrait: Narrator
+            -> firstTimeShopperAgain
+        ++ [Don't buy it.]
+            -> firstTimeShopperAgain
         
 === firstTimeShopperEnd ===
 After completing your shopping, the shopkeeper is turning their back to you. #speaker: Narrator #portrait: Narrator
@@ -117,11 +148,12 @@ On the table is a weird looking potion.
 === stealOpportunity ===
 Do you want to steal the weird potion?
     * [Yes.]
-    -> stealWeirdPotion
+    ~ stealWeirdPotion()
+    -> stealTheWeirdPotion
     * [No.]
     -> toTheTavern
     
-=== stealWeirdPotion ===
+=== stealTheWeirdPotion ===
 // logic in code :)
     * [You were caught.]
         ** {class == "thief"} You could deceive them.
@@ -238,7 +270,7 @@ Time to fight.
 -> Fight // you will go first
 
 === Fight ===
-~startFight("rat")
+~ openTutorial()
 -> DONE
 
 

@@ -69,10 +69,10 @@ public class DialogueManager : MonoBehaviour
             int goldValueINT = Convert.ToInt32(goldValue);
             GameManager.Instance.BuyItem(item, goldValueINT);
         });
-        story.BindExternalFunction("startFight", (string enemy) =>
+        story.BindExternalFunction("startFight", (ScriptableObject enemy) =>
         {
             Debug.Log("Starting a fight with" +  enemy);
-            GameManager.Instance.SetBattle(enemy);
+            GameManager.Instance.StartBattle(enemy);
         });
         story.BindExternalFunction("setClass", (string currenClass) =>
         {
@@ -83,6 +83,15 @@ public class DialogueManager : MonoBehaviour
         story.BindExternalFunction("openTutorial", () =>
         {
             Tutorial.Instance.tutorialPanel.SetActive(true);
+        });
+        story.BindExternalFunction("stealWeirdPotion", () =>
+        {
+            GameManager.Instance.RollTheDice(1, 21);
+            if ((GameManager.Instance.diceroll + GameManager.Instance.PlayerData.dexterity) >= 1)
+            {
+                Debug.Log("You steal the potion");
+                GameManager.Instance.CallTryToAdd(Database.Instance.WeirdPotion);
+            }
         });
 
 

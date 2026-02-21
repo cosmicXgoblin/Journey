@@ -45,7 +45,7 @@
 //    int randomNumber;
 //    int randomNumberOdd;
 //    bool playerTurn;
-//    int diceroll;
+//    int _diceroll;
 //    bool playerTurnDone;
 //    bool enemyTurnDone;
 //    bool playerFirst;
@@ -214,7 +214,7 @@
     
 //    private void RollTheDice()
 //    {
-//        diceroll = Random.Range(0, 20);
+//        _diceroll = Random.Range(0, 20);
 //    }
 
 //    private void EnemyAttackPart1()
@@ -230,14 +230,14 @@
 //    {
 //        if (enemyTurnDone) return;
 
-//        if (diceroll >= classAttack)
+//        if (_diceroll >= classAttack)
 //        {
 //            _currentPlayerHitPoints = _currentPlayerHitPoints - 1;
 //            Debug.Log("_currentPlayerHitPoints " + _currentPlayerHitPoints);
 //            fightText.text = "The enemy hit you!";
 //            CheckConditions();
 //        }
-//        if (diceroll < enemyAttack)
+//        if (_diceroll < enemyAttack)
 //        {
 //            fightText.text = "The enemy missed you!";
 //        }
@@ -252,15 +252,15 @@
 
 //        RollTheDice();
 
-//        if (diceroll + classAttackModifier >= enemyAttack)
+//        if (_diceroll + classAttackModifier >= enemyAttack)
 //        {
 
 //            _currentEnemyHitPoints = _currentEnemyHitPoints - 1;
 //            Debug.Log("_currentEnemyHitPoints " + _currentEnemyHitPoints);
-//            fightText.text = "You hit the enemy with " + diceroll + " " + classAttackModifier + ".";
+//            fightText.text = "You hit the enemy with " + _diceroll + " " + classAttackModifier + ".";
 //            CheckConditions();
 //        }
-//        if (diceroll + classAttackModifier < enemyAttack)
+//        if (_diceroll + classAttackModifier < enemyAttack)
 //        {
 //            fightText.text = "You missed the enemy!";
 //        }
