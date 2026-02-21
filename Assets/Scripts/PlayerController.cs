@@ -4,17 +4,26 @@ using UnityEngine.Tilemaps;
 using UnityEngine.InputSystem;
 using UnityEditor;
 using TMPro;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour, IDataPersistence
 {
     [Header("Movement")]
-    [SerializeField] private Vector2 movementInput;
-    [SerializeField] private Vector3 direction;
+    [SerializeField] private Vector2 _movementInput;
+    [SerializeField] private Vector3 _direction;
+    [SerializeField] private GameObject _pointer;
     private PlayerInput _playerInput;
     public InputActionMap playerMap;
     public InputActionMap uiMap;
     public InputActionMap alwaysMap;
-    [SerializeField] bool hasMoved;
+    [SerializeField] bool hasTriedToMove;
+
+    [SerializeField] private Vector3 _playerPos;
+    [SerializeField] private Vector3 _lastPlayerPos;
+    public bool movedPointer;
+
+    public Vector3 playerPos => _playerPos;
+    public Vector3 lastPlayerPos => _lastPlayerPos;
 
     //[Header("Fog of War")]
     //public Tilemap fogOfWar;
@@ -30,6 +39,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
 
         this.transform.position = new Vector3(-332.33f, -157.89f, -4.2f);           // übergangsweise
+        UpdatePlayerPosition();
+        _pointer.GetComponent<PlayerPointer>().SetToPlayer();
     }
 
     //public void OnNewGame()
@@ -57,23 +68,24 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     }
 
     /// <summary>
-    /// The PlayerController checks for y-Input (up/down). If there is none, hasMoved will be set to false, so the player will be able
-    /// to move the next time Update() runs. If there is some while hasMoved is true, a function to check the direction the player should
+    /// The PlayerController checks for y-Input (up/down). If there is none, hasTriedToMove will be set to false, so the player will be able
+    /// to move the next time Update() runs. If there is some while hasTriedToMove is true, a function to check the _direction the player should
     /// move int is called.
     /// </summary>
     void Update()
     {
-        if(movementInput.y == 0)
+        if(_movementInput.y == 0)
         {
-            hasMoved = false;
-            //direction = new Vector3(0, 0f);
+            hasTriedToMove = false;
+            //_direction = new Vector3(0, 0f);
         }
-        else if (movementInput.y != 0 && !hasMoved)
+        else if (_movementInput.y != 0 && !hasTriedToMove)
         {
-            hasMoved = true;
-           // direction = new Vector3(0, 0f);
+            hasTriedToMove = true;
+           // _direction = new Vector3(0, 0f);
 
             GetMovementDirection();
+            //UpdatePlayerPosition();
         }
     }
 
@@ -81,54 +93,87 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     #region Movement
     /// <summary>
-    /// This function will give us the direction the player should move in.
-    /// It'll check if the y-Input was under 0, so the direction will be going doing.
+    /// This function will give us the _direction the player should move in.
+    /// It'll check if the y-Input was under 0, so the _direction will be going doing.
     /// The next stept is checking if it should go down&right, down&left or just down. This is checked via the x-Input.
     /// Same thing for up, up&righ, up&left.
     /// </summary>
     public void GetMovementDirection()
     {
-        if (movementInput.y < 0)
+        if (_movementInput.y < 0)
         {
-            if (movementInput.x > 0)
+            if (_movementInput.x > 0)
             {
-                direction = new Vector3(1.5f, -0.875f);
+                _direction = new Vector3(1.5f, -0.875f);
             }
-            else if (movementInput.x < 0)
+            else if (_movementInput.x < 0)
             {
-                direction = new Vector3(-1.5f, -0.875f);
+                _direction = new Vector3(-1.5f, -0.875f);
             }
             else
             {
-                direction = new Vector3(0, -1.75f, 0);
+                _direction = new Vector3(0, -1.75f, 0);
             }
 
-            transform.position += direction;
+            //transform.position += _direction;
             //UpdateFogOfWar();
         }
-        else if (movementInput.y > 0)
+        else if (_movementInput.y > 0)
         {
-            if (movementInput.x > 0)
+            if (_movementInput.x > 0)
             {
-                direction = new Vector3(1.5f, 0.875f);
+                _direction = new Vector3(1.5f, 0.875f);
             }
-            else if (movementInput.x < 0)
+            else if (_movementInput.x < 0)
             {
-                direction = new Vector3(-1.5f, 0.875f);
+                _direction = new Vector3(-1.5f, 0.875f);
             }
             else
             {
-                direction = new Vector3(0, 1.75f, 0);
+                _direction = new Vector3(0, 1.75f, 0);
             }
 
-            transform.position += direction;
+            //transform.position += _direction;
             //UpdateFogOfWar(); 
         }
+        _pointer.transform.position += _direction;
+        MovePlayerToPointer();
+       // movedPointer = true;
+       // MovePlayerToPointer();
+    }
+
+    public void MovePlayerToPointer()
+    {
+
+        transform.position = _pointer.transform.position;
+        UpdatePlayerPosition();
+
+        //movedPointer = false;
+
+
+        //if (_pointer.GetComponent<PlayerPointer>().obstacle == true)
+        //{
+        //    Debug.Log("You can't move here");
+        //}
+        //else
+        //{
+        //    transform.position += _direction;
+        //    UpdatePlayerPosition();
+        //}
+        //_pointer.GetComponent<PlayerPointer>().SetToPlayer();
     }
 
     public void OnMove(InputValue value)
     {
-       movementInput = value.Get<Vector2>();
+       _movementInput = value.Get<Vector2>();
+    }
+
+    private void UpdatePlayerPosition()
+    {
+        _lastPlayerPos = _playerPos;
+       _playerPos = this.gameObject.transform.position;
+
+        Debug.Log(playerPos);
     }
 
     //private void OnCollisionEnter2D(Collision2D collision)
