@@ -12,9 +12,6 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public string msg;
     [SerializeField] private InventorySlot _invSlot;
 
-
-    //[RequireComponent(typeof(BoxCollider))
-
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
         msg = _invSlot.GetComponent<InventorySlot>().itemInSlot.itemName.ToString();

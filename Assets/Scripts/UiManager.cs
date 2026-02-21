@@ -42,6 +42,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _chooseTutorialPanel;
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private GameObject _consumablePanel;
+    [SerializeField] private GameObject _tutorialPanel;
 
     [Header("Persistence")]
     public string inputFileName;
@@ -95,7 +96,7 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region Init
-        public static UiManager Instance { get; private set; }
+    public static UiManager Instance { get; private set; }
     private void Awake()
     {
         if (Instance == null)
@@ -193,7 +194,10 @@ public class UiManager : MonoBehaviour
         SetEverythingInactive();
 
         _screenUi.SetActive(true);
+        _dialoguePanel.SetActive(true);
         _dialogueAndChoicesPanel.SetActive(true);
+        _tutorialPanel.SetActive(true);
+        Tutorial.Instance.DisableOutlines();
     }
 
     public void OnClickLoadGamePart1()
@@ -266,7 +270,7 @@ public class UiManager : MonoBehaviour
         }
         _playerMapfigure.GetComponent<SpriteRenderer>().sprite = _classMapfigure_Base;
 
-        UpdateUi(GameManager.Instance.CurrentPlayerHitPoints);
+        UpdateUiHP(GameManager.Instance.CurrentPlayerHitPoints);
     }
 
     public void EnableUiMap(bool enable)
@@ -415,7 +419,7 @@ public class UiManager : MonoBehaviour
     public void ToggleGoldDialogue(bool goldUiOpen)
     {
         int playerGold = GameManager.Instance.PlayerData.gold;
-        UpdateUI(playerGold);
+        UpdateUiGold(playerGold);
 
         if (goldUiOpen)
         {
@@ -449,7 +453,7 @@ public class UiManager : MonoBehaviour
     #endregion
 
 
-    public void UpdateUi(int currentPlayerHitPoints)        
+    public void UpdateUiHP(int currentPlayerHitPoints)        
     {
         _healthBar.value = currentPlayerHitPoints;
         _healthBarText.text = currentPlayerHitPoints.ToString() + " / " +  GameManager.Instance.PlayerData.maxHitPoints.ToString();
@@ -462,7 +466,7 @@ public class UiManager : MonoBehaviour
         //GameManager.Instance..GetComponent<GameManger>().playerData;
     }
 
-    public void UpdateUI (int playerGold)
+    public void UpdateUiGold (int playerGold)
     {
         _goldText.text = playerGold.ToString() + "G";
         _dialogueGoldText.text = playerGold.ToString() + "G";

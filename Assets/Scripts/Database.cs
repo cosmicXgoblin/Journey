@@ -32,6 +32,7 @@ public class Database : MonoBehaviour
     public Item MysteryPotion;
     public Item PotionOfHealing;
     public Item PotionOfStrength;
+    public Item WeirdPotion;
     public Item Sword;
     public Item sharpSword;
 
