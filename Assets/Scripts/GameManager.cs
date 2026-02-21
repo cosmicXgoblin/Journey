@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     GameState currentGameState;
 
     [Header("Enemy")]
-    public ScriptableObject currentEnemy;
+    public Enemy currentEnemy;
     private int enemyAttack;
     [SerializeField]  private int _currentEnemyHitPoints;
 
@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
 
     #region Fight
-    public void StartBattle(ScriptableObject enemy)
+    public void StartBattle(Enemy enemy)
     {
         currentGameState = GameState.transition;
         currentEnemy = enemy;
@@ -384,7 +384,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             UiManager.Instance.whichRoundText.text = "WIN";
 
             UiManager.Instance.fightText.text = "You killed the enemy. Good for you.";
-            EndFight(2f);
+            BattleWon();
             
         }
         if (_currentPlayerHitPoints <= 0)
@@ -396,6 +396,14 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             UiManager.Instance.fightText.text = "The enemy wounded you badly. Are you dying?";
             EndFight(0.5f);
         }
+    }
+
+    private void BattleWon()
+    {
+        RollTheDice(1, currentEnemy.loot.Count);
+        TryToAdd(currentEnemy.loot[diceroll]);
+        Debug.Log("A " + diceroll + " was rolled & the loot is " + currentEnemy.loot[diceroll].ToString());
+        EndFight();
     }
 
     private void ClearFight()
@@ -432,8 +440,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         ClearFight();
     }
 
+
+
     private void EndFight(float delay)
     {
+        ClearFight();
         UiManager.Instance.playerAttackButton.SetActive(false);
         _tutorial = false;
         StartCoroutine(WaitAdventure(delay));

@@ -73,10 +73,9 @@ public class DialogueManager : MonoBehaviour
             int goldValueINT = Convert.ToInt32(goldValue);
             GameManager.Instance.BuyItem(item, goldValueINT);
         });
-        story.BindExternalFunction("startFight", (ScriptableObject enemy) =>
+        story.BindExternalFunction("startFight", () =>
         {
-            Debug.Log("Starting a fight with" +  enemy);
-            GameManager.Instance.StartBattle(enemy);
+            GameManager.Instance.StartBattle(Database.Instance.rat);
         });
         story.BindExternalFunction("setClass", (string currenClass) =>
         {

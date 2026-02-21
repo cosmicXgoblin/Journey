@@ -1,4 +1,7 @@
+using Ink.Parsed;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "Create new Enemy")]
 public class Enemy : ScriptableObject
@@ -27,4 +30,6 @@ public class Enemy : ScriptableObject
 
     public int attack;
     public int hitPoints;
+
+    public List<Item> loot = new List<Item>();
 }

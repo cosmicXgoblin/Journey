@@ -16,6 +16,7 @@ public class Item : ScriptableObject
     public bool equipable;
     public bool consumable;
     public ItemEffect effect;
+    public Die die;
 
     //public bool randomEvent;
     public RandomEvent randomEvent;
@@ -29,7 +30,8 @@ public enum ItemType
     Weapon,
     Armor,
     Potion,
-    Food
+    Food,
+    etc
 }
 
 public enum ItemRarity
@@ -45,10 +47,18 @@ public enum ItemEffect
 {
     Heal,
     Damage,
-    RandomEvent
+    RandomEvent,
+    Coin
 }
 
 public enum RandomEvent
 {
+    None,
     HealOrDamage
+}
+
+public enum Die
+{
+    None,
+    d12
 }

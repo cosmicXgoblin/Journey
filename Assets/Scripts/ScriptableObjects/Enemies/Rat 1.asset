@@ -21,5 +21,12 @@ MonoBehaviour:
   observing: 0
   dexterity: 0
   charme: 0
-  attack: 8
+  attack: 6
   hitPoints: 3
+  loot:
+  - {fileID: 11400000, guid: 34ed8bcee3019824385c9720247df264, type: 2}
+  - {fileID: 11400000, guid: fb546694bbfcec546807eeba28521c76, type: 2}
+  - {fileID: 11400000, guid: fb546694bbfcec546807eeba28521c76, type: 2}
+  - {fileID: 11400000, guid: fb546694bbfcec546807eeba28521c76, type: 2}
+  - {fileID: 11400000, guid: fb546694bbfcec546807eeba28521c76, type: 2}
+  - {fileID: 11400000, guid: 654ee289ad3ba1447ae3896886167665, type: 2}
