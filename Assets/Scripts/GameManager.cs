@@ -28,10 +28,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     [Header("Fight")]
     BattleState currentBattleState;
-    [SerializeField] private int _round = 0;
+    private int _round = 0;
     int randomNumber;
     int randomNumberOdd;
-    [SerializeField] bool playerTurn;
+    bool playerTurn;
     bool playerTurnDone;
     bool enemyTurnDone;
     bool playerFirst;
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     [SerializeField] private InventorySlot _tempInvSlot;
     [SerializeField] private List<InventorySlot> invSlots;
 
+    [SerializeField] private bool _tutorial = false;
     private int _diceroll;
 
     public PlayerData PlayerData => _playerData;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     public int CurrentEnemyHitPoints => _currentEnemyHitPoints;
     public int Round => _round;
     public int diceroll => _diceroll;
+    public bool tutorial => _tutorial;
     public static GameManager Instance { get; private set; }
 
     #region init
@@ -82,6 +84,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     #endregion
 
     #region OnClick
+    public void OnClickToggleTutorial()
+    {
+        if (!_tutorial) _tutorial = true;
+        else _tutorial = false;
+    }
+
     public void OnClickRestart()
     {
         ClearFight();
@@ -427,6 +435,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     private void EndFight(float delay)
     {
         UiManager.Instance.playerAttackButton.SetActive(false);
+        _tutorial = false;
         StartCoroutine(WaitAdventure(delay));
     }
 
