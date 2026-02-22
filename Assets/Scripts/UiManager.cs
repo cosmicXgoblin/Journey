@@ -43,6 +43,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private GameObject _consumablePanel;
     [SerializeField] private GameObject _tutorialPanel;
+    [SerializeField] private GameObject _notEnoughMoneyPanel;
 
     [Header("Persistence")]
     public string inputFileName;
@@ -330,6 +331,12 @@ public class UiManager : MonoBehaviour
 
         EnableUiMap(true);
     }
+    
+    public void CallNotEnoughMoney()
+    {
+        _notEnoughMoneyPanel.SetActive(true);
+    }
+    
     #endregion
 
     #region Fight
@@ -509,5 +516,6 @@ public class UiManager : MonoBehaviour
         _titlePanel.SetActive(false);
         _titlePanelButtons.SetActive(false);
         _titlePanelOptions.SetActive(false);
+        _notEnoughMoneyPanel.SetActive(false);
     }
 }

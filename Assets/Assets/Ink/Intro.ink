@@ -267,8 +267,8 @@ Time to fight.
 -> Fight // you will go first
 
 === Fight ===
+...
 ~ startFight()
--> DONE
 
 
 /*

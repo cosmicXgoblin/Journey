@@ -20,10 +20,13 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     [SerializeField] private Vector3 _playerPos;
     [SerializeField] private Vector3 _lastPlayerPos;
+    [SerializeField] private GameObject _camp;
     public bool movedPointer;
 
     public Vector3 playerPos => _playerPos;
     public Vector3 lastPlayerPos => _lastPlayerPos;
+
+    public Vector3 camp => _camp.gameObject.transform.position;
 
     //[Header("Fog of War")]
     //public Tilemap fogOfWar;

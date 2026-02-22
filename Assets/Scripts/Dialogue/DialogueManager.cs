@@ -69,7 +69,6 @@ public class DialogueManager : MonoBehaviour
         });
         story.BindExternalFunction("buyItem", (string item, string goldValue)  =>
         {
-            Debug.Log(item + " was bought for " + goldValue + "G.");
             int goldValueINT = Convert.ToInt32(goldValue);
             GameManager.Instance.BuyItem(item, goldValueINT);
         });

@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using System.Collections.Generic;
+using UnityEngine.Windows.WebCam;
 
 public class GameManager : MonoBehaviour //, IDataPersistence
 {
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     [SerializeField] private bool _tutorial = false;
     private int _diceroll;
+    [SerializeField] private PlayerController _playerController;
 
     public PlayerData PlayerData => _playerData;
     public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
@@ -395,6 +397,8 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
             UiManager.Instance.fightText.text = "The enemy wounded you badly. Are you dying?";
             EndFight(0.5f);
+
+            TeleportToCity();
         }
     }
 
@@ -403,7 +407,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         RollTheDice(1, currentEnemy.loot.Count);
         TryToAdd(currentEnemy.loot[diceroll]);
         Debug.Log("A " + diceroll + " was rolled & the loot is " + currentEnemy.loot[diceroll].ToString());
-        EndFight();
+        EndFight(2f);
     }
 
     private void ClearFight()
@@ -411,9 +415,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         currentBattleState = BattleState.noFight;
         currentGameState = GameState.transition;
 
-        currentClass = null;
         currentEnemy = null;
-        classAttack = 0;
         enemyAttack = 0;
         _currentEnemyHitPoints = 0;
         playerTurnDone = false;
@@ -450,6 +452,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         StartCoroutine(WaitAdventure(delay));
     }
 
+    private void TeleportToCity()
+    {
+        _playerController.gameObject.transform.position = _playerController.GetComponent<PlayerController>().camp;
+    }
+
     #endregion
 
     #region Items
@@ -467,12 +474,21 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     public void BuyItem(string item, int goldValue)
     {
-        PlayerData.gold = PlayerData.gold - goldValue;
-        UiManager.Instance.UpdateUiGold(PlayerData.gold);
+        if (PlayerData.gold >= goldValue)
+        {
+            PlayerData.gold = PlayerData.gold - goldValue;
+            UiManager.Instance.UpdateUiGold(PlayerData.gold);
 
-        Debug.Log("Currently at BuyItem. Item to buy: " + item);
+            Debug.Log("Currently at BuyItem. Item to buy: " + item);
 
-        GetItemToAdd(item);
+            GetItemToAdd(item);
+        }
+
+        else 
+        {
+            Debug.Log("You don't have enough money");
+            UiManager.Instance.CallNotEnoughMoney();
+        }
     }
 
     private void GetItemToAdd(string item)

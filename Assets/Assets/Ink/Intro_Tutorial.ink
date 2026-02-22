@@ -271,6 +271,7 @@ Time to fight.
 
 === Fight ===
 ~ openTutorial()
+Darn, that's a big boy!
 ~ startFight()
 -> DONE
 
