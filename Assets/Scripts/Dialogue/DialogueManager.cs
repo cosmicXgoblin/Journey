@@ -1,14 +1,9 @@
-
 using Ink.Runtime;
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.SearchService;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class DialogueManager : MonoBehaviour
 {

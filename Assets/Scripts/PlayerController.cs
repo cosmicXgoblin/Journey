@@ -1,10 +1,5 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.InputSystem;
-using UnityEditor;
-using TMPro;
-using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour, IDataPersistence
 {

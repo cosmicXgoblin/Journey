@@ -1,14 +1,11 @@
 using System.Collections;
-using System.Security.Cryptography;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 using System.Collections.Generic;
-using UnityEngine.Windows.WebCam;
 
 public class GameManager : MonoBehaviour //, IDataPersistence
 {

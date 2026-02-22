@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
+
 
 
 public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler

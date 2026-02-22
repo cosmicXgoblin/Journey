@@ -3,14 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Device;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class UiManager : MonoBehaviour
 {
