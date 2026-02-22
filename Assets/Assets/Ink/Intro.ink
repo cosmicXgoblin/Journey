@@ -1,6 +1,6 @@
 EXTERNAL toggleGoldDialogue(goldUiOpen)
 EXTERNAL buyItem(item, goldValue)
-EXTERNAL startFight(enemy)
+EXTERNAL startFight()
 EXTERNAL setClass(class)
 EXTERNAL stealWeirdPotion()
 
@@ -267,7 +267,8 @@ Time to fight.
 -> Fight // you will go first
 
 === Fight ===
--> DONE
+...
+~ startFight()
 
 
 /*

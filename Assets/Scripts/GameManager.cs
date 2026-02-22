@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using System.Collections.Generic;
+using UnityEngine.Windows.WebCam;
 
 public class GameManager : MonoBehaviour //, IDataPersistence
 {
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     GameState currentGameState;
 
     [Header("Enemy")]
-    public ScriptableObject currentEnemy;
+    public Enemy currentEnemy;
     private int enemyAttack;
     [SerializeField]  private int _currentEnemyHitPoints;
 
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     [SerializeField] private bool _tutorial = false;
     private int _diceroll;
+    [SerializeField] private PlayerController _playerController;
 
     public PlayerData PlayerData => _playerData;
     public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
@@ -165,7 +167,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
 
     #region Fight
-    public void StartBattle(ScriptableObject enemy)
+    public void StartBattle(Enemy enemy)
     {
         currentGameState = GameState.transition;
         currentEnemy = enemy;
@@ -384,7 +386,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             UiManager.Instance.whichRoundText.text = "WIN";
 
             UiManager.Instance.fightText.text = "You killed the enemy. Good for you.";
-            EndFight(2f);
+            BattleWon();
             
         }
         if (_currentPlayerHitPoints <= 0)
@@ -395,7 +397,17 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
             UiManager.Instance.fightText.text = "The enemy wounded you badly. Are you dying?";
             EndFight(0.5f);
+
+            TeleportToCity();
         }
+    }
+
+    private void BattleWon()
+    {
+        RollTheDice(1, currentEnemy.loot.Count);
+        TryToAdd(currentEnemy.loot[diceroll]);
+        Debug.Log("A " + diceroll + " was rolled & the loot is " + currentEnemy.loot[diceroll].ToString());
+        EndFight(2f);
     }
 
     private void ClearFight()
@@ -403,9 +415,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         currentBattleState = BattleState.noFight;
         currentGameState = GameState.transition;
 
-        currentClass = null;
         currentEnemy = null;
-        classAttack = 0;
         enemyAttack = 0;
         _currentEnemyHitPoints = 0;
         playerTurnDone = false;
@@ -432,11 +442,19 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         ClearFight();
     }
 
+
+
     private void EndFight(float delay)
     {
+        ClearFight();
         UiManager.Instance.playerAttackButton.SetActive(false);
         _tutorial = false;
         StartCoroutine(WaitAdventure(delay));
+    }
+
+    private void TeleportToCity()
+    {
+        _playerController.gameObject.transform.position = _playerController.GetComponent<PlayerController>().camp;
     }
 
     #endregion
@@ -456,12 +474,21 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     public void BuyItem(string item, int goldValue)
     {
-        PlayerData.gold = PlayerData.gold - goldValue;
-        UiManager.Instance.UpdateUiGold(PlayerData.gold);
+        if (PlayerData.gold >= goldValue)
+        {
+            PlayerData.gold = PlayerData.gold - goldValue;
+            UiManager.Instance.UpdateUiGold(PlayerData.gold);
 
-        Debug.Log("Currently at BuyItem. Item to buy: " + item);
+            Debug.Log("Currently at BuyItem. Item to buy: " + item);
 
-        GetItemToAdd(item);
+            GetItemToAdd(item);
+        }
+
+        else 
+        {
+            Debug.Log("You don't have enough money");
+            UiManager.Instance.CallNotEnoughMoney();
+        }
     }
 
     private void GetItemToAdd(string item)

@@ -75,9 +75,14 @@ public class Tutorial : MonoBehaviour
             DisableOutlines();
             _outline1.SetActive(true);
         }
-        if (tutorialIndex == 6 || tutorialIndex == 10 || tutorialIndex == 21)
+        if (tutorialIndex == 6 || tutorialIndex == 10)
         {
             //DisableOutlines();
+            _tutorialPanel.SetActive(false);
+        }
+        if (tutorialIndex == 21)
+        {
+            DisableOutlines();
             _tutorialPanel.SetActive(false);
         }
         else if (tutorialIndex == 29)
