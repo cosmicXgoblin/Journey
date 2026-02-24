@@ -183,6 +183,35 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         UiManager.Instance.ShowFightUI();
     }
 
+    public void StartBattle(Enemy enemy, bool playerStarts)
+    {
+        currentGameState = GameState.transition;
+        currentEnemy = enemy;
+
+        SetBattle(enemy);
+        UiManager.Instance.CallSetFightUI(currentClass, currentEnemy);
+
+        if (playerStarts)
+        {
+            playerFirst = true;
+            playerTurn = true;
+            playerTurnDone = false;
+            enemyTurnDone = false;
+        }
+        if (!playerStarts)
+        {
+            playerFirst = false;
+            playerTurn = false;
+            playerTurnDone = true;
+            enemyTurnDone = true;
+        }
+
+            currentGameState = GameState.activeBattle;
+        currentBattleState = BattleState.fight;
+
+        UiManager.Instance.ShowFightUI();
+    }
+
     public void SetBattle(ScriptableObject enemy)
     {
         if (currentGameState != GameState.transition)

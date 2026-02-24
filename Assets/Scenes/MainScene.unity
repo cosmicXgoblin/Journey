@@ -2568,7 +2568,7 @@ GameObject:
   - component: {fileID: 128387145}
   - component: {fileID: 128387144}
   - component: {fileID: 128387146}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TooltipBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2583,7 +2583,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128387142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -206}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2591,9 +2591,9 @@ RectTransform:
   m_Father: {fileID: 280537427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 422.82703, y: 377.0545}
-  m_SizeDelta: {x: -812.1443, y: -487.9548}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -11.352661, y: -7.1296387}
+  m_SizeDelta: {x: 111.85571, y: 32.045197}
   m_Pivot: {x: -0.10149349, y: -0.22248863}
 --- !u!114 &128387144
 MonoBehaviour:
@@ -30648,7 +30648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5589077507998716539, guid: 1388f5898f6f53d448ec7f04e9c50119, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5589077507998716539, guid: 1388f5898f6f53d448ec7f04e9c50119, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode

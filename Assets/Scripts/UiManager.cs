@@ -244,6 +244,11 @@ public class UiManager : MonoBehaviour
 
     public void OnClickSetCharacter(string selectedClass)
     {
+        SetCharacter(selectedClass);
+    }
+
+    public void SetCharacter(string selectedClass)
+    {
         switch (selectedClass)
         {
             case "fighter":
@@ -398,16 +403,21 @@ public class UiManager : MonoBehaviour
                 classAttackText.text = Database.Instance.fighter.attack.ToString();
                 classImage.sprite = Database.Instance.fighter.classSprite;
                 classHitPointsText.text = Database.Instance.fighter.maxHitPoints.ToString();
+                className.text = Database.Instance.fighter.className;
             }
             if (currentClass == Database.Instance.thief)
             {
                 classAttackText.text = Database.Instance.thief.attack.ToString();
                 classImage.sprite = Database.Instance.thief.classSprite;
+                classHitPointsText.text = Database.Instance.thief.maxHitPoints.ToString();
+                className.text = Database.Instance.thief.className;
             }
             if (currentClass == Database.Instance.sorcerer)
             {
                 classAttackText.text = Database.Instance.sorcerer.attack.ToString();
-                classImage.sprite = Database.Instance.thief.classSprite;
+                classImage.sprite = Database.Instance.sorcerer.classSprite;
+                classHitPointsText.text = Database.Instance.sorcerer.maxHitPoints.ToString();
+                className.text = Database.Instance.sorcerer.className;
             }
 
             classAttackModifierText.text = GameManager.Instance.classAttackModifier.ToString();

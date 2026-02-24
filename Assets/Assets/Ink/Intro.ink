@@ -1,6 +1,6 @@
 EXTERNAL toggleGoldDialogue(goldUiOpen)
 EXTERNAL buyItem(item, goldValue)
-EXTERNAL startFight()
+EXTERNAL startFight(firstTurn)
 EXTERNAL setClass(class)
 EXTERNAL stealWeirdPotion()
 EXTERNAL abilityCheck(ability, difficulty)
@@ -11,6 +11,7 @@ VAR item = ""
 VAR cost = ""
 VAR itemBought = false
 VAR success = false
+VAR firstTurn = ""
 /* _________________________________ */
 
 -> main
@@ -182,7 +183,9 @@ Do you want to steal the weird potion?
 === stealWeirdPotionDidntGetCaught ===
 You weren't caught.
 Model citizen at work.
-~ getItemToAdd("Weird Potion")
+~ item = "Weird Potion"
+~ getItemToAdd(item)
+~ item = ""
 -> toTheTavern
 
 === stealWeirdPotionDidGetCaught ===
@@ -295,36 +298,13 @@ You heard something.
 Right.
 Behind.
 You.
--> Fight //rat will go first
+~ startFight("nope")
+-> DONE
 
 === youAreAttacking ===
 Time to fight.
--> Fight // you will go first
+~ startFight("player")
+-> DONE
 
-=== Fight ===
-...
-~ startFight()
-
-
-/*
-
-    {hasEnoughFood} [{ShowFoodChoice(0, -10, "eat food")}]
-
-    {AlterFood(-10)}
-
-
-
-*/
-
-
-
-
-
-    
-    
-    
-    
-    
-    
 -> END
         

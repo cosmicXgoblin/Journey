@@ -68,15 +68,19 @@ public class DialogueManager : MonoBehaviour
             int goldValueINT = Convert.ToInt32(goldValue);
             GameManager.Instance.BuyItem(item, goldValueINT);
         });
-        story.BindExternalFunction("startFight", () =>
+        story.BindExternalFunction("startFight", (string firstTurn) =>
         {
-            GameManager.Instance.StartBattle(Database.Instance.rat);
+            if(firstTurn == "player")
+                GameManager.Instance.StartBattle(Database.Instance.rat, true);
+            else GameManager.Instance.StartBattle(Database.Instance.rat, true);
         });
-        story.BindExternalFunction("setClass", (string currenClass) =>
+        story.BindExternalFunction("setClass", (string currentClass) =>
         {
-            Debug.Log("Selecting class: " + currenClass);
-            GameManager.Instance.SetCurrentClass(currenClass);
+            Debug.Log("Selecting class: " + currentClass);
+            GameManager.Instance.SetCurrentClass(currentClass);
+            UiManager.Instance.SetCharacter(currentClass);
             GameManager.Instance.SetPlayerData();
+
         });
         story.BindExternalFunction("openTutorial", () =>
         {
