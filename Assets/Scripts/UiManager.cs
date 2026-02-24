@@ -38,7 +38,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private GameObject _consumablePanel;
     [SerializeField] private GameObject _tutorialPanel;
-    [SerializeField] private GameObject _notEnoughMoneyPanel;
+    [SerializeField] private GameObject _cantAddPanel;
+    [SerializeField] private TextMeshProUGUI _cantAddText;
 
     [Header("Persistence")]
     public string inputFileName;
@@ -327,9 +328,21 @@ public class UiManager : MonoBehaviour
         EnableUiMap(true);
     }
     
-    public void CallNotEnoughMoney()
+    public void SetCantAddText(string cantAddReason)
     {
-        _notEnoughMoneyPanel.SetActive(true);
+        switch (cantAddReason)
+        {
+            case "notEnoughMoney":
+                _cantAddText.text = "You don't have enough money for this.";
+                break;
+            case "noFreeInvSlot":
+                _cantAddText.text = "You don't have a free Inventory Slot for this.";
+                break;
+        }
+
+        _cantAddPanel.SetActive(true);
+        
+
     }
     
     #endregion
@@ -511,6 +524,6 @@ public class UiManager : MonoBehaviour
         _titlePanel.SetActive(false);
         _titlePanelButtons.SetActive(false);
         _titlePanelOptions.SetActive(false);
-        _notEnoughMoneyPanel.SetActive(false);
+        _cantAddPanel.SetActive(false);
     }
 }

@@ -14398,6 +14398,7 @@ MonoBehaviour:
   - {fileID: 1179677209}
   _tutorial: 0
   _playerController: {fileID: 32927591}
+  _freeInvSlot: 0
 --- !u!4 &1049681376
 Transform:
   m_ObjectHideFlags: 0
@@ -15042,7 +15043,7 @@ GameObject:
   - component: {fileID: 1072938948}
   - component: {fileID: 1072938947}
   m_Layer: 5
-  m_Name: Panel_NotEnoughMoney
+  m_Name: Panel_CantAdd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16945,7 +16946,8 @@ MonoBehaviour:
   _inventoryPanel: {fileID: 363503257}
   _consumablePanel: {fileID: 565067263}
   _tutorialPanel: {fileID: 1760539343}
-  _notEnoughMoneyPanel: {fileID: 1072938945}
+  _cantAddPanel: {fileID: 1072938945}
+  _cantAddText: {fileID: 1538594310}
   inputFileName: 
   _fighterButton: {fileID: 2072728191}
   _thiefButton: {fileID: 1089754495}
@@ -21539,62 +21541,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398483041}
   m_CullTransparentMesh: 1
---- !u!1 &1432534948
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1432534950}
-  - component: {fileID: 1432534949}
-  m_Layer: 5
-  m_Name: TutorialManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1432534949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432534948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77745728874781241b613f267c827dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tutorial: []
-  tutorialIndex: 1
-  tutorialText: {fileID: 1137218140}
-  buttonNext: {fileID: 1444705082}
-  _tutorialPanel: {fileID: 1760539343}
-  _outline1: {fileID: 1574932479}
-  _outline2: {fileID: 844610437}
-  _outline3: {fileID: 766936396}
---- !u!224 &1432534950
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432534948}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.8000007, y: 4.8000007, z: 4.8000007}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 399.99994, y: 224.99997}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1435122211
 GameObject:
   m_ObjectHideFlags: 0
@@ -21961,7 +21907,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1432534949}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Tutorial, Assembly-CSharp
         m_MethodName: OnClickNext
         m_Mode: 1
@@ -23156,7 +23102,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You don't have enough money for this.
+  m_text: Here should be a reason why you cant buy / add a item.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 577f39983a130514fa41b98309936511, type: 2}
   m_sharedMaterial: {fileID: 6760903125454028494, guid: 577f39983a130514fa41b98309936511, type: 2}
@@ -23780,6 +23726,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1570565125}
   m_CullTransparentMesh: 1
+--- !u!1 &1572516655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1572516657}
+  - component: {fileID: 1572516656}
+  m_Layer: 0
+  m_Name: TooltipManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1572516656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572516655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 553495db7f337fe4285fb594307cb161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TooltipText: {fileID: 568444570}
+--- !u!4 &1572516657
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572516655}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 201.1603, y: 86.081276, z: -3.5553665}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1573636040
 GameObject:
   m_ObjectHideFlags: 0
@@ -25690,7 +25681,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1710629395
 MonoBehaviour:
@@ -30897,7 +30888,7 @@ SceneRoots:
   - {fileID: 1215785716}
   - {fileID: 1184888954}
   - {fileID: 273439252}
-  - {fileID: 1432534950}
+  - {fileID: 1572516657}
   - {fileID: 497323130}
   - {fileID: 1063767000}
   - {fileID: 33923946}

@@ -3,7 +3,7 @@ using Ink.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-// This is a super bare bones example of how to play and display a ink story in Unity.
+// This is a super bare bones example of how to play and display a ink _story in Unity.
 public class BasicInkExample : MonoBehaviour {
     public static event Action<Story> OnCreateStory;
 	
@@ -13,23 +13,23 @@ public class BasicInkExample : MonoBehaviour {
 		StartStory();
 	}
 
-	// Creates a new Story object with the compiled story which we can then play!
+	// Creates a new Story object with the compiled _story which we can then play!
 	void StartStory () {
 		story = new Story (inkJSONAsset.text);
         if(OnCreateStory != null) OnCreateStory(story);
 		RefreshView();
 	}
 	
-	// This is the main function called every time the story changes. It does a few things:
+	// This is the main function called every time the _story changes. It does a few things:
 	// Destroys all the old content and choices.
-	// Continues over all the lines of text, then displays all the choices. If there are no choices, the story is finished!
+	// Continues over all the lines of text, then displays all the choices. If there are no choices, the _story is finished!
 	void RefreshView () {
 		// Remove all the UI on screen
 		RemoveChildren ();
 		
 		// Read all the content until we can't continue any more
 		while (story.canContinue) {
-			// Continue gets the next line of the story
+			// Continue gets the next line of the _story
 			string text = story.Continue ();
 			// This removes any white space from the text.
 			text = text.Trim();
@@ -48,7 +48,7 @@ public class BasicInkExample : MonoBehaviour {
 				});
 			}
 		}
-		// If we've read all the content and there's no choices, the story is finished!
+		// If we've read all the content and there's no choices, the _story is finished!
 		else {
 			Button choice = CreateChoiceView("End of story.\nRestart?");
 			choice.onClick.AddListener(delegate{
@@ -57,7 +57,7 @@ public class BasicInkExample : MonoBehaviour {
 		}
 	}
 
-	// When we click the choice button, tell the story to choose that choice!
+	// When we click the choice button, tell the _story to choose that choice!
 	void OnClickChoiceButton (Choice choice) {
 		story.ChooseChoiceIndex (choice.index);
 		RefreshView();

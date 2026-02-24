@@ -13,7 +13,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextAsset _introTutorial;
     [SerializeField] private TextAsset _intro;
     [SerializeField] private TextAsset _currentStory;
-    private Story story;
+    private Story _story;
     private int currentChoiceIndex = -1;
     private bool dialoguePlaying = false;
     //[SerializeField] private string _tempKnotName;
@@ -32,13 +32,14 @@ public class DialogueManager : MonoBehaviour
     private const string _BG_TAG = "background";
 
     public Image background => _background;
+    public Story story => _story;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(this);
 
-        //story = new Story(_inkJson.text);
+        //_story = new Story(_inkJson.text);
     }
 
     #region Dialogue
@@ -81,23 +82,35 @@ public class DialogueManager : MonoBehaviour
         {
             Tutorial.Instance.tutorialPanel.SetActive(true);
         });
-        story.BindExternalFunction("stealWeirdPotion", () =>
+        story.BindExternalFunction("stealAttempt", (string item) =>
         {
             GameManager.Instance.RollTheDice(1, 21);
             if ((GameManager.Instance.diceroll + GameManager.Instance.PlayerData.dexterity) >= 1)
             {
                 Debug.Log("You steal the potion");
-                GameManager.Instance.CallTryToAdd(Database.Instance.WeirdPotion);
+                //GameManager.Instance.CallTryToAdd(Database.Instance.WeirdPotion);
+                GameManager.Instance.CallFloatItem(item);
             }
         });
+        story.BindExternalFunction("abilityCheck", (string ability, int difficulty) =>
+        {
+            GameManager.Instance.RollAbilityCheck(ability, difficulty );
+        });
+        story.BindExternalFunction("getItemToAdd", (string item) =>
+        {
+            GameManager.Instance.CallGetItemToAdd(item);
+        });
+        //story.BindExternalFunction("changeVariable", (string storyVariable, string state) =>
+        //{
+        //    ToggleVariable(storyVariable, state);
+        //});
 
-        
-        
+
         //if (!knotName.Equals(""))
-        //    story.ChoosePathString(knotName);
+        //    _story.ChoosePathString(knotName);
         //else Debug.LogWarning("Knot name was empty when entering dialogue.");
 
-        //start story
+        //start _story
         ContinueOrExitStory();
     }
     
@@ -118,7 +131,7 @@ public class DialogueManager : MonoBehaviour
             //Debug.Log(dialogueLine);
             //_dialogBoxText.text = dialogueLine;
 
-            //EventsManager.Instance.dialogueEvents.DisplayDialogue(dialogueLine, story.currentChoices);
+            //EventsManager.Instance.dialogueEvents.DisplayDialogue(dialogueLine, _story.currentChoices);
             DisplayDialogue(dialogueLine, story.currentChoices);
             HandleTags(story.currentTags);
         }
@@ -196,7 +209,7 @@ public class DialogueManager : MonoBehaviour
 
     private void UpdateStory()
     {
-        story = new Story(_currentStory.text);
+        _story = new Story(_currentStory.text);
     }
     #endregion
 
@@ -236,6 +249,24 @@ public class DialogueManager : MonoBehaviour
     #endregion
 
     #region Tags & Variables
+
+    public void CallToggleVariable(bool boolVariable, string inkVariable)
+    {
+        ToggleVariable(boolVariable, inkVariable);
+    }
+
+    private void ToggleVariable(bool trueOrFalse, string inkVariable)
+    {
+        //if (trueOrFalse) _story.variablesState[trueOrFalse.ToString()] = true;
+        //else _story.variablesState[trueOrFalse.ToString()] = false;
+
+        if (trueOrFalse) _story.variablesState[inkVariable] = true;
+        else _story.variablesState[inkVariable] = false;
+
+        Debug.Log("trueOrFalse :" + trueOrFalse);
+        Debug.Log("variable changed: " + _story.variablesState[inkVariable]);
+
+    }
 
     private void HandleTags(List<string> currentTags)
     {

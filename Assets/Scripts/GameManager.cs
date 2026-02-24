@@ -41,10 +41,13 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     [SerializeField] private Item _tempItem;
     [SerializeField] private InventorySlot _tempInvSlot;
     [SerializeField] private List<InventorySlot> invSlots;
+    [SerializeField] private string _floatingItem;
 
     [SerializeField] private bool _tutorial = false;
     private int _diceroll;
     [SerializeField] private PlayerController _playerController;
+
+    [SerializeField] bool _freeInvSlot = false;
 
     public PlayerData PlayerData => _playerData;
     public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
@@ -471,7 +474,9 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     public void BuyItem(string item, int goldValue)
     {
-        if (PlayerData.gold >= goldValue)
+        LookForFreeInvSlot();
+
+        if (PlayerData.gold >= goldValue && _freeInvSlot)
         {
             PlayerData.gold = PlayerData.gold - goldValue;
             UiManager.Instance.UpdateUiGold(PlayerData.gold);
@@ -479,13 +484,37 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             Debug.Log("Currently at BuyItem. Item to buy: " + item);
 
             GetItemToAdd(item);
+            DialogueManager.Instance.CallToggleVariable(true, "itemBought");
         }
-
-        else 
+        else if (PlayerData.gold < goldValue)
         {
-            Debug.Log("You don't have enough money");
-            UiManager.Instance.CallNotEnoughMoney();
+            Debug.Log("Didn't have enough money");
+            UiManager.Instance.SetCantAddText("notEnoughMoney");
+            DialogueManager.Instance.CallToggleVariable(false, "itemBought");
         }
+        else if (!_freeInvSlot)
+        {
+            Debug.Log("Didn't have enough space in your inventory");
+            UiManager.Instance.SetCantAddText("noFreeInvSlot");
+            DialogueManager.Instance.CallToggleVariable(false, "itemBought");
+        }
+        else Debug.Log("Item could not be added due to undefined error.");
+
+        _freeInvSlot = false;
+    }
+
+    private void LookForFreeInvSlot()
+    {
+        if(invSlots[0].itemInSlot == null || invSlots[1].itemInSlot == null || invSlots[2].itemInSlot == null || invSlots[3].itemInSlot == null ||
+            invSlots[5].itemInSlot == null || invSlots[6].itemInSlot == null || invSlots[7].itemInSlot == null || invSlots[8].itemInSlot == null)
+        {
+            _freeInvSlot = true;
+        }   
+    }
+
+    public void CallGetItemToAdd(string item)
+    {
+        GetItemToAdd(item);
     }
 
     private void GetItemToAdd(string item)
@@ -521,35 +550,38 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     private void TryToAdd(Item itemToAdd)
     {
+        LookForFreeInvSlot();
         Debug.Log("Trying to add: " + itemToAdd.itemName);
 
-        if (invSlots[0].itemInSlot == null) invSlots[0].AddItem(itemToAdd);
-        else if (invSlots[1].itemInSlot == null) invSlots[1].AddItem(itemToAdd);
-        else if (invSlots[2].itemInSlot == null) invSlots[2].AddItem(itemToAdd);
-        else if (invSlots[3].itemInSlot == null) invSlots[3].AddItem(itemToAdd);
-        else if (invSlots[4].itemInSlot == null) invSlots[4].AddItem(itemToAdd);
-        else if (invSlots[5].itemInSlot == null) invSlots[5].AddItem(itemToAdd);
-        else if (invSlots[6].itemInSlot == null) invSlots[6].AddItem(itemToAdd);
-        else if (invSlots[7].itemInSlot == null) invSlots[7].AddItem(itemToAdd);
-        else if (invSlots[8].itemInSlot == null) invSlots[8].AddItem(itemToAdd);
-
-
-
-        //foreach (InventorySlot invSlot in invSlots)
-        //{
-        //    if (invSlot == null) invSlot.AddItem(itemToAdd);
-        //    break;
-
-        //    //Debug.Log("Going through inventorySlots. Currently at " + invSlots[i].ToString() );
-        //    //if (invSlots[i].itemInSlot == null)
-        //    //    invSlots[i].AddItem(itemToAdd);
-        //    //break;
-        //}
+        if (_freeInvSlot)
+        {
+            if (invSlots[0].itemInSlot == null) invSlots[0].AddItem(itemToAdd);
+            else if (invSlots[1].itemInSlot == null) invSlots[1].AddItem(itemToAdd);
+            else if (invSlots[2].itemInSlot == null) invSlots[2].AddItem(itemToAdd);
+            else if (invSlots[3].itemInSlot == null) invSlots[3].AddItem(itemToAdd);
+            else if (invSlots[4].itemInSlot == null) invSlots[4].AddItem(itemToAdd);
+            else if (invSlots[5].itemInSlot == null) invSlots[5].AddItem(itemToAdd);
+            else if (invSlots[6].itemInSlot == null) invSlots[6].AddItem(itemToAdd);
+            else if (invSlots[7].itemInSlot == null) invSlots[7].AddItem(itemToAdd);
+            else if (invSlots[8].itemInSlot == null) invSlots[8].AddItem(itemToAdd);
+        }
+        else UiManager.Instance.SetCantAddText("noFreeInvSlot");
+            _freeInvSlot = false;
     }
 
     public void CallTryToAdd(Item itemName)
     {
         TryToAdd(itemName);
+    }
+
+    public void CallFloatItem(string item)
+    {
+        CallFloatItem(item);
+    }
+
+    private void FloatItem(string item)
+    {
+        _floatingItem = item;
     }
 
     public void OnClickConsumeItem()
@@ -620,6 +652,47 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         UiManager.Instance.UpdateUiHP(_playerData.currentHitPoints);
     }
     
+
+    public void RollAbilityCheck(string ability, int difficulty)
+    {
+        GameManager.Instance.RollTheDice(1, 21);
+        switch (ability)
+        {
+            case "fight":
+                _diceroll = _diceroll + GameManager.Instance.PlayerData.fight;
+                EvaluateAbilityCheck(_diceroll, difficulty);
+                    break;
+            case "thinking":
+                _diceroll = _diceroll + GameManager.Instance.PlayerData.thinking;
+                EvaluateAbilityCheck(_diceroll, difficulty);
+                break;
+            case "speed":
+                _diceroll = _diceroll + GameManager.Instance.PlayerData.speed;
+                EvaluateAbilityCheck(_diceroll, difficulty);
+                break;
+            case "observing":
+                _diceroll = _diceroll + GameManager.Instance.PlayerData.observing;
+                EvaluateAbilityCheck(_diceroll, difficulty);
+                break;
+            case "dexterity":
+                _diceroll = _diceroll + GameManager.Instance.PlayerData.dexterity;
+                EvaluateAbilityCheck(_diceroll, difficulty);
+                break;
+            case "charme":
+                _diceroll = _diceroll + GameManager.Instance.PlayerData.charme;
+                EvaluateAbilityCheck(_diceroll, difficulty);
+                break;
+        }
+    }
+
+    private void EvaluateAbilityCheck(int _diceroll, int difficulty)
+    {
+        if (_diceroll >= difficulty) DialogueManager.Instance.CallToggleVariable(true, "success");
+        else DialogueManager.Instance.CallToggleVariable(false, "success");
+
+        Debug.Log("You had a " + diceroll + " and the difficulty was " + difficulty + ".");
+    }
+
     #endregion
 
     #region IDataPersistence
