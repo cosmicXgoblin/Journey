@@ -587,6 +587,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     public void OnClickConsumeItem()
     {
         ConsumeItem(_tempItem, _tempInvSlot);
+        _tempInvSlot.ClearSlot();
     }
 
     private void ConsumeItem(Item item, InventorySlot inventorySlot)
@@ -605,6 +606,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
                 else Damage(item.debuff, false);
             }
         }
+
 
 
         //if (item.effect == ItemEffect.Heal) Debug.Log("Heal");

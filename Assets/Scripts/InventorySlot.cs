@@ -60,11 +60,11 @@ public class InventorySlot : MonoBehaviour
 
     public void ClearSlot()
     {
-        _itemInSlot = null;
         _itemImage.sprite = null;
         itemName = "";
         itemDescription = "";
-        _itemImage = null;
+        //_itemImage = null;
+        _itemInSlot = null;
 
         ToggleInventorySlotSprite();
     }

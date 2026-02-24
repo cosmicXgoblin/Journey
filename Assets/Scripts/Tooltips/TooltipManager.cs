@@ -20,13 +20,17 @@ public class TooltipManager : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Input.mousePosition;
+        //transform.position = Input.mousePosition;
+        transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -20);
+
     }
 
     public void SetAndShowTooltip(string tooltip)
     {
-        gameObject.SetActive(true);
         TooltipText.text = tooltip;
+        if (tooltip != "")
+            gameObject.SetActive(true);
+        
     }
 
     public void ClearAndHideTooltip()

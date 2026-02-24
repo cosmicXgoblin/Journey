@@ -14,8 +14,10 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        msg = _invSlot.GetComponent<InventorySlot>().itemInSlot.itemName.ToString();
-        TooltipManager.Instance.SetAndShowTooltip(msg);
+        if (_invSlot.GetComponent<InventorySlot>().itemInSlot != null)
+            msg = _invSlot.GetComponent<InventorySlot>().itemInSlot.itemName.ToString();
+        else msg = "";
+            TooltipManager.Instance.SetAndShowTooltip(msg);
     }
 
     public void OnPointerExit(PointerEventData pointerEventData)
