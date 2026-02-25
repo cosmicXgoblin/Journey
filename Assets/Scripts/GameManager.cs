@@ -15,13 +15,13 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     [Header("Enemy")]
     public Enemy currentEnemy;
     private int enemyAttack;
-    [SerializeField]  private int _currentEnemyHitPoints;
+    private int _currentEnemyHitPoints;
 
     [Header("Player")]
     public Class currentClass;
     public Image classImage;
     private int classAttack;
-    [SerializeField]  private int _currentPlayerHitPoints;
+    private int _currentPlayerHitPoints;
     public int classAttackModifier;
 
     [Header("Fight")]
@@ -41,21 +41,21 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     [SerializeField] private Item _tempItem;
     [SerializeField] private InventorySlot _tempInvSlot;
     [SerializeField] private List<InventorySlot> invSlots;
-    [SerializeField] private string _floatingItem;
+    bool _freeInvSlot = false;
 
-    [SerializeField] private bool _tutorial = false;
+    [Header("etc")]
+    private bool _tutorial = false;
     private int _diceroll;
     [SerializeField] private PlayerController _playerController;
 
-    [SerializeField] bool _freeInvSlot = false;
-
+    public static GameManager Instance { get; private set; }
     public PlayerData PlayerData => _playerData;
     public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
     public int CurrentEnemyHitPoints => _currentEnemyHitPoints;
     public int Round => _round;
     public int diceroll => _diceroll;
     public bool tutorial => _tutorial;
-    public static GameManager Instance { get; private set; }
+
 
     #region init
     private void Awake()
@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     void Update()
     {
+        // overview for Debugging
         Debug.Log("GameState: " + currentGameState.ToString() + " | BattleState: " + currentBattleState.ToString());
 
         if (currentGameState == GameState.init)
@@ -86,18 +87,24 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     #endregion
 
     #region OnClick
+    /// <summary>
+    /// toggles Tutorial
+    /// </summary>
     public void OnClickToggleTutorial()
     {
         if (!_tutorial) _tutorial = true;
         else _tutorial = false;
     }
 
-    public void OnClickRestart()
-    {
-        ClearFight();
-        UiManager.Instance.ClearFightUI();
-    }
+    //public void OnClickRestart()
+    //{
+    //    ClearFight();
+    //    UiManager.Instance.ClearFightUI();
+    //}
 
+    /// <summary>
+    /// Button: Pausemenu [back to map] #TODO
+    /// </summary>
     public void OnClickBackToMap()
     {
         UiManager.Instance.CallBackToMap();
@@ -120,6 +127,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     #endregion
 
     #region Setup
+
+    /// <summary>
+    /// sets up the PlayerData according to the chosen class #TODO
+    /// </summary>
     public void SetPlayerData()
     {
         _playerData.className = currentClass.className;
@@ -145,13 +156,17 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         if (currentClass.className == "Sorcerer")
             _playerData.attackModifier = _playerData.thinking;
 
-        //Debug.Log(_playerData.attackModifier);
         UiManager.Instance.UpdateUiHP(_playerData.currentHitPoints);
         UiManager.Instance.UpdateUiGold(_playerData.gold);
         _currentPlayerHitPoints = _playerData.currentHitPoints;
 
         currentGameState = GameState.onMap;
     }
+    
+    /// <summary>
+    /// sets up the current Class, either through the tutorial or the non-implemented cold start
+    /// </summary>
+    /// <param name="selectedClass"></param>
     public void SetCurrentClass(string selectedClass)
     {   
         if (selectedClass == "fighter") currentClass = Database.Instance.fighter;
@@ -160,13 +175,13 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     }
     #endregion
 
-    public void RollTheDice(int min, int max)
-    {
-        _diceroll = Random.Range(min, max);
-    }  
 
 
     #region Fight
+    /// <summary>
+    /// starts everything we need to be battle-ready, also invokes a coinflip to check which entity begins
+    /// </summary>
+    /// <param name="enemy"></param> enemy selected through dialoguechoices or when entering a tile with one
     public void StartBattle(Enemy enemy)
     {
         currentGameState = GameState.transition;
@@ -183,6 +198,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         UiManager.Instance.ShowFightUI();
     }
 
+    /// <summary>
+    /// starts everything we need to be battle-ready, this time with a bool so we can decide on who has the first turn via dialogue
+    /// </summary>
+    /// <param name="enemy"></param> enemy selected through dialoguechoices
     public void StartBattle(Enemy enemy, bool playerStarts)
     {
         currentGameState = GameState.transition;
@@ -212,12 +231,16 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         UiManager.Instance.ShowFightUI();
     }
 
+    /// <summary>
+    /// setting up the battle with the currentEnemy and the currentClass | with defensive checks so we can't enter battle without an enemy
+    /// </summary>
+    /// <param name="enemy"></param> enemy selected through dialoguechoices or when entering a tile with one
     public void SetBattle(ScriptableObject enemy)
     {
         if (currentGameState != GameState.transition)
             return;
 
-        Debug.Log(currentEnemy + " or " + enemy.name.ToString());
+        //Debug.Log(currentEnemy + " or " + enemy.name.ToString());
         if (currentEnemy == null) Debug.Log("There is no current enemy!");
 
         if (currentEnemy != null)
@@ -260,7 +283,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         }
     }
 
-    public void SetBattle(string enemy)
+    /// <summary>
+    /// setting up the battle via enemy-string (used for dialogues)
+    /// </summary>
+    /// <param name="enemy"></param> enemy selected through dialoguechoices
+    public void SetBattle(string enemy) 
     {
         switch (enemy)
         {
@@ -280,12 +307,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     }
 
     /// <summary>
-    /// Flip a coin within the given range.
-    /// This method is versatile usable due to the OddOrEven bool, which is just for fights.
+    /// a coinflip decides who has the first turn
     /// </summary>
     /// <param name="min"></param>          minimum range
     /// <param name="max"></param>          max range
-    /// <param name="OddOrEven"></param>    are we in a fight and want to who has the first turn?
+    /// <param name="OddOrEven"></param>    are we in a fight and want know who has the first turn?
     public void Coinflip (int min, int max, bool OddOrEven)
     {
         randomNumber = Random.Range(min, max);
@@ -313,14 +339,16 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     }
   
      /// <summary>
-     /// Will only get called if the current GameState is activeBattle.
-     /// Tracking a lot of the related UI, most should be moved. TODO.
+     /// Will only get called if the current GameState is not initiating
      /// </summary>   
     private void CallUpdateUI(int _currentPlayerHitPoints)
     {
         UiManager.Instance.UpdateUiHP(CurrentPlayerHitPoints);
     }
 
+    /// <summary>
+    /// used while in battle, will check whose turn it is and set the PlayerAttackButton accordingly
+    /// </summary>
     private void CheckTurn()
     {
         if (playerTurn && !playerTurnDone)
@@ -345,6 +373,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         }     
     }
 
+    /// <summary>
+    /// enemy rolls a D20 to check for their attack
+    /// with a short delay until the effect (EnemyAttackPart2) so it feels like we have to wait for the diceroll, also a bit for slowing down
+    /// </summary>
     private void EnemyAttackPart1()
     {
         if (playerTurn) return;
@@ -608,11 +640,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         CallFloatItem(item);
     }
 
-    private void FloatItem(string item)
-    {
-        _floatingItem = item;
-    }
-
     public void OnClickConsumeItem()
     {
         ConsumeItem(_tempItem, _tempInvSlot);
@@ -726,6 +753,16 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     #endregion
 
+    /// <summary>
+    /// generic diceroll, various uses through the game like ability checks
+    /// </summary>
+    /// <param name="min"></param> range from min ...
+    /// <param name="max"></param> ... to max
+    public void RollTheDice(int min, int max)
+    {
+        _diceroll = Random.Range(min, max);
+    }
+
     #region IDataPersistence
 
     //public void LoadData(GameData data)
@@ -740,6 +777,9 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     //}
 
     #endregion
+
+
+
 }
 
 enum BattleState

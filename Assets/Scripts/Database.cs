@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///  simple database for referencing Classes, Enemies, Portraits, Backgrounds & Items
+/// </summary>
 public class Database : MonoBehaviour
 {
     [Header("Classes")]
@@ -12,7 +15,7 @@ public class Database : MonoBehaviour
     public Enemy rat1;
     public Enemy rat2;
 
-    [Header("Potraits")]
+    [Header("Portraits")]
     public Sprite Narrator;
     public Sprite Shopkeeper;
     public Sprite Tavernkeeper;

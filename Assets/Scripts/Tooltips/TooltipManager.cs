@@ -1,6 +1,9 @@
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// responsible for showing tooltips in the inventorySlot on mouseover
+/// </summary>
 public class TooltipManager : MonoBehaviour
 {
     public TextMeshProUGUI TooltipText;
@@ -10,6 +13,7 @@ public class TooltipManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+        else Destroy(this);
     }
 
     private void Start()
@@ -18,12 +22,12 @@ public class TooltipManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+
     private void Update()
     {
-        //transform.position = Input.mousePosition;
-        transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -20);
-
+        transform.position = Input.mousePosition;
     }
+
 
     public void SetAndShowTooltip(string tooltip)
     {

@@ -5,8 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-
-
+/// <summary>
+/// script attached to the tooltip
+/// </summary>
 public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public string msg;
@@ -21,7 +22,6 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
 
     public void OnPointerExit(PointerEventData pointerEventData)
-
     {
         TooltipManager.Instance.ClearAndHideTooltip();
     }
