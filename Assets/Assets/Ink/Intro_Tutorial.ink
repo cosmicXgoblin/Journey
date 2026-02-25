@@ -1,14 +1,18 @@
 EXTERNAL toggleGoldDialogue(goldUiOpen)
 EXTERNAL buyItem(item, goldValue)
-EXTERNAL startFight()
+EXTERNAL startFight(firstTurn)
 EXTERNAL setClass(class)
 EXTERNAL openTutorial()
 EXTERNAL stealWeirdPotion()
-
+EXTERNAL abilityCheck(ability, difficulty)
+EXTERNAL getItemToAdd(item)
 
 VAR class = ""
 VAR item = ""
 VAR cost = ""
+VAR itemBought = false
+VAR success = false
+VAR firstTurn = ""
 /* _________________________________ */
 
 -> main
@@ -103,10 +107,16 @@ Items you can purchase:
         ~ item = "Potion of Strength"
         ~ cost = "75"
 
-    - The {item} will cost you {cost}G. #speaker: Shopkeeper #portrait: Shopkeeper
+- The {item} will cost you {cost}G. #speaker: Shopkeeper #portrait: Shopkeeper
         ++ [Buy it.]
             ~buyItem(item, cost)
-            You bought {item} for {cost}G. #speaker: Narrator #portrait: Narrator
+            {
+	        	- itemBought == true:
+                You bought {item} for {cost}G.
+                #speaker: Narrator #portrait: Narrator
+                - itemBought == false:
+                You couldn't buy {item} for {cost}G.  #speaker: Narrator #portrait: Narrator
+            }
             -> firstTimeShopperAgain
         ++ [Don't buy it.]
             -> firstTimeShopperAgain
@@ -135,12 +145,19 @@ Items you can purchase:
     - The {item} will cost you {cost}G. #speaker: Shopkeeper #portrait: Shopkeeper
         ++ [Buy it.]
             ~buyItem(item, cost)
-            You bought {item} for {cost}G. #speaker: Narrator #portrait: Narrator
+            {
+	        	- itemBought == true:
+                You bought {item} for {cost}G.
+                #speaker: Narrator #portrait: Narrator
+                - itemBought == false:
+                You couldn't buy {item} for {cost}G.  #speaker: Narrator #portrait: Narrator
+            }
             -> firstTimeShopperAgain
         ++ [Don't buy it.]
             -> firstTimeShopperAgain
         
 === firstTimeShopperEnd ===
+~ itemBought = false
 After completing your shopping, the shopkeeper is turning their back to you. #speaker: Narrator #portrait: Narrator
 On the table is a weird looking potion.
 -> stealOpportunity
@@ -148,30 +165,55 @@ On the table is a weird looking potion.
 === stealOpportunity ===
 Do you want to steal the weird potion?
     * [Yes.]
-    ~ stealWeirdPotion()
+    ~ abilityCheck("dexterity", 13)
+    
     -> stealTheWeirdPotion
     * [No.]
     -> toTheTavern
     
 === stealTheWeirdPotion ===
-// logic in code :)
-    * [You were caught.]
-        ** {class == "thief"} You could deceive them.
-            Silver Tongue and sticky hands, a combination designated for greatness.
-            Or prison.
-            -> toTheTavern
-        ** {class == "thief"} [You couldn't deceive them.]
-            It seems the more you tried to weasel your way out of it, the more the shopkeeper got angry.
-            You really should avoid them for a bit.
-            -> toTheTavern
-        ** {class == "thief"} [You didn't try to deceive them.]
-            Well, you shouldn't come back to this shop in the near future.
-            -> toTheTavern
-        ** Well, you shouldn't come back to this shop in the near future.
-            -> toTheTavern
-    * [You weren't caught.]
-            Model citizen at work.
-            -> toTheTavern
+ {
+	    - success == true:
+        You stole the potion. #speaker: Narrator #portrait: Narrator
+        ~ success = false
+        -> stealWeirdPotionDidntGetCaught
+
+        - success == false:
+        Right as you extended your arm to the potion, the shopkeeper is turning around. #speaker: Narrator #portrait: Narrator
+        -> stealWeirdPotionDidGetCaught
+    }
+       
+    
+=== stealWeirdPotionDidntGetCaught ===
+You weren't caught.
+Model citizen at work.
+~ item = "Weird Potion"
+~ getItemToAdd(item)
+~ item = ""
+-> toTheTavern
+
+=== stealWeirdPotionDidGetCaught ===
+* {class == "thief"} Try to deceive them.
+    -> tryToDeceiveThem
+* Well[, you shouldn't come back to this shop in the near future.]
+    -> toTheTavern   
+
+=== tryToDeceiveThem ===
+~ abilityCheck("charme", 13)
+    {
+        - success == true:
+        You tell them you just wanted to look at it and compliment their eyes.
+        Silver Tongue and sticky hands, a combination designated for greatness.
+        Or prison.
+            ~ success = false
+        -> toTheTavern
+        - success == false:
+        It seems the more you try to weasel your way out of it, the more the shopkeeper gets angry.
+        You really should avoid them for a bit.
+        -> toTheTavern
+    }
+                
+       
             
 === toTheTavern ==
 The next stop is the tavern. 
@@ -222,7 +264,7 @@ We are a very clean establishment, so there are DEFINITLY no rats in our basemen
 And if you see something ratshaped there, well, as I said: #speaker: Tavernkeeper #portrait: Tavernkeeper
 There are DEFINITLY no rats in the basement.
 And after you looked at our basement, and i confirm that it is STILL ratfree, you get your reward for, eh, looking at our basement.
-    * [Point to the paper.] # if paper given 
+    * [Point to the paper.] //# if paper given 
     * [Nod slowy and knowingly.]
     * [Stare at them.]
     - Yes, yes, and as a reward ...
@@ -263,38 +305,15 @@ You heard something.
 Right.
 Behind.
 You.
--> Fight //rat will go first
+~ startFight("nope")
+-> DONE
 
 === youAreAttacking ===
 Time to fight.
--> Fight // you will go first
-
-=== Fight ===
 ~ openTutorial()
-Darn, that's a big boy!
-~ startFight()
+~ startFight("player")
 -> DONE
 
 
-/*
-
-    {hasEnoughFood} [{ShowFoodChoice(0, -10, "eat food")}]
-
-    {AlterFood(-10)}
-
-
-
-*/
-
-
-
-
-
-    
-    
-    
-    
-    
-    
 -> END
         

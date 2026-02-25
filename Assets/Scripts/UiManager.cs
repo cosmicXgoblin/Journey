@@ -40,6 +40,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _tutorialPanel;
     [SerializeField] private GameObject _cantAddPanel;
     [SerializeField] private TextMeshProUGUI _cantAddText;
+    [SerializeField] private GameObject _winLosePanel;
 
     [Header("Persistence")]
     public string inputFileName;
@@ -77,6 +78,10 @@ public class UiManager : MonoBehaviour
     public TextMeshProUGUI fightText;
     public TextMeshProUGUI whichRoundText;
     private Image _target;
+    [SerializeField] TextMeshProUGUI _winLoseText;
+    [SerializeField] GameObject _button1;
+    [SerializeField] GameObject _button2;
+    [SerializeField] GameObject _button3;
 
     [Header("UI Charactapperance (game)")]
     [SerializeField] private Sprite _classMapfigure_Base;
@@ -247,6 +252,30 @@ public class UiManager : MonoBehaviour
         SetCharacter(selectedClass);
     }
 
+    public void OnClickRestartGame()
+    {
+        SetEverythingInactive();
+        _titlePanel.SetActive(true);
+    }
+
+    public void ShowAndSetWinLoseText(bool battleWon, string loot)
+    {
+        _winLosePanel.SetActive(true);
+
+        if (battleWon)
+        {
+            _winLoseText.text = "You won! /n Loot: " + loot;
+            _button1.SetActive(false);
+            _button2.SetActive(false);
+        }
+        else
+        {
+            _winLoseText.text = "You lost! /n";
+            _button3.SetActive(false);
+            //EndFight();
+        }
+    }
+
     public void SetCharacter(string selectedClass)
     {
         switch (selectedClass)
@@ -344,10 +373,7 @@ public class UiManager : MonoBehaviour
                 _cantAddText.text = "You don't have a free Inventory Slot for this.";
                 break;
         }
-
         _cantAddPanel.SetActive(true);
-        
-
     }
     
     #endregion
@@ -402,24 +428,22 @@ public class UiManager : MonoBehaviour
             {
                 classAttackText.text = Database.Instance.fighter.attack.ToString();
                 classImage.sprite = Database.Instance.fighter.classSprite;
-                classHitPointsText.text = Database.Instance.fighter.maxHitPoints.ToString();
                 className.text = Database.Instance.fighter.className;
             }
             if (currentClass == Database.Instance.thief)
             {
                 classAttackText.text = Database.Instance.thief.attack.ToString();
                 classImage.sprite = Database.Instance.thief.classSprite;
-                classHitPointsText.text = Database.Instance.thief.maxHitPoints.ToString();
                 className.text = Database.Instance.thief.className;
             }
             if (currentClass == Database.Instance.sorcerer)
             {
                 classAttackText.text = Database.Instance.sorcerer.attack.ToString();
                 classImage.sprite = Database.Instance.sorcerer.classSprite;
-                classHitPointsText.text = Database.Instance.sorcerer.maxHitPoints.ToString();
                 className.text = Database.Instance.sorcerer.className;
             }
 
+            classHitPointsText.text = GameManager.Instance.PlayerData.currentHitPoints.ToString();
             classAttackModifierText.text = GameManager.Instance.classAttackModifier.ToString();
         }
     }
@@ -534,6 +558,8 @@ public class UiManager : MonoBehaviour
         _titlePanel.SetActive(false);
         _titlePanelButtons.SetActive(false);
         _titlePanelOptions.SetActive(false);
+        _cantAddPanel.SetActive(false);
+        _winLosePanel.SetActive(false);
         _cantAddPanel.SetActive(false);
     }
 }

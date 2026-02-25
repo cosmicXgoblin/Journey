@@ -266,19 +266,15 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             if (currentClass == Database.Instance.fighter)
             {
                 classAttack = Database.Instance.fighter.attack;
-                _currentPlayerHitPoints = Database.Instance.fighter.maxHitPoints;
             }
             if (currentClass == Database.Instance.thief)
             {
                 classAttack = Database.Instance.thief.attack;
-                _currentPlayerHitPoints = Database.Instance.thief.maxHitPoints;
             }
             if (currentClass == Database.Instance.sorcerer)
             {
                 classAttack = Database.Instance.sorcerer.attack;
-                _currentPlayerHitPoints = Database.Instance.sorcerer.maxHitPoints;
             }
-
             classAttackModifier = _playerData.attackModifier;
         }
     }
@@ -440,35 +436,28 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
         if (currentEnemy == null) return;
 
+            currentBattleState = BattleState.fightFinished;
+
         if (_currentEnemyHitPoints <= 0)
         {
-            currentBattleState = BattleState.fightFinished;
-            currentGameState = GameState.onMap;
-            UiManager.Instance.whichRoundText.text = "WIN";
 
+            UiManager.Instance.whichRoundText.text = "WIN";
             UiManager.Instance.fightText.text = "You killed the enemy. Good for you.";
-            BattleWon();
-            
+            bool battleWon = true;
+
+            EndFight(1f, battleWon);
+
         }
         if (_currentPlayerHitPoints <= 0)
         {
-            currentBattleState = BattleState.fightFinished;
-            currentGameState = GameState.onMap;
             UiManager.Instance.whichRoundText.text = "LOSE";
-
             UiManager.Instance.fightText.text = "The enemy wounded you badly. Are you dying?";
-            EndFight(0.5f);
+            bool battleWon = false;
 
-            TeleportToCity();
+            EndFight(1f, battleWon);
+
+            //TeleportToCity();
         }
-    }
-
-    private void BattleWon()
-    {
-        RollTheDice(1, currentEnemy.loot.Count);
-        TryToAdd(currentEnemy.loot[diceroll]);
-        Debug.Log("A " + diceroll + " was rolled & the loot is " + currentEnemy.loot[diceroll].ToString());
-        EndFight(2f);
     }
 
     private void ClearFight()
@@ -505,17 +494,38 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
 
 
-    private void EndFight(float delay)
+    private void EndFight(float delay, bool battleWon)
     {
         ClearFight();
         UiManager.Instance.playerAttackButton.SetActive(false);
         _tutorial = false;
-        StartCoroutine(WaitAdventure(delay));
+
+        if (battleWon)
+        {
+            RollTheDice(1, currentEnemy.loot.Count);
+            TryToAdd(currentEnemy.loot[diceroll]);
+            Debug.Log("A " + diceroll + " was rolled & the loot is " + currentEnemy.loot[diceroll].ToString());
+
+            string loot = currentEnemy.loot[diceroll].ToString();
+            UiManager.Instance.ShowAndSetWinLoseText(battleWon, loot);
+
+        }
+        else
+        {
+            UiManager.Instance.ShowAndSetWinLoseText(battleWon, "");
+        }
+
+            //StartCoroutine(WaitAdventure(delay));
     }
 
     private void TeleportToCity()
     {
         _playerController.gameObject.transform.position = _playerController.GetComponent<PlayerController>().camp;
+    }
+
+    public void OnClickTeleportToCity()
+    {
+        TeleportToCity();
     }
 
     #endregion

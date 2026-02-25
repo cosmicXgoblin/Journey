@@ -9,18 +9,6 @@ public class Map_DialogueEvents : MonoBehaviour
 
     [SerializeField] UiManager uiManager;
 
-    private void SubmitPressed()
-    {
-        if (!playerIsNear)
-            return;
-
-        // if we have a knot, try to start its dialogue
-        if (!dialogueKnotName.Equals(""))
-            DialogueManager.Instance.EnterDialogue(dialogueKnotName);
-        // if we don't have a knot, start or finish the quest
-        else
-            Debug.Log("Quest started / finished");
-    }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
