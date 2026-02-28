@@ -42,9 +42,6 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _cantAddText;
     [SerializeField] private GameObject _winLosePanel;
 
-    [Header("Persistence")]
-    public string inputFileName;
-
     [Header("Characterselection")]
     [SerializeField] private Button _fighterButton;
     [SerializeField] private Button _thiefButton;
@@ -62,6 +59,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _manaBarObject;
     [SerializeField] private GameObject _inventory;
     [SerializeField] private TextMeshProUGUI _goldText;
+    [SerializeField] private GameObject _dialogueGold;
+    [SerializeField] private TextMeshProUGUI _dialogueGoldText;
 
     [Header("Fight UI")]
     public Image enemyImage;
@@ -72,12 +71,10 @@ public class UiManager : MonoBehaviour
     public TextMeshProUGUI className;
     public TextMeshProUGUI classAttackText;
     public TextMeshProUGUI classHitPointsText;
-    //public int CurrentPlayerHitPoints;
     public TextMeshProUGUI classAttackModifierText;
     public GameObject playerAttackButton;
     public TextMeshProUGUI fightText;
     public TextMeshProUGUI whichRoundText;
-    private Image _target;
     [SerializeField] TextMeshProUGUI _winLoseText;
     [SerializeField] GameObject _button1;
     [SerializeField] GameObject _button2;
@@ -88,23 +85,22 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Sprite _classMapfigure_noBase;
     [SerializeField] private bool _noBase;
 
-    [SerializeField] private GameObject _dialogueGold;
-    [SerializeField] private TextMeshProUGUI _dialogueGoldText;
+    [Header("Persistence")]
+    public string inputFileName;
 
-    //[Header("Effects")]
-    //private Color _tempColor;
-    //public Color red;
-    //public Color original;
-    #endregion
+    #endregion 
+   
+    public static UiManager Instance { get; private set; }
 
     #region Init
-    public static UiManager Instance { get; private set; }
+
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
         else Destroy(this);
     }
+
     void Start()
     {
         SetEverythingInactive();
@@ -118,8 +114,11 @@ public class UiManager : MonoBehaviour
     }
     #endregion
 
-    // will get called when clicking on a button
+    /// <summary>
+    /// functions for buttons
+    /// </summary>
     #region OnClick
+    
     public void OnClickGoFight()
     {
         _testChooseCharacter.SetActive(false);
@@ -258,6 +257,11 @@ public class UiManager : MonoBehaviour
         _titlePanel.SetActive(true);
     }
 
+    /// <summary>
+    /// depending on the bool, the text and buttons will be set accordingly
+    /// </summary>
+    /// <param name="battleWon"></param>
+    /// <param name="loot"></param>
     public void ShowAndSetWinLoseText(bool battleWon, string loot)
     {
         _winLosePanel.SetActive(true);
@@ -276,6 +280,11 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// sets up the UI with the sprites according to the choice of class - should really hooked that up with the PlayerData, but it's leftover from test code and rewriting & rerouting...
+    /// ... things is taking up too much time now. good lesson for next time tho: rewrite your test code.
+    /// </summary>
+    /// <param name="selectedClass"></param>
     public void SetCharacter(string selectedClass)
     {
         switch (selectedClass)
@@ -314,6 +323,10 @@ public class UiManager : MonoBehaviour
         UpdateUiHP(GameManager.Instance.CurrentPlayerHitPoints);
     }
 
+    /// <summary>
+    /// enables or diables action maps. couldn't tell you why i thought it would be great in UiManager tho
+    /// </summary>
+    /// <param name="enable"></param>
     public void EnableUiMap(bool enable)
     {
         _playerController.GetComponent<PlayerController>().uiMap.Enable();
@@ -361,21 +374,6 @@ public class UiManager : MonoBehaviour
 
         EnableUiMap(true);
     }
-    
-    public void SetCantAddText(string cantAddReason)
-    {
-        switch (cantAddReason)
-        {
-            case "notEnoughMoney":
-                _cantAddText.text = "You don't have enough money for this.";
-                break;
-            case "noFreeInvSlot":
-                _cantAddText.text = "You don't have a free Inventory Slot for this.";
-                break;
-        }
-        _cantAddPanel.SetActive(true);
-    }
-    
     #endregion
 
     #region Fight
@@ -385,6 +383,16 @@ public class UiManager : MonoBehaviour
         _dialogueAndChoicesPanel.SetActive(false);
         _characterPanel.SetActive(false);
         _testFight.SetActive(true);
+    }
+    public void UpdateUiHP(int currentPlayerHitPoints)        
+    {
+        _healthBar.value = currentPlayerHitPoints;
+        _healthBarText.text = currentPlayerHitPoints.ToString() + " / " +  GameManager.Instance.PlayerData.maxHitPoints.ToString();
+
+        enemyHitPointsText.text = GameManager.Instance.CurrentEnemyHitPoints.ToString();
+        classHitPointsText.text = GameManager.Instance.CurrentPlayerHitPoints.ToString();
+
+        whichRoundText.text = GameManager.Instance.Round.ToString();
     }
 
     public void ClearFightUI()
@@ -399,6 +407,11 @@ public class UiManager : MonoBehaviour
         whichRoundText.text = "";
 }
 
+    /// <summary>
+    /// will set up the fight UI according to our currentClass and the current Enemy
+    /// </summary>
+    /// <param name="currentClass"></param>
+    /// <param name="currentEnemy"></param>
     public void CallSetFightUI(ScriptableObject currentClass, ScriptableObject currentEnemy)
     {
         if (currentEnemy != null)
@@ -448,33 +461,14 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    //public IEnumerator ImageEffect(bool enemy, float delay, string color)
-    //{
-    //    if (enemy)
-    //        _target = enemyImage.GetComponent<Image>();
-    //    else if (!enemy)
-    //        _target = classImage.GetComponent<Image>();
-
-
-    //    if (color == "red")
-    //    {
-    //        red.a = 1f;
-    //        _tempColor = red;
-    //        _target.color = _tempColor;
-    //        Debug.Log("Image should be red for a moment");
-    //    }
-    //    yield return new WaitForSeconds(delay);
-    //    _target.color = original;
-
-    //    //_target.color = new Color(0f, 0f, 0f, 1f);
-    //    //yield return new WaitForSeconds(delay);
-    //    //_target.color = new Color(1f, 1f, 1f, 1f);
-    //}
-
     #endregion
 
     #region Dialogue
 
+    /// <summary>
+    /// will open or close the GoldUI from the Dialogue
+    /// </summary>
+    /// <param name="goldUiOpen"></param>
     public void ToggleGoldDialogue(bool goldUiOpen)
     {
         int playerGold = GameManager.Instance.PlayerData.gold;
@@ -508,22 +502,27 @@ public class UiManager : MonoBehaviour
     {
         _consumablePanel.SetActive(false);
     }
+    
+    /// <summary>
+    /// gives us a reason why we cant add something to the inventory
+    /// </summary>
+    /// <param name="cantAddReason"></param>
+    public void SetCantAddText(string cantAddReason)
+    {
+        switch (cantAddReason)
+        {
+            case "notEnoughMoney":
+                _cantAddText.text = "You don't have enough money for this.";
+                break;
+            case "noFreeInvSlot":
+                _cantAddText.text = "You don't have a free Inventory Slot for this.";
+                break;
+        }
+        _cantAddPanel.SetActive(true);
+    }
 
     #endregion
 
-
-    public void UpdateUiHP(int currentPlayerHitPoints)        
-    {
-        _healthBar.value = currentPlayerHitPoints;
-        _healthBarText.text = currentPlayerHitPoints.ToString() + " / " +  GameManager.Instance.PlayerData.maxHitPoints.ToString();
-
-        enemyHitPointsText.text = GameManager.Instance.CurrentEnemyHitPoints.ToString();
-        classHitPointsText.text = GameManager.Instance.CurrentPlayerHitPoints.ToString();
-
-        whichRoundText.text = GameManager.Instance.Round.ToString();
-
-        //GameManager.Instance..GetComponent<GameManger>().playerData;
-    }
 
     public void UpdateUiGold (int playerGold)
     {

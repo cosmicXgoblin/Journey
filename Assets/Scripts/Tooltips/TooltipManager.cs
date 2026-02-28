@@ -22,12 +22,13 @@ public class TooltipManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-
+    /// <summary>
+    /// follows the mousePosition
+    /// </summary>
     private void Update()
     {
         transform.position = Input.mousePosition;
     }
-
 
     public void SetAndShowTooltip(string tooltip)
     {

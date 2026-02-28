@@ -1,7 +1,14 @@
 using UnityEngine;
 
+/// <summary>
+/// NOT UNITY EVENTS |
+/// attached to enemies on the map
+/// </summary>
 public class Map_EnemyEvent : MonoBehaviour, IDataPersistence
 {
+    /// <summary>
+    /// this will let you generate an ID so we don't have to fight against the same enemies again and again after reloading
+    /// </summary>
     [Header("Persistence")]
     [SerializeField] private string id;
     [ContextMenu("Generate guid for id")]

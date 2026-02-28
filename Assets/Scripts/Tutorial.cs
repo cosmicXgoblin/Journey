@@ -67,7 +67,7 @@ public class Tutorial : MonoBehaviour
 
     public void OnClickNext()
     {
-        //tutorialText.text = tutorial[tutorialIndex];
+        //tutorialText.text = Tutorial[tutorialIndex];
 
         if (tutorialIndex == 2 || tutorialIndex == 6 || tutorialIndex == 12)
         {

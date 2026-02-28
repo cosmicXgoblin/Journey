@@ -5,6 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manager for InkImplementation
+/// </summary>
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
@@ -26,6 +29,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Image _speakerPortrait;
     [SerializeField] private Image _background;
 
+    /// <summary>
+    /// these are tags that can influence things directly from the ink files
+    /// </summary>
     [Header("Story Tags")]
     private const string _SPEAKER_TAG = "speaker";
     private const string _PORTRAIT_TAG = "portrait";
@@ -44,11 +50,21 @@ public class DialogueManager : MonoBehaviour
 
     #region Dialogue
 
+    /// <summary>
+    /// calls the dialogue |
+    /// knotName is not used atm, but i'll leave it in bc i want to work in this after the final project and it's a good idea
+    /// </summary>
+    /// <param name="knotName"></param>
     public void CallDialogue(string knotName)
     {
         EnterDialogue(knotName);
     }
    
+    /// <summary>
+    /// gets called and will pass along a storyname |
+    /// is responsible for binding functions to ink so they can be called from the ink-files
+    /// </summary>
+    /// <param name="storyname"></param>
     public void EnterDialogue(string storyname)
     {
         if (dialoguePlaying) return;
@@ -89,7 +105,7 @@ public class DialogueManager : MonoBehaviour
         story.BindExternalFunction("stealAttempt", (string item) =>
         {
             GameManager.Instance.RollTheDice(1, 21);
-            if ((GameManager.Instance.diceroll + GameManager.Instance.PlayerData.dexterity) >= 1)
+            if ((GameManager.Instance.Diceroll + GameManager.Instance.PlayerData.dexterity) >= 1)
             {
                 Debug.Log("You steal the potion");
                 //GameManager.Instance.CallTryToAdd(Database.Instance.WeirdPotion);
@@ -104,17 +120,12 @@ public class DialogueManager : MonoBehaviour
         {
             GameManager.Instance.CallGetItemToAdd(item);
         });
-        //story.BindExternalFunction("changeVariable", (string storyVariable, string state) =>
-        //{
-        //    ToggleVariable(storyVariable, state);
-        //});
 
-
+        // not used rn, but needed for the developement after my final project:
         //if (!knotName.Equals(""))
         //    _story.ChoosePathString(knotName);
         //else Debug.LogWarning("Knot name was empty when entering dialogue.");
 
-        //start _story
         ContinueOrExitStory();
     }
     
@@ -132,10 +143,6 @@ public class DialogueManager : MonoBehaviour
         {
             string dialogueLine = story.Continue();
 
-            //Debug.Log(dialogueLine);
-            //_dialogBoxText.text = dialogueLine;
-
-            //EventsManager.Instance.dialogueEvents.DisplayDialogue(dialogueLine, _story.currentChoices);
             DisplayDialogue(dialogueLine, story.currentChoices);
             HandleTags(story.currentTags);
         }
@@ -179,6 +186,9 @@ public class DialogueManager : MonoBehaviour
         }
     }
    
+    /// <summary>
+    /// responsible for exiting the dialogue and unbinding the functions
+    /// </summary>
     private void ExitDialogue()
     {
         Debug.Log("Exiting Dialogue");
@@ -188,6 +198,9 @@ public class DialogueManager : MonoBehaviour
         story.UnbindExternalFunction("startFight");
         story.UnbindExternalFunction("setClass");
         story.UnbindExternalFunction("openTutorial");
+        story.UnbindExternalFunction("stealAttempt");
+        story.UnbindExternalFunction("abilityCheck");
+        story.UnbindExternalFunction("getItemToAdd");
 
         dialoguePlaying = false;
 
@@ -202,7 +215,7 @@ public class DialogueManager : MonoBehaviour
         switch(storyname)
         {
             case "intro":
-                if (GameManager.Instance.tutorial == true) _currentStory = _introTutorial;
+                if (GameManager.Instance.Tutorial == true) _currentStory = _introTutorial;
                 else _currentStory = _intro;
                 UpdateStory();
                 break;
@@ -218,17 +231,10 @@ public class DialogueManager : MonoBehaviour
     #endregion
 
     #region Choices
+
     public void UpdateChoiceIndex(int choiceIndex)
     {
         this.currentChoiceIndex = choiceIndex;
-    }
-
-    private void SubmitPressed(string knotName)
-    {
-        if (!dialoguePlaying)
-            return;
-        else ContinueOrExitStory();
-        
     }
     
     public void OnClickSubmit()
@@ -236,6 +242,9 @@ public class DialogueManager : MonoBehaviour
         Submit();
     }
    
+    /// <summary>
+    /// #TODO submit via space 
+    /// </summary>
     public void CallSubmit()
     {
         Submit();
@@ -250,6 +259,7 @@ public class DialogueManager : MonoBehaviour
             ContinueOrExitStory();
         }
     }
+    
     #endregion
 
     #region Tags & Variables
@@ -259,6 +269,11 @@ public class DialogueManager : MonoBehaviour
         ToggleVariable(boolVariable, inkVariable);
     }
 
+    /// <summary>
+    /// will toggle a variable in ink
+    /// </summary>
+    /// <param name="boolVariable"></param> the variable in c#
+    /// <param name="inkVariable"></param> the variablename in ink
     private void ToggleVariable(bool trueOrFalse, string inkVariable)
     {
         //if (trueOrFalse) _story.variablesState[trueOrFalse.ToString()] = true;
@@ -272,6 +287,11 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// will read the tags from ink, cull the white and take "." as seperator.
+    /// after that, it will check via switch and invoke corresponding functions
+    /// </summary>
+    /// <param name="currentTags"></param>
     private void HandleTags(List<string> currentTags)
     {
         foreach (string tag in currentTags)

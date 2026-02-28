@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     public int CurrentPlayerHitPoints => _currentPlayerHitPoints;
     public int CurrentEnemyHitPoints => _currentEnemyHitPoints;
     public int Round => _round;
-    public int diceroll => _diceroll;
-    public bool tutorial => _tutorial;
+    public int Diceroll => _diceroll;
+    public bool Tutorial => _tutorial;
 
 
     #region init
@@ -95,12 +95,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         if (!_tutorial) _tutorial = true;
         else _tutorial = false;
     }
-
-    //public void OnClickRestart()
-    //{
-    //    ClearFight();
-    //    UiManager.Instance.ClearFightUI();
-    //}
 
     /// <summary>
     /// Button: Pausemenu [back to map] #TODO
@@ -164,7 +158,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     }
     
     /// <summary>
-    /// sets up the current Class, either through the tutorial or the non-implemented cold start
+    /// sets up the current Class, either through the Tutorial or the non-implemented cold start
     /// </summary>
     /// <param name="selectedClass"></param>
     public void SetCurrentClass(string selectedClass)
@@ -174,8 +168,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         if (selectedClass == "sorcerer") currentClass = Database.Instance.sorcerer;
     }
     #endregion
-
-
 
     #region Fight
     /// <summary>
@@ -371,7 +363,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     /// <summary>
     /// enemy rolls a D20 to check for their attack
-    /// with a short delay until the effect (EnemyAttackPart2) so it feels like we have to wait for the diceroll, also a bit for slowing down
+    /// with a short delay until the effect (EnemyAttackPart2) so it feels like we have to wait for the Diceroll, also a bit for slowing down
     /// </summary>
     private void EnemyAttackPart1()
     {
@@ -382,6 +374,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         StartCoroutine(WaitEnemy(1f));
     }
 
+    /// <summary>
+    /// after 'waiting', we calculate if the attack was a hit or miss
+    /// then we set the bools to the playerTurn and advance the round counter
+    /// </summary>
     private void EnemyAttackPart2()
     {
         if (enemyTurnDone) return;
@@ -391,11 +387,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             _currentPlayerHitPoints = _currentPlayerHitPoints - 1;
             Debug.Log("classHitPoints " + _currentPlayerHitPoints);
             UiManager.Instance.fightText.text = "The enemy hit you!";
-            //StartCoroutine(_uiManager.GetComponent<UiManager>().ImageEffect(true, 0.2f, "red"));
 
             CheckConditions();
         }
-        if (_diceroll < enemyAttack)
+        if (_diceroll < classAttack)
         {
             UiManager.Instance.fightText.text = "The enemy missed you!";
         }              
@@ -405,6 +400,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         if (playerFirst) _round++;
     }
 
+    /// <summary>
+    /// after rolling a D20 it calculates if the attack was a hit or miss
+    /// then we set the bools to the enemyTurn and advance the round counter
+    /// </summary>
     private void PlayerAttack()
     {
         if (!playerTurn) return;
@@ -430,6 +429,9 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         if (!playerFirst) _round++;
     }
 
+    /// <summary>
+    /// will check for win / lose conditions
+    /// </summary>
     private void CheckConditions()
     {
         _playerData.currentHitPoints = _currentPlayerHitPoints;
@@ -478,12 +480,18 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         UiManager.Instance.ClearFightUI();
     }
     
+    /// <summary>
+    /// artifical delay so it feels more like a diceroll
+    /// </summary>
+    /// <param name="delay"></param>
+    /// <returns></returns>
     private IEnumerator WaitEnemy(float delay)
     {
         yield return new WaitForSeconds(delay);
         EnemyAttackPart2();
     }
 
+    // not in use currently, #TODO?
     private IEnumerator WaitAdventure(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -492,8 +500,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         ClearFight();
     }
 
-
-
+/// <summary>
+/// will clear the fight, set up the Endscreen for it and add the loot if won
+/// </summary>
+/// <param name="delay"></param>
+/// <param name="battleWon"></param>
     private void EndFight(float delay, bool battleWon)
     {
         ClearFight();
@@ -503,10 +514,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         if (battleWon)
         {
             RollTheDice(1, currentEnemy.loot.Count);
-            TryToAdd(currentEnemy.loot[diceroll]);
-            Debug.Log("A " + diceroll + " was rolled & the loot is " + currentEnemy.loot[diceroll].ToString());
+            TryToAdd(currentEnemy.loot[Diceroll]);
+            Debug.Log("A " + Diceroll + " was rolled & the loot is " + currentEnemy.loot[Diceroll].ToString());
 
-            string loot = currentEnemy.loot[diceroll].ToString();
+            string loot = currentEnemy.loot[Diceroll].ToString();
             UiManager.Instance.ShowAndSetWinLoseText(battleWon, loot);
 
         }
@@ -531,6 +542,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     #endregion
 
     #region Items
+    
+    /// <summary>
+    ///  the item we are currently investigating
+    /// </summary>
+    /// <param name="itemInSlot"></param> Item in Slot we are investigating
+    /// <param name="inventorySlot"></param> Slot we are investigating
     public void SetTempItem(Item itemInSlot, InventorySlot inventorySlot)
     {
         _tempItem = itemInSlot;
@@ -543,6 +560,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _tempInvSlot = null;   
     }
 
+    /// <summary>
+    /// if we have enough gold and a free inventorySlot, the Item will be added to our inventory and the money will be deducted
+    /// if we don't have enough money and / or a free inventorySlot, it will open the UI that says o
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="goldValue"></param>
     public void BuyItem(string item, int goldValue)
     {
         LookForFreeInvSlot();
@@ -576,6 +599,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
     private void LookForFreeInvSlot()
     {
+        // i really wish i could explain my deep irritation with for loops
         if(invSlots[0].itemInSlot == null || invSlots[1].itemInSlot == null || invSlots[2].itemInSlot == null || invSlots[3].itemInSlot == null ||
             invSlots[5].itemInSlot == null || invSlots[6].itemInSlot == null || invSlots[7].itemInSlot == null || invSlots[8].itemInSlot == null)
         {
@@ -588,6 +612,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         GetItemToAdd(item);
     }
 
+    /// <summary>
+    /// due to the mechanics of ink, i have to pass along the items we chose via string and compare
+    /// this should be moved to Database tho #TODO
+    /// </summary>
+    /// <param name="item"></param>
     private void GetItemToAdd(string item)
     {
         switch (item)
@@ -619,6 +648,10 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         }
     }
 
+    /// <summary>
+    /// looking for a free slot and then adding the item to it
+    /// </summary>
+    /// <param name="itemToAdd"></param>
     private void TryToAdd(Item itemToAdd)
     {
         LookForFreeInvSlot();
@@ -645,17 +678,29 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         TryToAdd(itemName);
     }
 
+    /// <summary>
+    /// in some cases, items form the dialogue are floating for a bit while the story is deciding if we get them or not
+    /// </summary>
+    /// <param name="item"></param>
     public void CallFloatItem(string item)
     {
         CallFloatItem(item);
     }
 
+    /// <summary>
+    /// nom nom nom (really thinking if i should make swords consumables just for funsies)
+    /// </summary>
     public void OnClickConsumeItem()
     {
         ConsumeItem(_tempItem, _tempInvSlot);
         _tempInvSlot.ClearSlot();
     }
 
+    /// <summary>
+    /// checks if our item has an effect and invoke it
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="inventorySlot"></param>
     private void ConsumeItem(Item item, InventorySlot inventorySlot)
     {
         if (item.effect == ItemEffect.Heal)
@@ -686,6 +731,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     #endregion
 
     #region Statuschanges
+    
+    /// <summary>
+    /// will heal us according to the passed along values
+    /// </summary>
+    /// <param name="heal"></param> how much does this heal?
+    /// <param name="maxHeal"></param> is it healing max?
     public void Heal(int heal, bool maxHeal)
     {
         if (maxHeal == true)
@@ -705,6 +756,12 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         UiManager.Instance.UpdateUiHP(_playerData.currentHitPoints);
     }
 
+    /// <summary>
+    ///  will damage us to the passed along values
+    ///  #TODO change CheckConditions bc we should be able to die anywhere #freedom
+    /// </summary>
+    /// <param name="damage"></param> how much damage does this make?
+    /// <param name="maxDamage"></param> will it make maxDamage (aka kill?)
     public void Damage (int damage, bool maxDamage)
     {
         if (maxDamage)
@@ -720,7 +777,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         UiManager.Instance.UpdateUiHP(_playerData.currentHitPoints);
     }
     
-
+    /// <summary>
+    /// will roll the passed along ability check and pass along the number and the difficulty
+    /// </summary>
+    /// <param name="ability"></param> what ability should be checked
+    /// <param name="difficulty"></param> against what difficulty
     public void RollAbilityCheck(string ability, int difficulty)
     {
         GameManager.Instance.RollTheDice(1, 21);
@@ -753,18 +814,23 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         }
     }
 
+    /// <summary>
+    /// will toggle a bool in ink (success in this case)
+    /// </summary>
+    /// <param name="_diceroll"></param> the number we rolled + modifiers
+    /// <param name="difficulty"></param> the difficulty we rolled against
     private void EvaluateAbilityCheck(int _diceroll, int difficulty)
     {
         if (_diceroll >= difficulty) DialogueManager.Instance.CallToggleVariable(true, "success");
         else DialogueManager.Instance.CallToggleVariable(false, "success");
 
-        Debug.Log("You had a " + diceroll + " and the difficulty was " + difficulty + ".");
+        Debug.Log("You had a " + Diceroll + " and the difficulty was " + difficulty + ".");
     }
 
     #endregion
 
     /// <summary>
-    /// generic diceroll, various uses through the game like ability checks
+    /// generic Diceroll, various uses through the game like ability checks
     /// </summary>
     /// <param name="min"></param> range from min ...
     /// <param name="max"></param> ... to max
@@ -773,6 +839,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         _diceroll = Random.Range(min, max);
     }
 
+    // #TODO
     #region IDataPersistence
 
     //public void LoadData(GameData data)
@@ -787,9 +854,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     //}
 
     #endregion
-
-
-
 }
 
 enum BattleState

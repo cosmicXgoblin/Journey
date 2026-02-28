@@ -9,7 +9,6 @@ public class InventorySlot : MonoBehaviour
     [Header("Slot Attributes")]
     public InventorySlot inventorySlot;
     [SerializeField] private Item _itemInSlot;
-    //public int slotIndex;
 
     [Header("Item Attributes")]
     public string itemName;
@@ -63,12 +62,14 @@ public class InventorySlot : MonoBehaviour
         _itemImage.sprite = null;
         itemName = "";
         itemDescription = "";
-        //_itemImage = null;
         _itemInSlot = null;
 
         ToggleInventorySlotSprite();
     }
 
+    /// <summary>
+    /// only shows us the sprite if there is an item (else we see an ugly white square)
+    /// </summary>
     private void ToggleInventorySlotSprite()
     {
         if (_itemInSlot == null)
