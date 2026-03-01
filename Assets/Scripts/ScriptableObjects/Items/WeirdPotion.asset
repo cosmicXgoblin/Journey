@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 9
   itemName: Weird Potion
-  itemSprite: {fileID: 21300000, guid: 7614c45ce88d09d4bbebb24f335c4b4e, type: 3}
+  itemSprite: {fileID: 21300000, guid: b78f4538e7c877d49b22fb76abafcf7c, type: 3}
   type: 2
   rarity: 2
   description: Huh, what's this?
@@ -24,5 +24,5 @@ MonoBehaviour:
   effect: 0
   die: 0
   randomEvent: 0
-  buff: 5
-  debuff: 2
+  buff: 10
+  debuff: 0

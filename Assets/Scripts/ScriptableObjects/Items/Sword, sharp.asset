@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 8
   itemName: Sword, sharp
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: 0acb3a2638eb15c4185ce0cf649bbe69, type: 3}
   type: 0
   rarity: 0
   description: Someone sharpened it.

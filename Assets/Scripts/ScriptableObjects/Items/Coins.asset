@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   itemName: Coins
-  itemSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  itemSprite: {fileID: 3609328733173771319, guid: 6067fc0045b1387468640be036e830f0, type: 3}
   type: 4
   rarity: 0
   description: Some coins, a bit dirty
@@ -24,5 +24,5 @@ MonoBehaviour:
   effect: 3
   die: 1
   randomEvent: 1
-  buff: 0
+  buff: 20
   debuff: 0

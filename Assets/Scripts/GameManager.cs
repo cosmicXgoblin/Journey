@@ -508,7 +508,6 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 /// <param name="battleWon"></param>
     private void EndFight(float delay, bool battleWon)
     {
-        ClearFight();
         UiManager.Instance.playerAttackButton.SetActive(false);
         UiManager.Instance.ToggleGoldDialogue(false);
         _tutorial = false;
@@ -528,7 +527,8 @@ public class GameManager : MonoBehaviour //, IDataPersistence
             UiManager.Instance.ShowAndSetWinLoseText(battleWon, "");
         }
 
-            //StartCoroutine(WaitAdventure(delay));
+        ClearFight();
+        //StartCoroutine(WaitAdventure(delay));
     }
 
     private void TeleportToCity()
@@ -718,6 +718,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
                 if (_diceroll == 1) Heal(item.buff, false);
                 else Damage(item.debuff, false);
             }
+        }
+        if (item.effect == ItemEffect.Coin)
+        {
+            PlayerData.gold = PlayerData.gold + item.buff;
+            UiManager.Instance.UpdateUiGold(PlayerData.gold);
         }
 
 

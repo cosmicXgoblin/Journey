@@ -281,13 +281,13 @@ public class UiManager : MonoBehaviour
 
         if (battleWon)
         {
-            _winLoseText.text = "You won! /n Loot: " + loot;
+            _winLoseText.text = "You won!Loot: " + loot;
             _button1.SetActive(false);
             _button2.SetActive(false);
         }
         else
         {
-            _winLoseText.text = "You lost! /n";
+            _winLoseText.text = "You lost!";
             _button3.SetActive(false);
             //EndFight();
         }
@@ -353,6 +353,8 @@ public class UiManager : MonoBehaviour
         _testMap.SetActive(true);
         _testFight.SetActive(false);
         _characterPanel.SetActive(true);
+        _inventoryPanel.SetActive(true);
+        _winLosePanel.SetActive(false);
     }
 
     public void CallPause()

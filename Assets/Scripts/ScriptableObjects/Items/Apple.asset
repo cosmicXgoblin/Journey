@@ -23,6 +23,6 @@ MonoBehaviour:
   consumable: 1
   effect: 2
   die: 0
-  randomEvent: 0
+  randomEvent: 1
   buff: 1
   debuff: 1
