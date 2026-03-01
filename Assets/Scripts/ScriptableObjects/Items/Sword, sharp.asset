@@ -12,13 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1517231c9f30e4795232efdbb20310, type: 3}
   m_Name: Sword, sharp
   m_EditorClassIdentifier: 
-  id: -1
+  id: 8
   itemName: Sword, sharp
+  itemSprite: {fileID: 0}
   type: 0
   rarity: 0
   description: Someone sharpened it.
   goldValue: 60
   equipable: 1
   consumable: 0
+  effect: 0
+  die: 0
+  randomEvent: 0
   buff: 1
   debuff: 0

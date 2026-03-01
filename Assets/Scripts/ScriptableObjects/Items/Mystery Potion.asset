@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1517231c9f30e4795232efdbb20310, type: 3}
   m_Name: Mystery Potion
   m_EditorClassIdentifier: 
-  id: -1
+  id: 4
   itemName: mystery Potion
   itemSprite: {fileID: 21300000, guid: b78f4538e7c877d49b22fb76abafcf7c, type: 3}
   type: 2
@@ -22,6 +22,7 @@ MonoBehaviour:
   equipable: 0
   consumable: 1
   effect: 2
+  die: 0
   randomEvent: 1
   buff: 0
   debuff: 0

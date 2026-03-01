@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40011db6040b63e42a6313ef716c8b63, type: 3}
   m_Name: Rat
   m_EditorClassIdentifier: 
-  id: -1
+  id: 1
   enemyName: Rat
   enemySprite: {fileID: 21300000, guid: fc74da4961db2a64c8b215e059e9081f, type: 3}
   fight: 1

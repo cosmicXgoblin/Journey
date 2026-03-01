@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1517231c9f30e4795232efdbb20310, type: 3}
   m_Name: WeirdPotion
   m_EditorClassIdentifier: 
-  id: -1
+  id: 9
   itemName: Weird Potion
   itemSprite: {fileID: 21300000, guid: 7614c45ce88d09d4bbebb24f335c4b4e, type: 3}
   type: 2
@@ -22,6 +22,7 @@ MonoBehaviour:
   equipable: 0
   consumable: 1
   effect: 0
+  die: 0
   randomEvent: 0
   buff: 5
   debuff: 2

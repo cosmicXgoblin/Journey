@@ -1,0 +1,481 @@
+fileFormatVersion: 2
+guid: ce52599e01b0b064eb1b65f575b74c78
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3322778159956906985
+    second: cosmicgoblin_0
+  - first:
+      213: 6034758162706241012
+    second: cosmicgoblin_1
+  - first:
+      213: -4678071780463613748
+    second: cosmicgoblin_2
+  - first:
+      213: 5244335686289112335
+    second: cosmicgoblin_3
+  - first:
+      213: -3428711826679577628
+    second: cosmicgoblin_4
+  - first:
+      213: 720054637893472283
+    second: cosmicgoblin_5
+  - first:
+      213: -3976268627443561021
+    second: cosmicgoblin_6
+  - first:
+      213: 3784461292758800076
+    second: cosmicgoblin_7
+  - first:
+      213: -481020342755454398
+    second: cosmicgoblin_8
+  - first:
+      213: -1361864132408960039
+    second: cosmicgoblin_9
+  - first:
+      213: 4665919950003546338
+    second: cosmicgoblin_10
+  - first:
+      213: 4732226748636757290
+    second: cosmicgoblin_11
+  - first:
+      213: -2963612441378989645
+    second: cosmicgoblin_12
+  - first:
+      213: -2160291382634994315
+    second: cosmicgoblin_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: cosmicgoblin_0
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 209
+        width: 45
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71ca75c4ede13e1d0800000000000000
+      internalID: -3322778159956906985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_1
+      rect:
+        serializedVersion: 2
+        x: 1826
+        y: 59
+        width: 156
+        height: 180
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f59e715394cfb350800000000000000
+      internalID: 6034758162706241012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_2
+      rect:
+        serializedVersion: 2
+        x: 2057
+        y: 63
+        width: 150
+        height: 189
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc8efab4086241fb0800000000000000
+      internalID: -4678071780463613748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_3
+      rect:
+        serializedVersion: 2
+        x: 2324
+        y: 209
+        width: 45
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0dba20658f97c840800000000000000
+      internalID: 5244335686289112335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_4
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 65
+        width: 120
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e3459d72c4ca60d0800000000000000
+      internalID: -3428711826679577628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_5
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 65
+        width: 119
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b10538ec0e52ef900800000000000000
+      internalID: 720054637893472283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_6
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 61
+        width: 122
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cd42b120c471d8c0800000000000000
+      internalID: -3976268627443561021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_7
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 57
+        width: 159
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc69a1dae7b158430800000000000000
+      internalID: 3784461292758800076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_8
+      rect:
+        serializedVersion: 2
+        x: 969
+        y: 49
+        width: 136
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 242135cfb821359f0800000000000000
+      internalID: -481020342755454398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_9
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 65
+        width: 120
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9db1b6b79cfa91de0800000000000000
+      internalID: -1361864132408960039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_10
+      rect:
+        serializedVersion: 2
+        x: 1395
+        y: 16
+        width: 151
+        height: 183
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e8ae52397da0c040800000000000000
+      internalID: 4665919950003546338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_11
+      rect:
+        serializedVersion: 2
+        x: 1630
+        y: 65
+        width: 119
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2d781dc72f3ca140800000000000000
+      internalID: 4732226748636757290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_12
+      rect:
+        serializedVersion: 2
+        x: 2293
+        y: 49
+        width: 136
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b95dabbf222fd6d0800000000000000
+      internalID: -2963612441378989645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cosmicgoblin_13
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 61
+        width: 161
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57524b6ee6a1502e0800000000000000
+      internalID: -2160291382634994315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      cosmicgoblin_0: -3322778159956906985
+      cosmicgoblin_1: 6034758162706241012
+      cosmicgoblin_10: 4665919950003546338
+      cosmicgoblin_11: 4732226748636757290
+      cosmicgoblin_12: -2963612441378989645
+      cosmicgoblin_13: -2160291382634994315
+      cosmicgoblin_2: -4678071780463613748
+      cosmicgoblin_3: 5244335686289112335
+      cosmicgoblin_4: -3428711826679577628
+      cosmicgoblin_5: 720054637893472283
+      cosmicgoblin_6: -3976268627443561021
+      cosmicgoblin_7: 3784461292758800076
+      cosmicgoblin_8: -481020342755454398
+      cosmicgoblin_9: -1361864132408960039
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

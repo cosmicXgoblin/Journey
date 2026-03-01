@@ -310,8 +310,8 @@ You.
 
 === youAreAttacking ===
 Time to fight.
-~ openTutorial()
 ~ startFight("player")
+~ openTutorial()
 -> DONE
 
 

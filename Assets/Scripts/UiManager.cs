@@ -24,6 +24,9 @@ public class UiManager : MonoBehaviour
 
 
     [Header("Screens & Panels")]
+    [SerializeField] private GameObject _startScreen;
+    [SerializeField] private GameObject _startImage1;
+    [SerializeField] private GameObject _startImage2; 
     [SerializeField] private GameObject _testFight;
     [SerializeField] private GameObject _testChooseCharacter;
     [SerializeField] private GameObject _testMap;
@@ -105,12 +108,7 @@ public class UiManager : MonoBehaviour
     {
         SetEverythingInactive();
 
-        _canvasTitle.SetActive(true);
-        _titlePanel.SetActive(true);
-        _titlePanelButtons.SetActive(true);
-        _titlePanelOptions.SetActive(false);
-
-        //original.a = 0.5f;
+        StartStartScreen();
     }
     #endregion
 
@@ -119,6 +117,21 @@ public class UiManager : MonoBehaviour
     /// </summary>
     #region OnClick
     
+    public void OnClickGoTitleMenu()
+    {
+        SetEverythingInactive();
+
+        _canvasTitle.SetActive(true);
+        _titlePanel.SetActive(true);
+        _titlePanelButtons.SetActive(true);
+        _titlePanelOptions.SetActive(false);
+    }
+
+    public void OnClickQuitGame()
+    {
+        Application.Quit();
+    }
+
     public void OnClickGoFight()
     {
         _testChooseCharacter.SetActive(false);
@@ -485,6 +498,11 @@ public class UiManager : MonoBehaviour
             _inventoryPanel.SetActive(false);
         }
     }
+
+    public void ToggleInventory (bool inventoryOpen)
+    {
+
+    }
     #endregion
 
     #region Items
@@ -523,6 +541,23 @@ public class UiManager : MonoBehaviour
 
     #endregion
 
+    private void StartStartScreen()
+    {
+        _startScreen.SetActive(true);
+        _startImage1.SetActive(true);
+        _startImage2.SetActive(false);
+
+        StartCoroutine(WaitStartScreen(5f));
+    }
+
+    private IEnumerator WaitStartScreen(float delay)
+    {
+        Debug.Log("Waiting for 5f");
+        yield return new WaitForSeconds(delay);
+
+        _startImage1.SetActive(false);
+        _startImage2.SetActive(true);
+    }
 
     public void UpdateUiGold (int playerGold)
     {
@@ -538,6 +573,7 @@ public class UiManager : MonoBehaviour
 
     private void SetEverythingInactive()
     {
+        _startScreen.SetActive(false);
         _testFight.SetActive(false);
         _testMap.SetActive(false);
         _screenUi.SetActive(true);

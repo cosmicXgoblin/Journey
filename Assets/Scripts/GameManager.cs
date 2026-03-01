@@ -221,6 +221,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
         currentBattleState = BattleState.fight;
 
         UiManager.Instance.ShowFightUI();
+        UiManager.Instance.ToggleGoldDialogue(true);
     }
 
     /// <summary>
@@ -509,6 +510,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     {
         ClearFight();
         UiManager.Instance.playerAttackButton.SetActive(false);
+        UiManager.Instance.ToggleGoldDialogue(false);
         _tutorial = false;
 
         if (battleWon)

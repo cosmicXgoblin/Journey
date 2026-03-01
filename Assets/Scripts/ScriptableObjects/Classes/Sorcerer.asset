@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c7452ddb632b4942838bc14e428672d, type: 3}
   m_Name: Sorcerer
   m_EditorClassIdentifier: 
-  id: -1
-  className: Sorcerer (wip)
+  id: 3
+  className: Sorcerer
   classSprite: {fileID: 21300000, guid: df84a5a71d359b34d892b5fc0831f5ef, type: 3}
   classSpriteRound: {fileID: -6756452423754326157, guid: 0439b8f2eba90574088d2590d8f5b032, type: 3}
   classMapfigure_Base: {fileID: 21300000, guid: 4a583ff50c5b6e34c995e63f24b8fcba, type: 3}

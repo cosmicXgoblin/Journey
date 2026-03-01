@@ -88,7 +88,7 @@ public class DialogueManager : MonoBehaviour
         {
             if(firstTurn == "player")
                 GameManager.Instance.StartBattle(Database.Instance.rat, true);
-            else GameManager.Instance.StartBattle(Database.Instance.rat, true);
+            else GameManager.Instance.StartBattle(Database.Instance.rat, false);
         });
         story.BindExternalFunction("setClass", (string currentClass) =>
         {

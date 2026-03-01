@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1517231c9f30e4795232efdbb20310, type: 3}
   m_Name: Potion of Strength
   m_EditorClassIdentifier: 
-  id: -1
+  id: 6
   itemName: Potion of Mana
   itemSprite: {fileID: 21300000, guid: a7f869eadd89c4641a2480c037b2801e, type: 3}
   type: 2
@@ -21,6 +21,8 @@ MonoBehaviour:
   goldValue: 100
   equipable: 0
   consumable: 1
+  effect: 0
+  die: 0
   randomEvent: 0
   buff: 2
   debuff: 0

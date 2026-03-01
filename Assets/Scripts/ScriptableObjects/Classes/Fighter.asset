@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c7452ddb632b4942838bc14e428672d, type: 3}
   m_Name: Fighter
   m_EditorClassIdentifier: 
-  id: -1
+  id: 1
   className: Fighter
   classSprite: {fileID: 21300000, guid: 5af87cb3a09905445948fa3b1bfaab83, type: 3}
   classSpriteRound: {fileID: 6632194667769921426, guid: 83daac5c8299d22438b9f8e5db028214, type: 3}
