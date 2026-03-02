@@ -5,21 +5,21 @@ Journey is a narrative- & exploration-driven miniRPG: explore a map, fight again
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ## Assignment
-Standalone 2D or 3D Game with Clear Core Mechanics <i>(Gameplay & Mechanics Focus)</i>
-<b>Project Idea</b>
-Development of a standalone game that focuses on clearly defined core mechanics.
-
-focus:
-• Clarity
-• Gameplay feel
-• Clean gameplay loop
-<i>Not on scope, but on quality.</i>
-
-<b>Goal</b>
-
-• Development of a playable, self-contained prototype
-• Clear objectives and loss conditions
-• Comprehensible game rules
+Standalone 2D or 3D Game with Clear Core Mechanics <i>(Gameplay & Mechanics Focus)</i> <br>
+<b>Project Idea</b><br>
+Development of a standalone game that focuses on clearly defined core mechanics.<br>
+<br>
+focus:<br>
+• Clarity<br>
+• Gameplay feel<br>
+• Clean gameplay loop<br>
+<i>Not on scope, but on quality.</i><br>
+<br>
+<b>Goal</b><br>
+<br>
+• Development of a playable, self-contained prototype<br>
+• Clear objectives and loss conditions<br>
+• Comprehensible game rules<br>
 
 <b>Mandatory Content</b>
 • Implementation as a 2D or 3D game
