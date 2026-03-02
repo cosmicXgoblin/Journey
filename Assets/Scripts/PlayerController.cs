@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour, IDataPersistence
 {
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     public bool movedPointer;
 
     public Vector3 playerPos => _playerPos;
+    public PlayerInput PlayerInputRef => _playerInput;
     public Vector3 lastPlayerPos => _lastPlayerPos;
 
     public Vector3 camp => _camp.gameObject.transform.position;
@@ -46,7 +48,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     //    this.transform.position = new Vector3(-332.33f, -157.89f, -4.2f);
     //}
 
-    private void OnPause()
+    public void OnPause()
     {
         UiManager.Instance.CallPause();
     }

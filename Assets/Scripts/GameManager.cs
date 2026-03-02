@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     private bool _tutorial = false;
     private int _diceroll;
     [SerializeField] private PlayerController _playerController;
+    
 
     public static GameManager Instance { get; private set; }
     public PlayerData PlayerData => _playerData;
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour //, IDataPersistence
 
         currentBattleState = BattleState.noFight;
         currentGameState = GameState.init;
+        
     }
 
     void Update()
@@ -845,6 +847,11 @@ public class GameManager : MonoBehaviour //, IDataPersistence
     {
         _diceroll = Random.Range(min, max);
     }
+
+    //public void OnPause()
+    //{
+    //    UiManager.Instance.CallPause();
+    //}
 
     // #TODO
     #region IDataPersistence

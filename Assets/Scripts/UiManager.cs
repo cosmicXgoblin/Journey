@@ -44,6 +44,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _cantAddPanel;
     [SerializeField] private TextMeshProUGUI _cantAddText;
     [SerializeField] private GameObject _winLosePanel;
+    [SerializeField] private GameObject _alwaysScreen;
 
     [Header("Characterselection")]
     [SerializeField] private Button _fighterButton;
@@ -150,7 +151,7 @@ public class UiManager : MonoBehaviour
     public void OnClickContinue()
     {
         _pausePanel.SetActive(false);
-        EnableUiMap(true);
+        ToggleUiMap(true);
     }
 
     public void OnClickOptionsPause()
@@ -159,6 +160,14 @@ public class UiManager : MonoBehaviour
         _pausePanelMain.SetActive(false);
 
         EventSystem.current.SetSelectedGameObject(_pausePanelOptions.transform.GetChild(0).gameObject);
+    }
+
+    public void OnClickBackPause()
+    {
+        _pausePanelMain.SetActive(true);
+        _pausePanelOptions.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(_pausePanelMain.transform.GetChild(0).gameObject);
     }
 
     public void OnClickOptionsMain()
@@ -340,10 +349,18 @@ public class UiManager : MonoBehaviour
     /// enables or diables action maps. couldn't tell you why i thought it would be great in UiManager tho
     /// </summary>
     /// <param name="enable"></param>
-    public void EnableUiMap(bool enable)
+    public void ToggleUiMap(bool enable)
     {
+        if (enable)
+        {
         _playerController.GetComponent<PlayerController>().uiMap.Enable();
         _playerController.GetComponent<PlayerController>().playerMap.Disable();
+        }
+        else if (!enable)
+        {
+            _playerController.GetComponent<PlayerController>().playerMap.Enable();
+            _playerController.GetComponent<PlayerController>().uiMap.Disable();
+        }
     }
     #endregion
 
@@ -355,17 +372,22 @@ public class UiManager : MonoBehaviour
         _characterPanel.SetActive(true);
         _inventoryPanel.SetActive(true);
         _winLosePanel.SetActive(false);
+        _pausePanel.SetActive(false);
+
+        ToggleUiMap(false);
     }
 
     public void CallPause()
     {
+        Debug.Log("Pause was called");
+
         if (!_pausePanel.activeInHierarchy)
         {
             _pausePanel.SetActive(true);
             _pausePanelOptions.SetActive(false);
             _pausePanelMain.SetActive(true);
 
-            EnableUiMap(true);
+            ToggleUiMap(true);
 
             EventSystem.current.SetSelectedGameObject(_pausePanelMain.transform.GetChild(0).gameObject);
         }
@@ -375,7 +397,7 @@ public class UiManager : MonoBehaviour
             _pausePanelOptions.SetActive(false);
             _pausePanelMain.SetActive(true);
 
-            EnableUiMap(false);
+            ToggleUiMap(false);
         }
     }
     
@@ -387,7 +409,7 @@ public class UiManager : MonoBehaviour
         _dialoguePanel.SetActive(true);
         _dialogueGold.SetActive(false);
 
-        EnableUiMap(true);
+        ToggleUiMap(true);
     }
     #endregion
 
@@ -598,5 +620,7 @@ public class UiManager : MonoBehaviour
         _cantAddPanel.SetActive(false);
         _winLosePanel.SetActive(false);
         _cantAddPanel.SetActive(false);
+
+        _alwaysScreen.SetActive(true);
     }
 }
