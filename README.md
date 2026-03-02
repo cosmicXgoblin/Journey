@@ -30,7 +30,7 @@ focus:
 
 <b>Optional Content</b> <i>(Implement at least one)</i>
 
-<s• Local multiplayer (hot seat or multiple controllers)
+<s>• Local multiplayer (hot seat or multiple controllers)
 • Different levels or modes
   o At least 3 levels or 2 modes</s>
 • Simple tutorials or help systems
