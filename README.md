@@ -14,19 +14,19 @@ focus:<br>
 • Gameplay feel<br>
 • Clean gameplay loop<br>
 <i>Not on scope, but on quality.</i><br>
-<br>
+
 <b>Goal</b><br>
-<br>
+
 • Development of a playable, self-contained prototype<br>
 • Clear objectives and loss conditions<br>
-• Comprehensible game rules<br>
+• Comprehensible game rules
 
-<b>Mandatory Content</b>
-• Implementation as a 2D or 3D game
-• At least one complete gameplay loop:
-  o Start → Game → End
-• Storage of game or round statistics in a database <i>(not neccesary</i>
-• Structured code and clean project organization
+<b>Mandatory Content</b><br>
+• Implementation as a 2D or 3D game<br>
+• At least one complete gameplay loop:<br>
+  o Start → Game → End<br>
+• Storage of game or round statistics in a database <i>(not neccesary</i><br>
+• Structured code and clean project organization<br>
 
 <b>Optional Content</b> <i>(Implement at least one)</i>
 
