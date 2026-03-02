@@ -53,8 +53,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - pausemenu only working after intro (fight in the basement)
 
 ## Planned
+(order irrelevant)
 - Soundmanager: Music
 - Soundmanager: SFX
+- Map: Fog of War
 - Sorcerer: Overwork (make mana relevant again)
 - Questmanager
 - Questboard
@@ -62,3 +64,4 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - Townsquare
 - Sell Items
 - Skiltree
+- proper Bag of Holding-Inventory + Map
