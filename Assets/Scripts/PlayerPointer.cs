@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// checks out if a tile you want to move to is walkable or not
+/// </summary>
 public class PlayerPointer : MonoBehaviour
 {
     [SerializeField] private PlayerController _player;
@@ -9,39 +12,14 @@ public class PlayerPointer : MonoBehaviour
 
     private void Awake()
     {
-        //this.gameObject.transform.position = _player.GetComponent<PlayerController>().playerPos;
         _obstacle = false;
         _movedPointer = _player.GetComponent<PlayerController>().movedPointer;
     }
 
-    //void OnTriggerEnter2D(Collider2D col)
-    //{
-    //if (col.gameObject.layer == 10)
-    //{
-    //    Debug.Log("Enter the Obstacle");
-    //    _obstacle = true;
-    //    SetToPlayer();
-    //}
-    //else 
-    //{
-    //    Debug.Log("Still walkable");
-    //    _obstacle = false;
-    //    _player.GetComponent<PlayerController>().MovePlayerToPointer();
-    //}
-
-    //private void OnTriggerStay2D(Collider2D col)
-    //{
-    //    if (col.gameObject.layer == 9)
-    //    {
-    //        if (!_movedPointer)
-    //            return;
-
-    //        _obstacle = false;
-    //        _player.GetComponent<PlayerController>().MovePlayerToPointer();
-
-    //    }
-    //}
-
+    /// <summary>
+    /// if it collides with an obstacle (layer9(, the _obstale bool will be set to true and the PlayerPointer (and therefor the PlayerPosition) will be reset
+    /// </summary>
+    /// <param name="col"></param>
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.layer == 9)
@@ -50,19 +28,8 @@ public class PlayerPointer : MonoBehaviour
             Debug.Log("Cant walk here!");
             SetToBefore();
             _player.GetComponent<PlayerController>().MovePlayerToPointer();
-
         }
     }
-
-    //void OnTriggerExit2D(Collider2D col)
-    //{
-    //    Debug.Log("Exit");
-    //    if (col.gameObject.layer != 10)
-    //    {
-    //        _obstacle = false;
-    //    }
-    //    _player.GetComponent<PlayerController>().MovePlayerToPointer();
-    //}
 
     public void SetToPlayer()
     {
